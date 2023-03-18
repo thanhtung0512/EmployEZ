@@ -420,6 +420,65 @@ button:focus {
   position: absolute;
   width: 1000px;
   height: 1000px;
-  left: 364px;
-  top: 1164px;
+  left: 360px;
+  top: 1250px;
+}
+
+.support ul li img {
+  width: 100px;
+  height: 94.54px;
+}
+
+.support ul {
+  list-style: none;
+  position: absolute;
+  width: 100px;
+  height: 375.05px;
+  left: 628px;
+  top: 1502px;
+}
+
+.supporterImg {
+  position: relative;
+  width: 400px;
+  height: 404.83px;
+  left: 109px;
+  top: 520px;
+}
+
+.right_column {
+  position: relative;
+  width: 100px;
+  height: 375.05px;
+  left: 528px;
+  top: 302px;
+}
+
+.right_column div img {
+  width: 100px;
+  height: 94.54px;
+}
+
+.each-row-support {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.sp-heading {
+  position: absolute;
+  width: 595px;
+  height: 245px;
+  left: 567px;
+  top: 1344px;
+
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 60px;
+
+  color: #808080;
 }
