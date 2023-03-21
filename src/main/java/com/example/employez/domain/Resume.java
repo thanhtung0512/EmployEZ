@@ -16,7 +16,7 @@ public class Resume {
 
     private String lastName;
 
-    private Set<Skill> skillSet;
+
 
     private String education;
 

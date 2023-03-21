@@ -1,6 +1,5 @@
 package com.example.employez.domain;
 
-import com.example.employez.domain.address.Address;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -10,15 +9,18 @@ import java.util.Set;
 public class Employee extends User {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
     private String firstName;
 
     private String lastName;
     private int desiredSalary;
-    private Address currentAddress;
+    private String city;
+    private String state;
+    private int zipcode;
+
+
+
+
     private int yearOfExperience;
 
     private String jobTitle;
@@ -39,15 +41,20 @@ public class Employee extends User {
         this.jobTitle = jobTitle;
     }
 
-    public Employee(int id, String passwordHash, String email, String firstName, String lastName, int desiredSalary, Address currentAddress, int yearOfExperience, String jobTitle) {
-        super(id, passwordHash, email);
+    public Employee(String passwordHash, String email, String firstName, String lastName, int desiredSalary, String city, String state, int zipcode, int yearOfExperience, String jobTitle, Set<Resume> resumes) {
+        super(passwordHash, email);
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.desiredSalary = desiredSalary;
-        this.currentAddress = currentAddress;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
         this.yearOfExperience = yearOfExperience;
         this.jobTitle = jobTitle;
+        this.resumes = resumes;
     }
+
 
     public String getFirstName() {
         return firstName;
@@ -73,13 +80,6 @@ public class Employee extends User {
         this.desiredSalary = desiredSalary;
     }
 
-    public Address getCurrentAddress() {
-        return currentAddress;
-    }
-
-    public void setCurrentAddress(Address currentAddress) {
-        this.currentAddress = currentAddress;
-    }
 
     public int getYearOfExperience() {
         return yearOfExperience;
@@ -87,5 +87,37 @@ public class Employee extends User {
 
     public void setYearOfExperience(int yearOfExperience) {
         this.yearOfExperience = yearOfExperience;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public int getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(int zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public Set<Resume> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(Set<Resume> resumes) {
+        this.resumes = resumes;
     }
 }

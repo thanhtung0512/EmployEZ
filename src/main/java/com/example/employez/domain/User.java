@@ -1,12 +1,25 @@
 package com.example.employez.domain;
 
+import jakarta.persistence.*;
+
+@MappedSuperclass
+
 public abstract class User {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
+
+    @Column
     private String passwordHash;
+
+    @Column
     private String email;
 
-    public User(int id, String passwordHash, String email) {
-        this.id = id;
+    public User( String passwordHash, String email) {
+
         this.passwordHash = passwordHash;
         this.email = email;
     }
@@ -15,13 +28,7 @@ public abstract class User {
 
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getPasswordHash() {
         return passwordHash;
@@ -37,5 +44,13 @@ public abstract class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

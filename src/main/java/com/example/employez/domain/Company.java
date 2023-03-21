@@ -1,11 +1,9 @@
 package com.example.employez.domain;
 
-import com.example.employez.domain.address.Address;
 import com.example.employez.domain.address.CompanyAddress;
 import com.example.employez.domain.enumPackage.CompanyType;
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,16 +13,15 @@ public class Company extends User {
 
     @OneToMany(mappedBy = "company")
     private Set<CompanyAddress> addressList;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
 
-    public Company(int id, String passwordHash, String email, String name, CompanyType companyType, Set<CompanyAddress> addressList) {
-        super(id, passwordHash, email);
+
+    public Company(String passwordHash, String email, String name, CompanyType companyType, Set<CompanyAddress> addressList) {
+        super(passwordHash, email);
         this.name = name;
         this.companyType = companyType;
         this.addressList = addressList;
+
     }
 
     public Company() {
@@ -47,12 +44,11 @@ public class Company extends User {
         this.companyType = companyType;
     }
 
-
-    public void setId(int id) {
-        this.id = id;
+    public Set<CompanyAddress> getAddressList() {
+        return addressList;
     }
 
-    public int getId() {
-        return id;
+    public void setAddressList(Set<CompanyAddress> addressList) {
+        this.addressList = addressList;
     }
 }

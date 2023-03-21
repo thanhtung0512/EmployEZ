@@ -1,32 +1,59 @@
 package com.example.employez.domain.address;
 
 import com.example.employez.domain.Company;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
-public class CompanyAddress extends Address{
+public class CompanyAddress {
 
     @ManyToOne
     private Company company;
-    private Long id;
 
-    public CompanyAddress(String city, String state, int zipcode) {
-        super(city, state, zipcode);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
+    private String city;
+    private String state;
+    private int zipcode;
+
+
+    public String getCity() {
+        return city;
     }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public int getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(int zipcode) {
+        this.zipcode = zipcode;
+    }
+
+
 
     public CompanyAddress() {
         super();
 
     }
 
-    public void setId(Long id) {
-        this.id = id;
+
+    public Company getCompany() {
+        return company;
     }
 
-    @Id
-    public Long getId() {
-        return id;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
