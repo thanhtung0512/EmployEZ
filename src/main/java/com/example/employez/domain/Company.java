@@ -15,6 +15,10 @@ public class Company extends User {
     private Set<CompanyAddress> addressList;
 
 
+    @OneToMany(mappedBy = "company")
+    private Set<JobPosting> jobPostings;
+
+
 
     public Company(String passwordHash, String email, String name, CompanyType companyType, Set<CompanyAddress> addressList) {
         super(passwordHash, email);

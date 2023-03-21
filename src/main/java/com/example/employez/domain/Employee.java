@@ -29,6 +29,19 @@ public class Employee extends User {
     @OneToMany(mappedBy = "employee")
     private Set<Resume> resumes;
 
+
+    @ManyToMany
+    @JoinTable(name = "apply",
+            joinColumns = { @JoinColumn(name = "fk_employee") },
+            inverseJoinColumns = { @JoinColumn(name = "fk_jobpost") })
+    private Set<JobPosting> jobPostings;
+
+    @ManyToMany
+    @JoinTable(name = "has",
+            joinColumns = { @JoinColumn(name = "fk_employee") },
+            inverseJoinColumns = { @JoinColumn(name = "fk_skill") })
+    private Set<Skill> skills;
+
     public Employee() {
 
     }

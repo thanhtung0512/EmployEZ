@@ -1,9 +1,8 @@
 package com.example.employez.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Skill {
@@ -12,6 +11,20 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+
+    @ManyToMany(mappedBy = "skills")
+    private Set<Employee> employees;
+
+
+    @ManyToMany(mappedBy = "skills")
+    private Set<JobPosting> jobPostings;
+
+    @ManyToMany
+    @JoinTable(name = "covers",
+            joinColumns = { @JoinColumn(name = "fk_skill") },
+            inverseJoinColumns = { @JoinColumn(name = "fk_course") })
+    private Set<Course> courses;
 
     public Skill(int id, String name) {
         this.id = id;

@@ -4,6 +4,7 @@ import com.example.employez.domain.enumPackage.JobType;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Set;
 
 
 @Entity
@@ -16,6 +17,15 @@ public class JobPosting {
 
     @ManyToOne
     private Company company;
+
+    @ManyToMany(mappedBy = "jobPostings")
+    private Set<Employee> employees;
+
+    @ManyToMany
+    @JoinTable(name = "jon_required_skill",
+            joinColumns = { @JoinColumn(name = "fk_job") },
+            inverseJoinColumns = { @JoinColumn(name = "fk_skill") })
+    private Set<Skill> skills;
 
     private String jobTitle;
     private String jobDescription;
@@ -39,6 +49,10 @@ public class JobPosting {
         this.datePosted = datePosted;
         this.minSalary = minSalary;
         this.maxSalary = maxSalary;
+    }
+
+    public JobPosting() {
+
     }
 
     public int getId() {
