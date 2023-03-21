@@ -3,7 +3,6 @@ package com.example.employez.domain;
 import jakarta.persistence.*;
 
 @MappedSuperclass
-
 public abstract class User {
 
 
@@ -27,8 +26,6 @@ public abstract class User {
     public User() {
 
     }
-
-
 
     public String getPasswordHash() {
         return passwordHash;

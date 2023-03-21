@@ -6,9 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HibernateUtil {
 
 
@@ -72,8 +69,14 @@ public class HibernateUtil {
 
 
     public static SessionFactory getSessionFactory() {
-        return getSessionFactory(currentDB, port, user, pass, Company.class, Employee.class, JobPosting.class, Resume.class, Skill.class, CompanyAddress.class);
-
+        return getSessionFactory(currentDB, port, user, pass
+                , Company.class
+                , Employee.class
+                , JobPosting.class
+                , Resume.class
+                , Skill.class
+                , CompanyAddress.class
+                , Course.class);
     }
 
 }

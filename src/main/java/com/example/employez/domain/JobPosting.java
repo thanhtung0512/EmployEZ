@@ -22,7 +22,7 @@ public class JobPosting {
     private Set<Employee> employees;
 
     @ManyToMany
-    @JoinTable(name = "jon_required_skill",
+    @JoinTable(name = "job_required_skill",
             joinColumns = { @JoinColumn(name = "fk_job") },
             inverseJoinColumns = { @JoinColumn(name = "fk_skill") })
     private Set<Skill> skills;
