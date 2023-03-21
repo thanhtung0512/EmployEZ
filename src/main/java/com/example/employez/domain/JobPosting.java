@@ -1,6 +1,8 @@
 package com.example.employez.domain;
 
-import com.example.employez.domain.enumPackage.JobType;
+
+import com.example.employez.domain.enumPackage.EmploymentType;
+import com.example.employez.domain.enumPackage.ProjectLocation;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -29,7 +31,10 @@ public class JobPosting {
 
     private String jobTitle;
     private String jobDescription;
-    private JobType jobType;
+    private ProjectLocation projectLocation;
+
+    private EmploymentType employmentType;
+
     private String city;
     private String state;
     private int zipcode;
@@ -37,12 +42,15 @@ public class JobPosting {
     private int minSalary;
     private int maxSalary;
 
-    public JobPosting(int id, Company company, String jobTitle, String jobDescription, JobType jobType, String city, String state, int zipcode, Date datePosted, int minSalary, int maxSalary) {
+    public JobPosting(int id, Company company, Set<Employee> employees, Set<Skill> skills, String jobTitle, String jobDescription, ProjectLocation projectLocation, EmploymentType employmentType, String city, String state, int zipcode, Date datePosted, int minSalary, int maxSalary) {
         this.id = id;
         this.company = company;
+        this.employees = employees;
+        this.skills = skills;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
-        this.jobType = jobType;
+        this.projectLocation = projectLocation;
+        this.employmentType = employmentType;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
@@ -53,6 +61,14 @@ public class JobPosting {
 
     public JobPosting() {
 
+    }
+
+    public EmploymentType getEmploymentType() {
+        return employmentType;
+    }
+
+    public void setEmploymentType(EmploymentType employmentType) {
+        this.employmentType = employmentType;
     }
 
     public int getId() {
@@ -87,12 +103,28 @@ public class JobPosting {
         this.jobDescription = jobDescription;
     }
 
-    public JobType getJobType() {
-        return jobType;
+    public Set<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setJobType(JobType jobType) {
-        this.jobType = jobType;
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public ProjectLocation getProjectLocation() {
+        return projectLocation;
+    }
+
+    public void setProjectLocation(ProjectLocation projectLocation) {
+        this.projectLocation = projectLocation;
     }
 
     public String getCity() {

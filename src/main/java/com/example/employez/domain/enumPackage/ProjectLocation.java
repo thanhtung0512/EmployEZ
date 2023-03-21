@@ -1,5 +1,5 @@
 package com.example.employez.domain.enumPackage;
 
-public enum JobType {
+public enum ProjectLocation {
     ON_SITE,REMOTE
 }
