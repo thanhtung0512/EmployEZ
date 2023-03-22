@@ -48,6 +48,8 @@ public class JobPosting {
     private int minSalary; // k$ per year
     private int maxSalary; // k$ per year
 
+
+
     public JobPosting(int id, Company company, Set<Employee> employees, Set<Skill> skills, String jobTitle, String jobDescription, ProjectLocation projectLocation, EmploymentType employmentType, String city, String state, String country, Timestamp datePosted, int minSalary, int maxSalary) {
         this.id = id;
         this.company = company;
