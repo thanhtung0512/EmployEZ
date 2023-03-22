@@ -13,4 +13,5 @@ public interface JobPostDAO {
     List<JobPosting> getJobPostingByJobTitle(String jobTitle );
 
     public List<JobPosting> jobPostingList(int numbers);
+    public List<JobPosting> jobPostingListByNameAreaField(String name, String area, String field);
 }

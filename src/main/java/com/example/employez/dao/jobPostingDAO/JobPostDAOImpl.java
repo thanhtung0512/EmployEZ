@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class JobPostDAOImpl implements JobPostDAO{
+public class JobPostDAOImpl implements JobPostDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -53,7 +53,7 @@ public class JobPostDAOImpl implements JobPostDAO{
     @Override
     public List<JobPosting> jobPostingList(int numbers) {
         Session session = sessionFactory.openSession();
-        String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j");
+        String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j  ");
         Object[][] result = session.createQuery(hql, Object[][].class)
                 .getResultList().toArray(new Object[0][]);
 
@@ -73,6 +73,42 @@ public class JobPostDAOImpl implements JobPostDAO{
             jobPosting.setProjectLocation((ProjectLocation) result[i][9]);
             jobPosting.setState((String) result[i][10]);
             jobPostings.add(jobPosting);
+        }
+        return jobPostings;
+    }
+
+    @Override
+    public List<JobPosting> jobPostingListByNameAreaField(String name, String area, String field) {
+        Session session = sessionFactory.openSession();
+        String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
+                "WHERE j.state = :area AND j.jobTitle LIKE :name " +
+                "AND j.jobTitle LIKE :field ");
+        Object[][] result = session.createQuery(hql, Object[][].class)
+                .setParameter("name", "%" + name + "%")
+                .setParameter("field", "%" + field + "%")
+                .setParameter("area",area)
+                .getResultList().toArray(new Object[0][]);
+
+        ArrayList<JobPosting> jobPostings = new ArrayList<>();
+
+        for (int i = 0; i < result.length; i++) {
+            JobPosting jobPosting = new JobPosting();
+            jobPosting.setId((Integer) result[i][0]);
+            jobPosting.setCity((String) result[i][1]);
+            jobPosting.setCountry((String) result[i][2]);
+            jobPosting.setDatePosted((Timestamp) result[i][3]);
+            jobPosting.setEmploymentType((EmploymentType) result[i][4]);
+            jobPosting.setJobDescription((String) result[i][5]);
+            jobPosting.setJobTitle((String) result[i][6]);
+            jobPosting.setMaxSalary((Integer) result[i][7]);
+            jobPosting.setMinSalary((Integer) result[i][8]);
+            jobPosting.setProjectLocation((ProjectLocation) result[i][9]);
+            jobPosting.setState((String) result[i][10]);
+            jobPostings.add(jobPosting);
+        }
+
+        for (JobPosting jobPosting : jobPostings) {
+            System.out.println(jobPosting.toString());
         }
         return jobPostings;
     }
