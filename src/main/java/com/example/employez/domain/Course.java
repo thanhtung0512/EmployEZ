@@ -1,32 +1,42 @@
 package com.example.employez.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "course")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "title")
     private String title;
 
-    private String description;
+    @Column(name = "url")
+    private String url;
 
-    private int rating;
+    @Column(name = "rating")
+    private double rating;
 
-    public Course(int id, String title, String description, int rating) {
+
+
+    public Course(int id, String title, String url, double rating) {
         this.id = id;
         this.title = title;
-        this.description = description;
+        this.url = url;
         this.rating = rating;
+
     }
 
     public Course() {
 
     }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+
 
 
     public int getId() {
@@ -45,17 +55,15 @@ public class Course {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getUrl() {
+        return url;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public int getRating() {
-        return rating;
-    }
+
 
     public void setRating(int rating) {
         this.rating = rating;

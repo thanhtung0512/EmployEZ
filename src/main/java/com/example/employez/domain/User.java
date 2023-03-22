@@ -18,7 +18,6 @@ public abstract class User {
     private String email;
 
     public User( String passwordHash, String email) {
-
         this.passwordHash = passwordHash;
         this.email = email;
     }
