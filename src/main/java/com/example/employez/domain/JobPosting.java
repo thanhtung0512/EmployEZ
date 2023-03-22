@@ -182,4 +182,24 @@ public EmploymentType getEmploymentType() {
     public void setMaxSalary(int maxSalary) {
         this.maxSalary = maxSalary;
     }
+
+    @Override
+    public String toString() {
+        return "JobPosting{" +
+                "id=" + id +
+                ", company=" + company +
+                ", employees=" + employees +
+                ", skills=" + skills +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", jobDescription='" + jobDescription + '\'' +
+                ", projectLocation=" + projectLocation +
+                ", employmentType=" + employmentType +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", country='" + country + '\'' +
+                ", datePosted=" + datePosted +
+                ", minSalary=" + minSalary +
+                ", maxSalary=" + maxSalary +
+                '}';
+    }
 }

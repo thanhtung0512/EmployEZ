@@ -8,10 +8,6 @@ import java.util.Set;
 @Entity
 @Table(name = "employee")
 public class Employee extends User {
-
-
-
-
     private String firstName;
 
     private String lastName;
@@ -20,17 +16,12 @@ public class Employee extends User {
     private String state;
     private int zipcode;
 
-
-
-
     private int yearOfExperience;
 
     private String jobTitle;
 
-
     @OneToMany(mappedBy = "employee")
     private Set<Resume> resumes;
-
 
     @ManyToMany
     @JoinTable(name = "apply",
@@ -58,7 +49,6 @@ public class Employee extends User {
 
     public Employee(String passwordHash, String email, String firstName, String lastName, int desiredSalary, String city, String state, int zipcode, int yearOfExperience, String jobTitle, Set<Resume> resumes) {
         super(passwordHash, email);
-
         this.firstName = firstName;
         this.lastName = lastName;
         this.desiredSalary = desiredSalary;
@@ -69,7 +59,6 @@ public class Employee extends User {
         this.jobTitle = jobTitle;
         this.resumes = resumes;
     }
-
 
     public String getFirstName() {
         return firstName;
