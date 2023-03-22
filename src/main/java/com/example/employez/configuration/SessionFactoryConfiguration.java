@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SessionFactoryConfiguration {
-
     @Bean
     public SessionFactory getSessionFactory() {
         return HibernateUtil.getSessionFactory();

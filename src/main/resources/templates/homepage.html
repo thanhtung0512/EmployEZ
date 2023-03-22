@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" th:href="@{/css/homepage_style.css}"/>
-    <link rel="stylesheet" href="/static/css/homepage_style.css"/>
+
     <link
             href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
             rel="stylesheet"
@@ -61,7 +61,7 @@
 
             <ul>
                 <li>
-                    <div class="loginBtn"><a href="#">Sign in</a></div>
+                    <div class="loginBtn"><a th:href="@{'/login_page'}">Sign in</a></div>
                 </li>
                 <li>
                     <div class="signupBtn">
