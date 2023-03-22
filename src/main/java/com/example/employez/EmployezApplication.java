@@ -16,10 +16,10 @@ public class EmployezApplication {
 
     @GetMapping("/index")
     public String homepage() {
-        return "homepage";
+        return "index";
     }
 
-    @GetMapping("login_page")
+    @GetMapping("/login_page")
     public String login() {
         return "login_page";
     }
