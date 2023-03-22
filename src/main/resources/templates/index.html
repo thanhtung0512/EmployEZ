@@ -1,6 +1,13 @@
 <!DOCTYPE html>
-<html lang="zxx" class="no-js" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="layout/default"
+>
+
 <head>
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,7 +39,7 @@
 </head>
 <body>
 
-<header id="header" id="home">
+<header id="header-home">
     <div class="container">
         <div class="row align-items-center justify-content-between d-flex">
             <div id="logo">
@@ -79,38 +86,39 @@
                         </div>
                         <div class="col-lg-3 form-cols">
                             <div class="default-select" id="default-selects"
-                            ">
-                            <select>
-                                <option value="1">Select area</option>
-                                <option value="2">Dhaka</option>
-                                <option value="3">Rajshahi</option>
-                                <option value="4">Barishal</option>
-                                <option value="5">Noakhali</option>
-                            </select>
+                            >
+                                <select>
+                                    <option value="1">Select area</option>
+                                    <option value="2">Dhaka</option>
+                                    <option value="3">Rajshahi</option>
+                                    <option value="4">Barishal</option>
+                                    <option value="5">Noakhali</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 form-cols">
-                        <div class="default-select" id="default-selects2">
-                            <select>
-                                <option value="1">All Category</option>
-                                <option value="2">Medical</option>
-                                <option value="3">Technology</option>
-                                <option value="4">Goverment</option>
-                                <option value="5">Development</option>
-                            </select>
+                        <div class="col-lg-3 form-cols">
+                            <div class="default-select" id="default-selects2">
+                                <select>
+                                    <option value="1">All Category</option>
+                                    <option value="2">Medical</option>
+                                    <option value="3">Technology</option>
+                                    <option value="4">Goverment</option>
+                                    <option value="5">Development</option>
+                                </select>
+                            </div>
                         </div>
+                        <div class="col-lg-2 form-cols">
+                            <button type="submit" class="btn btn-info" >
+                                <span class="lnr lnr-magnifier"></span> Search
+                            </button>
+                        </div>
+
                     </div>
-                    <div class="col-lg-2 form-cols">
-                        <button type="button" class="btn btn-info">
-                            <span class="lnr lnr-magnifier"></span> Search
-                        </button>
-                    </div>
+                </form>
+                <p class="text-white"><span>Search by tags:</span> Tecnology, Business, Consulting, IT Company, Design,
+                    Development</p>
             </div>
-            </form>
-            <p class="text-white"><span>Search by tags:</span> Tecnology, Business, Consulting, IT Company, Design,
-                Development</p>
         </div>
-    </div>
     </div>
 </section>
 <!-- End banner Area -->
@@ -665,7 +673,7 @@
                 <div class="single-slidebar">
                     <h4>Carrer Advice Blog</h4>
                     <div class="blog-list">
-                        <div class="single-blog " style="background:#000 url(img/blog1.jpg);">
+                        <div class="single-blog " style="background:#000 url(static/img/blog1.jpg);">
                             <a href="single.html"><h4>Home Audio Recording <br>
                                 For Everyone</h4></a>
                             <div class="meta justify-content-between d-flex">
@@ -680,7 +688,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="single-blog " style="background:#000 url(img/blog2.jpg);">
+                        <div class="single-blog " style="background:#000 url(static/img/blog2.jpg);">
                             <a href="single.html"><h4>Home Audio Recording <br>
                                 For Everyone</h4></a>
                             <div class="meta justify-content-between d-flex">
@@ -695,7 +703,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="single-blog " style="background:#000 url(img/blog1.jpg);">
+                        <div class="single-blog " style="background:#000 url(static/img/blog1.jpg);">
                             <a href="single.html"><h4>Home Audio Recording <br>
                                 For Everyone</h4></a>
                             <div class="meta justify-content-between d-flex">

@@ -14,13 +14,5 @@ public class EmployezApplication {
         SpringApplication.run(EmployezApplication.class, args);
     }
 
-    @GetMapping("/index")
-    public String homepage() {
-        return "index";
-    }
 
-    @GetMapping("/login_page")
-    public String login() {
-        return "login_page";
-    }
 }
