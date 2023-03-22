@@ -6,6 +6,7 @@ import com.example.employez.domain.enumPackage.ProjectLocation;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
 
@@ -31,18 +32,23 @@ public class JobPosting {
 
     private String jobTitle;
     private String jobDescription;
+
+    @Enumerated(EnumType.STRING)
     private ProjectLocation projectLocation;
 
+
+    @Enumerated(EnumType.STRING)
     private EmploymentType employmentType;
 
     private String city;
     private String state;
-    private int zipcode;
-    private Date datePosted;
-    private int minSalary;
-    private int maxSalary;
 
-    public JobPosting(int id, Company company, Set<Employee> employees, Set<Skill> skills, String jobTitle, String jobDescription, ProjectLocation projectLocation, EmploymentType employmentType, String city, String state, int zipcode, Date datePosted, int minSalary, int maxSalary) {
+    private String country;
+    private Timestamp datePosted;
+    private int minSalary; // k$ per year
+    private int maxSalary; // k$ per year
+
+    public JobPosting(int id, Company company, Set<Employee> employees, Set<Skill> skills, String jobTitle, String jobDescription, ProjectLocation projectLocation, EmploymentType employmentType, String city, String state, String country, Timestamp datePosted, int minSalary, int maxSalary) {
         this.id = id;
         this.company = company;
         this.employees = employees;
@@ -53,7 +59,7 @@ public class JobPosting {
         this.employmentType = employmentType;
         this.city = city;
         this.state = state;
-        this.zipcode = zipcode;
+        this.country = country;
         this.datePosted = datePosted;
         this.minSalary = minSalary;
         this.maxSalary = maxSalary;
@@ -63,7 +69,7 @@ public class JobPosting {
 
     }
 
-    public EmploymentType getEmploymentType() {
+public EmploymentType getEmploymentType() {
         return employmentType;
     }
 
@@ -143,19 +149,19 @@ public class JobPosting {
         this.state = state;
     }
 
-    public int getZipcode() {
-        return zipcode;
+    public String getCountry() {
+        return country;
     }
 
-    public void setZipcode(int zipcode) {
-        this.zipcode = zipcode;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public Date getDatePosted() {
+    public Timestamp getDatePosted() {
         return datePosted;
     }
 
-    public void setDatePosted(Date datePosted) {
+    public void setDatePosted(Timestamp datePosted) {
         this.datePosted = datePosted;
     }
 
