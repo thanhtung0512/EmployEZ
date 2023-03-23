@@ -1,11 +1,10 @@
-package com.example.employez.domain;
+package com.example.employez.domain.entity_class;
 
 
 import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
 import jakarta.persistence.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Set;
 

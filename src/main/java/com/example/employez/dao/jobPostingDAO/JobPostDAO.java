@@ -1,7 +1,6 @@
 package com.example.employez.dao.jobPostingDAO;
 
-import com.example.employez.domain.JobPosting;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.example.employez.domain.entity_class.JobPosting;
 
 import java.util.List;
 

@@ -1,9 +1,8 @@
 package com.example.employez.dao.jobPostingDAO;
 
-import com.example.employez.domain.JobPosting;
+import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
-import com.example.employez.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

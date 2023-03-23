@@ -1,7 +1,7 @@
 package com.example.employez.restApi;
 
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
-import com.example.employez.domain.JobPosting;
+import com.example.employez.domain.entity_class.JobPosting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,7 +1,7 @@
 package com.example.employez.util;
 
-import com.example.employez.domain.*;
 import com.example.employez.domain.address.CompanyAddress;
+import com.example.employez.domain.entity_class.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

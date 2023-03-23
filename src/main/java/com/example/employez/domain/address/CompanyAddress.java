@@ -1,6 +1,6 @@
 package com.example.employez.domain.address;
 
-import com.example.employez.domain.Company;
+import com.example.employez.domain.entity_class.Company;
 import jakarta.persistence.*;
 
 @Entity

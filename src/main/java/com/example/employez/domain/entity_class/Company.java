@@ -1,4 +1,4 @@
-package com.example.employez.domain;
+package com.example.employez.domain.entity_class;
 
 import com.example.employez.domain.address.CompanyAddress;
 import com.example.employez.domain.enumPackage.CompanyType;

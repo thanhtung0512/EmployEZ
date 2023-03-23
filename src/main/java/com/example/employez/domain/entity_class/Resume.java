@@ -1,8 +1,6 @@
-package com.example.employez.domain;
+package com.example.employez.domain.entity_class;
 
 import jakarta.persistence.*;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "resume")
