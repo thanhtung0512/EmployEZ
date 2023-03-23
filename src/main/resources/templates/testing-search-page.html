@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/search-style.css}"/>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 102.4 30" width="106" height="30" role="img"
+                 aria-hidden="true">
+                <path fill="#494949"
+                      d="M65.4 6.9c-4.5 0-8.1 3.6-8.1 8.1s3.6 8.1 8.1 8.1 8.1-3.6 8.1-8.1-3.6-8.1-8.1-8.1zm0 12.9c-2.6 0-4.8-2.1-4.8-4.8s2.1-4.8 4.8-4.8c2.6 0 4.8 2.1 4.8 4.7 0 2.7-2.1 4.9-4.8 4.9zM83.4 10.8c-2.3 0-4.2 1.9-4.2 4.2v7.7h-3.5V7.4h3.5v2.4c1-1.5 2.7-2.4 4.5-2.4h1.1v3.4h-1.4zM48.2 7.4L50.8 18l2.9-10.6h3.4l-4.4 15.3h-3.5L46.5 12l-2.7 10.7h-3.5L35.9 7.4h3.4L42.2 18l2.7-10.6zM95 14.4c2.6-1.4 4.1-4.1 4.1-7.1h-3.4c0 2.6-2.1 4.6-4.6 4.6h-.5V0h-3.5v22.7h3.5v-7.2h.4c.4 0 .8.2 1 .5l4.9 6.7h4.2L95 14.4z"
+                      class="logo-work"></path>
+                <path fill="#6fda44"
+                      d="M27.6 6.9c-3.8 0-6.7 2.5-7.9 6.5-1.8-2.7-3.1-5.7-4-8.8h-4.1v10.6c0 2.1-1.7 3.8-3.8 3.8S4 17.3 4 15.2V4.7H0v10.6c0 4.3 3.5 7.9 7.9 7.9s7.9-3.5 7.9-7.9v-1.8c.8 1.7 1.8 3.3 2.9 4.8L16.2 30h4.2l1.8-8.5c1.6 1.1 3.5 1.7 5.5 1.7 4.5 0 8.1-3.6 8.1-8.1-.1-4.5-3.7-8.2-8.2-8.2zm0 12.2c-1.7-.1-3.3-.7-4.6-1.8l.3-1.6v-.1c.3-1.7 1.3-4.6 4.2-4.6 2.2-.1 4 1.7 4.1 3.9.1 2.2-1.7 4-3.9 4.1l-.1.1z"></path>
+            </svg>
+        </div>
+        <div class="header-menu">
+            <a href="#" class="active">Find Job</a>
+            <a href="#">Company Review</a>
+            <a href="#">Find Salaries</a>
+        </div>
+        <div class="user-settings">
+            <div class="dark-light">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                </svg>
+            </div>
+            <div class="user-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-square">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                </svg>
+            </div>
+            <img class="user-profile"
+                 src="https://assets.codepen.io/1222317/internal/avatars/users/default.png?format=auto&height=80&version=1531733027&width=80"
+                 alt="">
+            <div class="user-name">Callum Martin</div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="search-menu">
+            <div class="search-bar">
+                <input type="text" class="search-box" autofocus/>
+                <div class="search item">Web Designer
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </div>
+                <div class="search item">UI Designer
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="search-location">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+                London, UK
+            </div>
+            <div class="search-job">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+                </svg>
+                <input type="text" placeholder="Job Type">
+            </div>
+            <div class="search-salary">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="currentColor"
+                     stroke-width=".4">
+                    <path d="M12.6 18H9.8a.8.8 0 010-1.5h2.8a.9.9 0 000-1.8h-1.2a2.4 2.4 0 010-4.7h2.8a.8.8 0 010 1.5h-2.8a.9.9 0 000 1.8h1.2a2.4 2.4 0 010 4.7z"
+                          stroke="currentColor"/>
+                    <path d="M12 20a.8.8 0 01-.8-.8v-2a.8.8 0 011.6 0v2c0 .5-.4.8-.8.8zM12 11.5a.8.8 0 01-.8-.8v-2a.8.8 0 011.6 0v2c0 .5-.4.8-.8.8z"
+                          stroke="currentColor"/>
+                    <path d="M21.3 23H2.6A2.8 2.8 0 010 20.2V3.9C0 2.1 1.2 1 2.8 1h18.4C22.9 1 24 2.2 24 3.8v16.4c0 1.6-1.2 2.8-2.8 2.8zM2.6 2.5c-.6 0-1.2.6-1.2 1.3v16.4c0 .7.6 1.3 1.3 1.3h18.4c.7 0 1.3-.6 1.3-1.3V3.9c0-.7-.6-1.3-1.3-1.3z"
+                          stroke="currentColor"/>
+                    <path d="M23.3 6H.6a.8.8 0 010-1.5h22.6a.8.8 0 010 1.5z" stroke="currentColor"/>
+                </svg>
+                <input type="text" placeholder="Salary Range">
+            </div>
+            <button class="search-button">Find Job</button>
+        </div>
+
+        <div class="searched-jobs">
+            <div class="searched-bar">
+                <div class="searched-show">Showing 46 Jobs</div>
+                <div class="searched-sort">Sort by: <span class="post-time">Newest Post </span><span
+                        class="menu-icon">▼</span></div>
+            </div>
+            <div class="job-cards">
+
+                <ul>
+                    <li th:each="jobPost : ${jobList}">
+                        <div class="job-card">
+                            <div class="job-card-header">
+                                <svg viewBox="0 -13 512 512" xmlns="http://www.w3.org/2000/svg"
+                                     style="background-color:#2e2882">
+                                    <g fill="#feb0a5">
+                                        <path d="M256 92.5l127.7 91.6L512 92 383.7 0 256 91.5 128.3 0 0 92l128.3 92zm0 0M256 275.9l-127.7-91.5L0 276.4l128.3 92L256 277l127.7 91.5 128.3-92-128.3-92zm0 0"/>
+                                        <path d="M127.7 394.1l128.4 92 128.3-92-128.3-92zm0 0"/>
+                                    </g>
+                                    <path d="M512 92L383.7 0 256 91.5v1l127.7 91.6zm0 0M512 276.4l-128.3-92L256 275.9v1l127.7 91.5zm0 0M256 486.1l128.4-92-128.3-92zm0 0"
+                                          fill="#feb0a5"/>
+                                </svg>
+                                <div class="menu-dot"></div>
+                            </div>
+                            <div class="job-card-title" th:text="${jobPost.getJobTitle()}"></div>
+                            <div class="job-card-subtitle" th:text="${jobPost.getJobDescription()}">
+
+                            </div>
+                            <div class="job-detail-buttons">
+                                <button class="search-buttons detail-button" th:text="${jobPost.getEmploymentType()}">
+                                    Full Time
+                                </button>
+                                <button class="search-buttons detail-button">Min. 1 Year</button>
+                                <button class="search-buttons detail-button">Senior Level</button>
+                            </div>
+                            <div class="job-card-buttons">
+                                <button class="search-buttons card-buttons">Apply Now</button>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>>
+
+<script th:src="@{/js/search.js}"></script>
+</body>
+</html>

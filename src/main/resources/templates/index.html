@@ -73,22 +73,23 @@
 <section class="banner-area relative" id="home">
     <div class="overlay overlay-bg"></div>
     <div class="container">
-        <div class="row fullscreen d-flex align-items-center justify-content-center">
+        <div class="row search-page-top d-flex align-items-center justify-content-center">
             <div class="banner-content col-lg-12">
                 <h1 class="text-white">
-                    <span>1500+</span> Jobs posted last week
+                    Search Results
                 </h1>
-                <form th:action="@{'/search'}"  class="serach-form-area">
+                <p class="text-white link-nav">
+                    <a href="index.html">Home </a> <span class="lnr lnr-arrow-right"></span> <a href="search.html"> Job details page</a>
+                </p>
+                <form action="#" class="serach-form-area" th:action="@{'/search'}">
                     <div class="row justify-content-center form-wrap">
                         <div class="col-lg-4 form-cols">
-                            <input type="text" class="form-control" name="search"
-                                   placeholder="what are you looging for?">
+                            <input type="text" class="form-control" name="search" placeholder="what are you looking for?">
                         </div>
                         <div class="col-lg-3 form-cols">
-                            <div class="default-select" id="default-selects"
-                            >
+                            <div class="default-select" id="default-selects">
                                 <select name="area">
-                                    <option value="1">Select area</option>
+                                    <option value="">Select area</option>
                                     <option value="California">California</option>
                                     <option value="Massachusetts">Massachusetts</option>
                                     <option value="Texas">Texas</option>
@@ -98,25 +99,23 @@
                         </div>
                         <div class="col-lg-3 form-cols">
                             <div class="default-select" id="default-selects2">
-                                <select name="sub_field">
-                                    <option value="Developer">All Category</option>
-                                    <option value="2">Medical</option>
-                                    <option value="3">Technology</option>
-                                    <option value="4">Goverment</option>
-                                    <option value="5">Development</option>
+                                <select name = "sub_field">
+                                    <option value="Developer">Sub-field</option>
+                                    <option value="AI Engineer">AI Engineer</option>
+                                    <option value="Blockchain">Blockchain</option>
+                                    <option value="Data Scientist">Data Science</option>
+                                    <option value="Backend Developer">Backend Developer</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-2 form-cols">
-                            <button th:method="POST" type="submit" class="btn btn-info" th:href="@{'/homepage'}" >
+                            <button type="submit" class="btn btn-info" th:action="@{'/search'}">
                                 <span class="lnr lnr-magnifier"></span> Search
                             </button>
                         </div>
-
                     </div>
                 </form>
-                <p class="text-white"><span>Search by tags:</span> Tecnology, Business, Consulting, IT Company, Design,
-                    Development</p>
+                <p class="text-white">49 Results found for <span>"Web developer"</span></p>
             </div>
         </div>
     </div>

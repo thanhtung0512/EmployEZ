@@ -80,12 +80,12 @@ public class JobPostDAOImpl implements JobPostDAO {
     public List<JobPosting> jobPostingListByNameAreaField(String name, String area, String field) {
         Session session = sessionFactory.openSession();
         String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
-                "WHERE j.state = :area AND j.jobTitle LIKE :name " +
-                "AND j.jobTitle LIKE :field ");
+                "WHERE j.state = :area OR j.jobTitle LIKE :name " +
+                "OR j.jobTitle LIKE :field ");
         Object[][] result = session.createQuery(hql, Object[][].class)
                 .setParameter("name", "%" + name + "%")
                 .setParameter("field", "%" + field + "%")
-                .setParameter("area",area)
+                .setParameter("area",area).setMaxResults(10)
                 .getResultList().toArray(new Object[0][]);
 
         ArrayList<JobPosting> jobPostings = new ArrayList<>();
