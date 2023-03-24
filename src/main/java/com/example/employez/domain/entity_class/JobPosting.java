@@ -3,7 +3,7 @@ package com.example.employez.domain.entity_class;
 
 import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -14,6 +14,7 @@ public class JobPosting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
 
@@ -29,22 +30,39 @@ public class JobPosting {
             inverseJoinColumns = { @JoinColumn(name = "fk_skill") })
     private Set<Skill> skills;
 
+    @Column(name = "jobTitle")
     private String jobTitle;
+
+    @Column(name = "jobDescription")
     private String jobDescription;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "projectLocation")
     private ProjectLocation projectLocation;
 
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "employmentType")
     private EmploymentType employmentType;
 
+
+    @Column(name = "city")
     private String city;
+
+    @Column(name = "state")
     private String state;
 
+
+    @Column(name = "country")
     private String country;
+
+    @Column(name = "datePosted")
     private Timestamp datePosted;
-    private int minSalary; // k$ per year
+
+    @Column(name = "minSalary")
+    private int minSalary; //
+
+    @Column(name = "maxSalary")// k$ per year
     private int maxSalary; // k$ per year
 
 

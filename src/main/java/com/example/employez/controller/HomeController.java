@@ -34,38 +34,24 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String loginn() {
-        return "login";
-    }
 
 
-    @GetMapping ("/search")
-    public String index(@RequestParam(name = "jobTitle",required = false,defaultValue = "") String jobTitle
-    ,@RequestParam(name = "location",required = false,defaultValue = "Usa") String location
-    , Model model) {
+
+    @GetMapping("/search")
+    public String index(@RequestParam(name = "jobTitle", required = false, defaultValue = "") String jobTitle
+            , @RequestParam(name = "location", required = false, defaultValue = "Usa") String location
+            , Model model) {
         // field1 : job title, skill or company
         // field2 : city, state, zip or remote
 
         // need return a job post list
 //        ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByNameAreaField(search,area);;
-        ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle,location);
-        model.addAttribute("jobList",jobPostings);
+        ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle, location);
+        model.addAttribute("jobList", jobPostings);
         return "search";
     }
 
-    @GetMapping("/signup")
-    public String signUp(Model model) {
-        User user = new Employee();
-        model.addAttribute("user",user);
-        return "signup";
-    }
 
-    @PostMapping("/homepage")
-    public String signupProcess(@ModelAttribute(name = "user") User user, @RequestParam(name = "re_password") String pass) {
-        System.out.println(user.toString());
-        return "redirect:/homepage";
-    }
 
     @GetMapping("/jobs/{id}")
     public String getDetailJob(@PathVariable(name = "id") int jobId, Model model) {

@@ -1,6 +1,6 @@
 package com.example.employez.domain.entity_class;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "course")

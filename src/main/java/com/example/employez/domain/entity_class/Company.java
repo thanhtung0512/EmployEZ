@@ -2,8 +2,9 @@ package com.example.employez.domain.entity_class;
 
 import com.example.employez.domain.address.CompanyAddress;
 import com.example.employez.domain.enumPackage.CompanyType;
-import jakarta.persistence.*;
 
+
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -17,8 +18,7 @@ public class Company extends User {
     @Enumerated(EnumType.STRING)
     private CompanyType companyType;
 
-    @OneToMany(mappedBy = "company")
-    private Set<CompanyAddress> addressList;
+
 
 
     @OneToMany(mappedBy = "company")
@@ -26,11 +26,11 @@ public class Company extends User {
 
 
 
-    public Company(String passwordHash, String email, String name, CompanyType companyType, Set<CompanyAddress> addressList) {
+    public Company(String passwordHash, String email, String name, CompanyType companyType) {
         super(passwordHash, email);
         this.name = name;
         this.companyType = companyType;
-        this.addressList = addressList;
+
 
     }
 
@@ -54,11 +54,5 @@ public class Company extends User {
         this.companyType = companyType;
     }
 
-    public Set<CompanyAddress> getAddressList() {
-        return addressList;
-    }
 
-    public void setAddressList(Set<CompanyAddress> addressList) {
-        this.addressList = addressList;
-    }
 }

@@ -1,6 +1,7 @@
 package com.example.employez.domain.entity_class;
 
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class User {
@@ -8,13 +9,13 @@ public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     private int id;
 
-    @Column
+    @Column(name = "passwordHash")
     private String passwordHash;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
     public User( String passwordHash, String email) {

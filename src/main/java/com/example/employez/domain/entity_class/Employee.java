@@ -1,23 +1,39 @@
 package com.example.employez.domain.entity_class;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.Set;
-
 
 @Entity
 @Table(name = "employee")
 public class Employee extends User {
+
+    @Column(name = "firstName")
     private String firstName;
 
+    @Column(name = "lastName")
     private String lastName;
+
+    @Column(name = "desiredSalary")
     private int desiredSalary;
+
+    @Column(name = "city")
     private String city;
+
+
+    @Column(name = "state")
     private String state;
+
+    @Column(name = "zipcode")
     private int zipcode;
 
+
+
+    @Column(name = "yearOfExperience")
     private int yearOfExperience;
 
+
+    @Column(name = "jobTitle")
     private String jobTitle;
 
     @OneToMany(mappedBy = "employee")
@@ -123,5 +139,22 @@ public class Employee extends User {
 
     public void setResumes(Set<Resume> resumes) {
         this.resumes = resumes;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", desiredSalary=" + desiredSalary +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zipcode=" + zipcode +
+                ", yearOfExperience=" + yearOfExperience +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", resumes=" + resumes +
+                ", jobPostings=" + jobPostings +
+                ", skills=" + skills +
+                '}';
     }
 }

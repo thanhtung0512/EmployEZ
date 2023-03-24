@@ -51,7 +51,7 @@ public class HibernateUtil {
     public static SessionFactory getSessionFactory(String concreteDatabase, String port, String user, String password, Class<?>... annotatedClass) {
         if (sessionFactory == null) {
             Configuration configuration = new Configuration()
-                    .setProperty("hibernate.connection.url", "jdbc:mysql://192.168.56.1:" + port + "/" + concreteDatabase)
+                    .setProperty("hibernate.connection.url", "jdbc:mysql://localhost:" + port + "/" + concreteDatabase)
                     .setProperty("hibernate.connection.username", user)
                     .setProperty("hibernate.connection.password", password)
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect")
@@ -73,7 +73,8 @@ public class HibernateUtil {
                 , Resume.class
                 , Skill.class
                 , CompanyAddress.class
-                , Course.class);
+                , Course.class
+        );
     }
 
 }

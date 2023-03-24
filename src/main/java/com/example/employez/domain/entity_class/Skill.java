@@ -1,7 +1,9 @@
 package com.example.employez.domain.entity_class;
 
-import jakarta.persistence.*;
 
+
+import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -10,7 +12,10 @@ public class Skill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "name")
     private String name;
 
 

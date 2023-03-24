@@ -24,10 +24,18 @@
 <div class="form">
 
     <h2>Log in</h2>
+    <form th:action="@{'/handleLogin'}" >
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email"/>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"/>
+        </div>
+        <button type="submit">Login</button>
+    </form>
 
-    <input type="email" placeholder="Your email">
-    <input type="password" placeholder="Your password">
-    <a th:href="@{'/homepage'}" type="button">Login</a>
     <p>Use Twitter, Facebook or Google to sign in or register with EmployEZ to view this page.</p>
 
     <div class="socials">

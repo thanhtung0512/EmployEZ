@@ -6,8 +6,7 @@ import jakarta.persistence.*;
 @Entity
 public class CompanyAddress {
 
-    @ManyToOne
-    private Company company;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,11 +48,4 @@ public class CompanyAddress {
     }
 
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 }

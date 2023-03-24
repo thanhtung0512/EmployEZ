@@ -21,14 +21,38 @@
 
 <body id="body">
 
-<div class="form" th:object="${user}">
+<div class="form">
 
-    <h2>Company sign up</h2>
+    <h2>Sign up</h2>
 
-    <input type="email" placeholder="Your email" name="email" th:field="*{email}">
-    <input type="password" placeholder="Your password" name="password" th:field="*{passwordHash}">
-    <input type="password" placeholder="Re-enter your password" name="re_password" >
-    <a th:href="@{'/homepage'}" th:method="POST" type="button">Sign up</a>
+    <form th:action="@{'/homepage'}"   th:object="${userForm}" th:method="POST">
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" th:field="*{username}" />
+            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</span>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="text" id="email" th:field="*{email}" />
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</span>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" th:field="*{password}" />
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</span>
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" />
+            <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Confirm Password error</span>
+        </div>
+
+        <select name="role" th:field="*{role}" >
+            <option value="Employee">Employee</option>
+            <option value="Employer">Employer</option>
+        </select>
+        <button  type="submit">Sign up</button>
+    </form>
 
 </div>
 
