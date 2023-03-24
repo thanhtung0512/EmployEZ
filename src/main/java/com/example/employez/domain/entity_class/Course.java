@@ -36,9 +36,6 @@ public class Course {
         this.rating = rating;
     }
 
-
-
-
     public int getId() {
         return id;
     }

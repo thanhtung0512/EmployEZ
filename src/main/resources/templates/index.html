@@ -60,8 +60,8 @@
                             <li><a href="single.html">single</a></li>
                         </ul>
                     </li>
-                    <li><a class="ticker-btn" href="#">Signup</a></li>
-                    <li><a class="ticker-btn" href="#">Login</a></li>
+                    <li><a class="ticker-btn" th:href="@{'/signup'}">Signup</a></li>
+                    <li><a class="ticker-btn" th:href="@{'/login'}">Login</a></li>
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>
@@ -84,30 +84,36 @@
                 <form action="#" class="serach-form-area" th:action="@{'/search'}">
                     <div class="row justify-content-center form-wrap">
                         <div class="col-lg-4 form-cols">
-                            <input type="text" class="form-control" name="search" placeholder="what are you looking for?">
+                            <input type="text" class="form-control" name="jobTitle" placeholder="Job title?">
                         </div>
-                        <div class="col-lg-3 form-cols">
-                            <div class="default-select" id="default-selects">
-                                <select name="area">
-                                    <option value="">Select area</option>
-                                    <option value="California">California</option>
-                                    <option value="Massachusetts">Massachusetts</option>
-                                    <option value="Texas">Texas</option>
-                                    <option value="Maryland">Maryland</option>
-                                </select>
-                            </div>
+
+                        <div class="col-lg-4 form-cols">
+                            <input type="text" class="form-control" name="location" placeholder="Location ?">
                         </div>
-                        <div class="col-lg-3 form-cols">
-                            <div class="default-select" id="default-selects2">
-                                <select name = "sub_field">
-                                    <option value="Developer">Sub-field</option>
-                                    <option value="AI Engineer">AI Engineer</option>
-                                    <option value="Blockchain">Blockchain</option>
-                                    <option value="Data Scientist">Data Science</option>
-                                    <option value="Backend Developer">Backend Developer</option>
-                                </select>
-                            </div>
-                        </div>
+
+
+<!--                        <div class="col-lg-3 form-cols">-->
+<!--                            <div class="default-select" id="default-selects">-->
+<!--                                <select name="area">-->
+<!--                                    <option value="">Select area</option>-->
+<!--                                    <option value="California">California</option>-->
+<!--                                    <option value="Massachusetts">Massachusetts</option>-->
+<!--                                    <option value="Texas">Texas</option>-->
+<!--                                    <option value="Maryland">Maryland</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 form-cols">-->
+<!--                            <div class="default-select" id="default-selects2">-->
+<!--                                <select name = "sub_field">-->
+<!--                                    <option value="Developer">Sub-field</option>-->
+<!--                                    <option value="AI Engineer">AI Engineer</option>-->
+<!--                                    <option value="Blockchain">Blockchain</option>-->
+<!--                                    <option value="Data Scientist">Data Science</option>-->
+<!--                                    <option value="Backend Developer">Backend Developer</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="col-lg-2 form-cols">
                             <button type="submit" class="btn btn-info" th:action="@{'/search'}">
                                 <span class="lnr lnr-magnifier"></span> Search

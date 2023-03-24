@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
+
+
+<!-- font -->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up </title>
+    <link rel="stylesheet" th:href="@{/css/signup-style.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+
+<!-- start here -->
+
+<body id="body">
+
+<div class="form" th:object="${user}">
+
+    <h2>Company sign up</h2>
+
+    <input type="email" placeholder="Your email" name="email" th:field="*{email}">
+    <input type="password" placeholder="Your password" name="password" th:field="*{passwordHash}">
+    <input type="password" placeholder="Re-enter your password" name="re_password" >
+    <a th:href="@{'/homepage'}" th:method="POST" type="button">Sign up</a>
+
+</div>
+
+<div class="circle"></div>
+<div class="circle-1"></div>
+<div class="circle-2"></div>
+</body>
+</html>
