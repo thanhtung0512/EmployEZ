@@ -1,7 +1,7 @@
 package com.example.employez.domain.entity_class;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @MappedSuperclass
 public abstract class User {

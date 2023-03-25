@@ -1,7 +1,6 @@
 package com.example.employez.domain.entity_class;
 
-import javax.persistence.*;
-
+import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity

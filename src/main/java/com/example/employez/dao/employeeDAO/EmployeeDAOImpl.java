@@ -1,5 +1,4 @@
 package com.example.employez.dao.employeeDAO;
-
 import com.example.employez.domain.entity_class.Employee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Autowired
     private SessionFactory sessionFactory;
-
-
     public EmployeeDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -22,7 +19,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public void saveEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(employee);
+        session.persist(employee);
         session.getTransaction().commit();
         session.close();
     }
@@ -38,6 +35,4 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             session.close();
        return employee;
     }
-
-
 }

@@ -4,7 +4,7 @@ import com.example.employez.domain.address.CompanyAddress;
 import com.example.employez.domain.enumPackage.CompanyType;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
