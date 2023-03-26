@@ -76,8 +76,12 @@ public class JobPostDAOImpl implements JobPostDAO {
             jobPosting.setEmploymentType((EmploymentType) result[i][4]);
             jobPosting.setJobDescription((String) result[i][5]);
             jobPosting.setJobTitle((String) result[i][6]);
-            jobPosting.setMaxSalary((Integer) result[i][7]);
-            jobPosting.setMinSalary((Integer) result[i][8]);
+            if (result[i][7] != null) {
+                jobPosting.setMaxSalary((int) result[i][7]);
+            }
+            if (result[i][8] != null) {
+                jobPosting.setMinSalary((Integer) result[i][8]);
+            }
             jobPosting.setProjectLocation((ProjectLocation) result[i][9]);
             jobPosting.setState((String) result[i][10]);
             jobPosting.setCompany((Company) result[i][11]);
@@ -116,8 +120,12 @@ public class JobPostDAOImpl implements JobPostDAO {
             jobPosting.setEmploymentType((EmploymentType) result[i][4]);
             jobPosting.setJobDescription((String) result[i][5]);
             jobPosting.setJobTitle((String) result[i][6]);
-            jobPosting.setMaxSalary((Integer) result[i][7]);
-            jobPosting.setMinSalary((Integer) result[i][8]);
+            if (result[i][7] != null) {
+                jobPosting.setMaxSalary((int) result[i][7]);
+            }
+            if (result[i][8] != null) {
+                jobPosting.setMinSalary((Integer) result[i][8]);
+            }
             jobPosting.setProjectLocation((ProjectLocation) result[i][9]);
             jobPosting.setState((String) result[i][10]);
             jobPostings.add(jobPosting);
