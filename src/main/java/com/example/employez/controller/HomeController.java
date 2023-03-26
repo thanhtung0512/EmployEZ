@@ -29,7 +29,7 @@ public class HomeController {
 
     @GetMapping("/search")
     public String index(@RequestParam(name = "jobTitle", required = false, defaultValue = "") String jobTitle
-            , @RequestParam(name = "location", required = false, defaultValue = "Usa") String location
+            , @RequestParam(name = "location", required = false, defaultValue = "") String location
             , Model model) {
         ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle, location);
         model.addAttribute("jobList", jobPostings);

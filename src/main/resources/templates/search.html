@@ -164,7 +164,7 @@
                                 </div>
 
                                 <p class="text-muted"
-                                   th:text="${jobPost.getJobDescription()}"></p>
+                                   th:utext="${#strings.replace(jobPost.getJobDescription(), '<br>', '<br>')}"></p>
                                 <div class="row btnrow my-4">
                                     <div class="col-4 col-md-3">
                                         <button type="button" class="btn btn-outline-success btn-sm"

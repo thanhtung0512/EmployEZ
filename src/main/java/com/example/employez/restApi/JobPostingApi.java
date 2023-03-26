@@ -24,4 +24,10 @@ public class JobPostingApi {
         return jobPostDAO.jobPostingList(numbers);
     }
 
+    @GetMapping("/jobposts/{title}/{location}")
+    @Transactional
+    public List<JobPosting> jobPostings(@PathVariable String title, @PathVariable String location) {
+        return jobPostDAO.jobPostingListByTwoFields(title,location);
+    }
+
 }

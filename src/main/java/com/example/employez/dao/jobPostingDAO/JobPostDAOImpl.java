@@ -128,12 +128,12 @@ public class JobPostDAOImpl implements JobPostDAO {
                     "WHERE j.country = :location OR j.jobTitle LIKE :jobTitle ");
         } else {
             hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
-                    "WHERE j.state = :location OR j.jobTitle LIKE :jobTitle ");
+                    "WHERE j.city LIKE :location OR j.jobTitle LIKE :jobTitle ");
         }
 
         Object[][] result = session.createQuery(hql, Object[][].class)
                 .setParameter("jobTitle", "%" + jobTitle + "%")
-                .setParameter("location", location)
+                .setParameter("location", "%" + location + "%")
                 .setMaxResults(10)
                 .getResultList().toArray(new Object[0][]);
 

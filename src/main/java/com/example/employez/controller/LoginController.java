@@ -21,7 +21,7 @@ public class LoginController {
     }
 
     // login for employee
-    @RequestMapping("/handleLogin")
+    @PostMapping("/handleLogin")
     public String handleLogin(@RequestParam(name = "email") String email
             , @RequestParam(name = "password") String password) {
         Employee employee = employeeDAO.getByMail(email);
