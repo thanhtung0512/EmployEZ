@@ -1,11 +1,12 @@
 package com.example.employez.domain.address;
 
-import com.example.employez.domain.entity_class.Company;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class CompanyAddress {
-
 
 
     @Id
@@ -39,7 +40,6 @@ public class CompanyAddress {
     public void setZipcode(int zipcode) {
         this.zipcode = zipcode;
     }
-
 
 
     public CompanyAddress() {

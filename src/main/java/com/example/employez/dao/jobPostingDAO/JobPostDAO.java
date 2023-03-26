@@ -6,14 +6,21 @@ import java.util.List;
 
 public interface JobPostDAO {
     JobPosting createJobPosting();
-    void deleteJobPosting(int id);
-    List<JobPosting> getJobPostingByLocation(String... location);
-    List<JobPosting> getJobPostingByNewestDate();
-    List<JobPosting> getJobPostingByJobTitle(String jobTitle );
 
-    public List<JobPosting> jobPostingList(int numbers);
-    public List<JobPosting> jobPostingListByNameAreaField(String name, String area, String field);
-    public List<JobPosting> jobPostingListByTwoFields(String field1, String field2);
-    public JobPosting jobPostingById(int id);
+    void deleteJobPosting(int id);
+
+    List<JobPosting> getJobPostingByLocation(String... location);
+
+    List<JobPosting> getJobPostingByNewestDate();
+
+    List<JobPosting> getJobPostingByJobTitle(String jobTitle);
+
+    List<JobPosting> jobPostingList(int numbers);
+
+    List<JobPosting> jobPostingListByNameAreaField(String name, String area, String field);
+
+    List<JobPosting> jobPostingListByTwoFields(String field1, String field2);
+
+    JobPosting jobPostingById(int id);
 
 }

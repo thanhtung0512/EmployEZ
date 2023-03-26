@@ -25,7 +25,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     public Company findById(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Company company = session.get(Company.class,id);
+        Company company = session.get(Company.class, id);
         session.getTransaction().commit();
         session.close();
         return company;

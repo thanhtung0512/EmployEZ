@@ -1,10 +1,8 @@
 package com.example.employez.domain.entity_class;
 
-import com.example.employez.domain.address.CompanyAddress;
 import com.example.employez.domain.enumPackage.CompanyType;
-
-
 import jakarta.persistence.*;
+
 import java.util.Set;
 
 @Entity
@@ -19,11 +17,8 @@ public class Company extends User {
     private CompanyType companyType;
 
 
-
-
     @OneToMany(mappedBy = "company")
     private Set<JobPosting> jobPostings;
-
 
 
     public Company(String passwordHash, String email, String name, CompanyType companyType) {

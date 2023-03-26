@@ -2,9 +2,6 @@ package com.example.employez.restApi;
 
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.JobPosting;
-import com.example.employez.domain.entity_class.Skill;
-import org.hibernate.Session;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +25,12 @@ public class JobPostingApi {
     private JobPostDAO jobPostDAO;
 
     @GetMapping("/jobposts/{numbers}")
-
     public List<JobPosting> jobPostingList(@PathVariable int numbers) {
-        return jobPostDAO.jobPostingList(numbers);
+        List<JobPosting> jobPostings = new ArrayList<>();
+        for (int i = 1; i <= numbers; i++) {
+            jobPostings.add(jobPostDAO.jobPostingById(i));
+        }
+        return jobPostings;
     }
 
     @GetMapping("/jobposts/{title}/{location}")

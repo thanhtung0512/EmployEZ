@@ -18,7 +18,7 @@ public abstract class User {
     @Column(name = "email")
     private String email;
 
-    public User( String passwordHash, String email) {
+    public User(String passwordHash, String email) {
         this.passwordHash = passwordHash;
         this.email = email;
     }

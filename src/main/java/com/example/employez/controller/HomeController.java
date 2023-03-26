@@ -6,11 +6,11 @@ import com.example.employez.domain.entity_class.Skill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 @Controller
 public class HomeController {
@@ -34,7 +34,7 @@ public class HomeController {
             , Model model) throws Exception {
         ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle, location);
         model.addAttribute("jobList", jobPostings);
-        model.addAttribute("jobTitleSearch",jobTitle);
+        model.addAttribute("jobTitleSearch", jobTitle);
 
         return "search";
     }
@@ -44,9 +44,9 @@ public class HomeController {
     public String getDetailJob(@PathVariable(name = "id") int jobId, Model model) {
         JobPosting jobPosting = jobPostDAO.jobPostingById(jobId);
         model.addAttribute("jobPosting", jobPosting);
-        Set<Skill> skillSet = jobPosting.getSkills();
-        Skill[] skills = jobPosting.getSkills().toArray(new Skill[jobPosting.getSkills().size()]);
-        model.addAttribute("skills",skills);
+        ArrayList<Skill> skillSet = jobPosting.getSkills();
+
+        model.addAttribute("skills", skillSet);
         return "single";
     }
 }

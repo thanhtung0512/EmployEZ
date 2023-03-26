@@ -19,7 +19,6 @@ public class Course {
     private double rating;
 
 
-
     public Course(int id, String title, String url, double rating) {
         this.id = id;
         this.title = title;
@@ -59,7 +58,6 @@ public class Course {
     public void setUrl(String url) {
         this.url = url;
     }
-
 
 
     public void setRating(int rating) {

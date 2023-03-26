@@ -1,6 +1,7 @@
 package com.example.employez.domain.entity_class;
 
 import jakarta.persistence.*;
+
 import java.util.Set;
 
 @Entity
@@ -27,7 +28,6 @@ public class Employee extends User {
     private int zipcode;
 
 
-
     @Column(name = "yearOfExperience")
     private int yearOfExperience;
 
@@ -40,14 +40,14 @@ public class Employee extends User {
 
     @ManyToMany
     @JoinTable(name = "apply",
-            joinColumns = { @JoinColumn(name = "fk_employee") },
-            inverseJoinColumns = { @JoinColumn(name = "fk_jobpost") })
+            joinColumns = {@JoinColumn(name = "fk_employee")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_jobpost")})
     private Set<JobPosting> jobPostings;
 
     @ManyToMany
     @JoinTable(name = "has",
-            joinColumns = { @JoinColumn(name = "fk_employee") },
-            inverseJoinColumns = { @JoinColumn(name = "fk_skill") })
+            joinColumns = {@JoinColumn(name = "fk_employee")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
     private Set<Skill> skills;
 
     public Employee() {

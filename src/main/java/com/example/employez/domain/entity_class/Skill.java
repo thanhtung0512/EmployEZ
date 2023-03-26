@@ -1,5 +1,7 @@
 package com.example.employez.domain.entity_class;
+
 import jakarta.persistence.*;
+
 import java.util.Set;
 
 @Entity
@@ -19,13 +21,13 @@ public class Skill {
     private Set<Employee> employees;
 
 
-    @ManyToMany(mappedBy = "skills",cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
+    @ManyToMany(mappedBy = "skills", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
     private Set<JobPosting> jobPostings;
 
     @ManyToMany
     @JoinTable(name = "covers",
-            joinColumns = { @JoinColumn(name = "fk_skill") },
-            inverseJoinColumns = { @JoinColumn(name = "fk_course") })
+            joinColumns = {@JoinColumn(name = "fk_skill")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_course")})
     private Set<Course> courses;
 
     public Skill(int id, String name) {

@@ -5,8 +5,8 @@ import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
 import jakarta.persistence.*;
 
-
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Set;
 
 
@@ -29,7 +29,7 @@ public class JobPosting {
     @JoinTable(name = "job_required_skill",
             joinColumns = {@JoinColumn(name = "fk_job")},
             inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
-    private Set<Skill> skills;
+    private ArrayList<Skill> skills;
 
     @Column(name = "jobTitle")
     private String jobTitle;
@@ -67,7 +67,7 @@ public class JobPosting {
     private int maxSalary; // k$ per year
 
 
-    public JobPosting(int id, Company company, Set<Employee> employees, Set<Skill> skills, String jobTitle, String jobDescription, ProjectLocation projectLocation, EmploymentType employmentType, String city, String state, String country, Timestamp datePosted, int minSalary, int maxSalary) {
+    public JobPosting(int id, Company company, Set<Employee> employees, ArrayList<Skill> skills, String jobTitle, String jobDescription, ProjectLocation projectLocation, EmploymentType employmentType, String city, String state, String country, Timestamp datePosted, int minSalary, int maxSalary) {
         this.id = id;
         this.company = company;
         this.employees = employees;
@@ -136,11 +136,11 @@ public class JobPosting {
         this.employees = employees;
     }
 
-    public Set<Skill> getSkills() {
+    public ArrayList<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(Set<Skill> skills) {
+    public void setSkills(ArrayList<Skill> skills) {
         this.skills = skills;
     }
 

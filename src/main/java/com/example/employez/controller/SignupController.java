@@ -2,22 +2,18 @@ package com.example.employez.controller;
 
 import com.example.employez.dao.companyDAO.CompanyDAO;
 import com.example.employez.dao.employeeDAO.EmployeeDAO;
-import com.example.employez.dao.employeeDAO.EmployeeDAOImpl;
 import com.example.employez.domain.entity_class.Company;
 import com.example.employez.domain.entity_class.Employee;
 import com.example.employez.dto.UserForm;
-
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SignupController {
@@ -44,7 +40,7 @@ public class SignupController {
                 employee.setEmail(userForm.getEmail());
                 employee.setPasswordHash(new BCryptPasswordEncoder().encode(userForm.getPassword()));
                 employeeDAO.saveEmployee(employee);
-            } else  {
+            } else {
                 Company company = new Company();
                 company.setEmail(userForm.getEmail());
                 company.setPasswordHash(new BCryptPasswordEncoder().encode(userForm.getPassword()));

@@ -8,10 +8,6 @@ import org.hibernate.SessionFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,11 +47,10 @@ public class JdbcExample {
                 JobPosting jobPosting = new JobPosting();
                 Set<Skill> skillSet = new HashSet<>();
                 try {
-                    jobPosting = session.get(JobPosting.class,id);
-                }
-                 catch (Exception e) {
+                    jobPosting = session.get(JobPosting.class, id);
+                } catch (Exception e) {
                     e.printStackTrace();
-                 }
+                }
                 for (Skill skill : skills) {
 
                     String skillName = skill.getName();
@@ -71,17 +66,14 @@ public class JdbcExample {
                         System.out.println(rowsAffected + " rows affected");
 
 
-
                     }
                 }
-                jobPosting.setSkills(skillSet);
-            }
 
+            }
 
 
             // Prepare the SQL statement
             // Execute the statement
-
 
 
         } catch (SQLException se) {
