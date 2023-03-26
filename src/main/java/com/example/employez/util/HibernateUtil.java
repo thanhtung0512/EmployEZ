@@ -55,7 +55,8 @@ public class HibernateUtil {
                     .setProperty("hibernate.connection.username", user)
                     .setProperty("hibernate.connection.password", password)
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect")
-                    .setProperty("hibernate.show_sql", "true"); // add your entity classes here
+                    .setProperty("hibernate.show_sql", "true")
+                    /*.setProperty("hibernate.hbm2ddl.auto","create")*/; // add your entity classes here
             for (int i = 0; i < annotatedClass.length; i++) {
                 configuration.addAnnotatedClass(annotatedClass[i]);
             }

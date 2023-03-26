@@ -20,4 +20,15 @@ public class CompanyDAOImpl implements CompanyDAO {
         session.getTransaction().commit();
         session.close();
     }
+
+    @Override
+    public Company findById(int id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Company company = session.get(Company.class,id);
+        session.getTransaction().commit();
+        session.close();
+        return company;
+
+    }
 }

@@ -109,7 +109,7 @@
                         <div class="title d-flex flex-row justify-content-between">
                             <div class="titles">
                                 <a href="#"><h4 th:text="${jobPosting.getJobTitle()}"></h4></a>
-                                <h6>Premium Labels Limited</h6>
+                                <h6 th:text="${jobPosting.getCompany().getName()}"></h6>
                             </div>
                             <ul class="btns">
                                 <li><a href="#"><span class="lnr lnr-heart"></span></a></li>
@@ -121,8 +121,8 @@
                             ut dolore magna aliqua.
                         </p>
                         <h5 th:utext="|Job Type : ${jobPosting.getEmploymentType()}|"></h5>
-                        <p class="address" th:utext="| ${jobPosting.getState()},${jobPosting.getCountry()} |"><span class="lnr lnr-map"></span> </p>
-                        <p class="address" th:utext="| ${jobPosting.getMinSalary()}k$ - ${jobPosting.getMaxSalary()}k$|"><span class="lnr lnr-database"></span> </p>
+                        <p class="address" th:utext="|${jobPosting.getCountry()} |"><span class="lnr lnr-map"></span> </p>
+                        <p class="address" th:utext="| ${jobPosting.getMinSalary()}$ - ${jobPosting.getMaxSalary()}$|"><span class="lnr lnr-database"></span> </p>
                     </div>
                 </div>
                 <div class="single-post job-details">

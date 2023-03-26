@@ -19,7 +19,7 @@ public class JobPosting {
     private int id;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH})
     private Company company;
 
     @ManyToMany(mappedBy = "jobPostings")
