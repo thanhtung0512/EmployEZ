@@ -3,8 +3,11 @@ package com.example.employez.dao.jobPostingDAO;
 import com.example.employez.dao.companyDAO.CompanyDAO;
 import com.example.employez.domain.entity_class.Company;
 import com.example.employez.domain.entity_class.JobPosting;
+import com.example.employez.domain.entity_class.JobSkill;
+import com.example.employez.domain.entity_class.Skill;
 import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
+import com.example.employez.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -14,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class JobPostDAOImpl implements JobPostDAO {
@@ -118,6 +123,8 @@ public class JobPostDAOImpl implements JobPostDAO {
             jobPostings.add(jobPosting);
         }
 
+
+
         for (JobPosting jobPosting : jobPostings) {
             System.out.println(jobPosting.toString());
         }
@@ -160,6 +167,8 @@ public class JobPostDAOImpl implements JobPostDAO {
         for (JobPosting jobPosting : jobPostings) {
             System.out.println(jobPosting.toString());
         }
+
+
         return jobPostings;
 
     }

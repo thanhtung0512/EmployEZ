@@ -19,7 +19,7 @@ public class Skill {
     private Set<Employee> employees;
 
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills",cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
     private Set<JobPosting> jobPostings;
 
     @ManyToMany
