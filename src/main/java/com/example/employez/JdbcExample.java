@@ -22,8 +22,8 @@ public class JdbcExample {
         final String DB_URL = "jdbc:mysql://localhost:3307/employez";
 
         // Database credentials
-        final String USER = "webuser";
-        final String PASS = "webuser";
+        final String USER = "root";
+        final String PASS = "Ab20122002";
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -44,13 +44,9 @@ public class JdbcExample {
             for (int i = 0; i < 635; i++) {
                 String des = (String) result[i][5];
                 int id = (Integer) result[i][0];
-                JobPosting jobPosting = new JobPosting();
+
                 Set<Skill> skillSet = new HashSet<>();
-                try {
-                    jobPosting = session.get(JobPosting.class, id);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
                 for (Skill skill : skills) {
 
                     String skillName = skill.getName();

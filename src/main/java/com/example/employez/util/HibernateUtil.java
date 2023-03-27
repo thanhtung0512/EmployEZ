@@ -11,8 +11,8 @@ public class HibernateUtil {
 
     private static String currentDB = "employez";
     private static String port = "3307";
-    private static String pass = "webuser";
-    private static String user = "webuser";
+    private static String pass = "Ab20122002";
+    private static String user = "root";
 
 
     private static SessionFactory sessionFactory;
@@ -55,8 +55,8 @@ public class HibernateUtil {
                     .setProperty("hibernate.connection.username", user)
                     .setProperty("hibernate.connection.password", password)
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect")
-                    .setProperty("hibernate.show_sql", "true")
-                    /*.setProperty("hibernate.hbm2ddl.auto","create")*/; // add your entity classes here
+                    .setProperty("hibernate.show_sql", "true");
+                    /*.setProperty("hibernate.hbm2ddl.auto","create");*/// add your entity classes here
             for (int i = 0; i < annotatedClass.length; i++) {
                 configuration.addAnnotatedClass(annotatedClass[i]);
             }
