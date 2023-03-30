@@ -3836,10 +3836,12 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .single-post .tags li {
+
     display: inline-block;
 }
 
 .single-post .tags li a {
+    font-size: 20px;
     color: #222;
 }
 

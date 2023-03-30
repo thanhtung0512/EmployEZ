@@ -19,16 +19,18 @@ import java.util.List;
 public class JobPostingApi {
 
     @Autowired
-    private SessionFactory sessionFactory;
-
-    @Autowired
     private JobPostDAO jobPostDAO;
+
+    @GetMapping("/jobposts/byid/{id}")
+    public   JobPosting getById(@PathVariable int id ) {
+        return jobPostDAO.getById(id);
+    }
 
     @GetMapping("/jobposts/{numbers}")
     public List<JobPosting> jobPostingList(@PathVariable int numbers) {
         List<JobPosting> jobPostings = new ArrayList<>();
         for (int i = 1; i <= numbers; i++) {
-            jobPostings.add(jobPostDAO.jobPostingById(i));
+            jobPostings.add(jobPostDAO.getById(i));
         }
         return jobPostings;
     }

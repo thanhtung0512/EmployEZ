@@ -23,14 +23,7 @@ public class LoginController {
     @PostMapping("/handleLogin")
     public String handleLogin(@RequestParam(name = "email") String email
             , @RequestParam(name = "password") String password) {
-        Employee employee = employeeDAO.getByMail(email);
-        if (employee == null) {
-            System.out.println("Not yet registered");
-        } else {
-            if (new BCryptPasswordEncoder().matches(password, employee.getPasswordHash())) {
-                System.out.println("Login successfully");
-            }
-        }
+
         return "handleLogin";
     }
 

@@ -34,7 +34,8 @@
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
     <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
 </head>
 <body>
 
@@ -97,29 +98,29 @@
                             <li th:each="skill : ${skills}">
                                 <a href="#" th:text="${skill.getName()}"></a>
                             </li>
-
                         </ul>
                     </div>
+
                     <div class="details">
                         <div class="title d-flex flex-row justify-content-between">
                             <div class="titles">
-                                <a href="#"><h4 th:text="${jobPosting.getJobTitle()}"></h4></a>
-                                <h6 th:text="${jobPosting.getCompany().getName()}"></h6>
+                                <a href="#"><h4 th:text="${jobPosting.jobTitle}"></h4></a>
+                                <h6 th:text="${jobPosting.company.name}"></h6>
                             </div>
                             <ul class="btns">
                                 <li><a href="#"><span class="lnr lnr-heart"></span></a></li>
                                 <li><a href="#">Apply</a></li>
                             </ul>
                         </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temporinc ididunt
-                            ut dolore magna aliqua.
-                        </p>
                         <h5 th:utext="|Job Type : ${jobPosting.getEmploymentType()}|"></h5>
                         <p class="address" th:utext="|${jobPosting.getCountry()} |"><span class="lnr lnr-map"></span> </p>
                         <p class="address" th:utext="| ${jobPosting.getMinSalary()}$ - ${jobPosting.getMaxSalary()}$|"><span class="lnr lnr-database"></span> </p>
                     </div>
+
+
                 </div>
+
+
                 <div class="single-post job-details">
                     <h4 class="single-title">Whom we are looking for</h4>
                     <p th:utext="| ${jobPosting.getJobDescription()} |">
@@ -254,6 +255,13 @@
                             </p>
                             <h5>Job Nature: Full time</h5>
                             <p class="address"><span class="lnr lnr-map"></span> 56/8, Panthapath Dhanmondi Dhaka</p>
+
+
+
+
+
+
+
                             <p class="address"><span class="lnr lnr-database"></span> 15k - 25k</p>
                             <a href="#" class="btns text-uppercase">Apply job</a>
                         </div>

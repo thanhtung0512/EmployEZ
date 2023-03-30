@@ -1,6 +1,5 @@
 package com.example.employez.dto;
 
-import com.example.employez.domain.entity_class.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,8 +7,7 @@ import jakarta.validation.constraints.Size;
 
 public class UserForm {
 
-    @NotBlank(message = "Username is required")
-    private String username;
+
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email address")
@@ -32,8 +30,8 @@ public class UserForm {
         this.role = role;
     }
 
-    public UserForm(String username, String email, String password, String confirmPassword, String role) {
-        this.username = username;
+    public UserForm(String email, String password, String confirmPassword, String role) {
+
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;
@@ -48,13 +46,7 @@ public class UserForm {
 
     ;
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getEmail() {
         return email;
@@ -80,8 +72,8 @@ public class UserForm {
         this.confirmPassword = confirmPassword;
     }
 
-    public UserForm(String username, String email, String password, String confirmPassword) {
-        this.username = username;
+    public UserForm( String email, String password, String confirmPassword) {
+
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;

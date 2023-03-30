@@ -18,7 +18,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     @Transactional
-    public void saveEmployee(Employee employee) {
+    public void save(Employee employee) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.persist(employee);
@@ -30,11 +30,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public Employee getByMail(String email) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Employee employee = session.createQuery("SELECT e FROM Employee e WHERE e.email = :email", Employee.class)
+       /* Employee employee = session.createQuery("SELECT e FROM Employee e WHERE e.email = :email", Employee.class)
                 .setParameter("email", email).uniqueResult();
-        System.out.println(employee.getEmail());
+        System.out.println(employee.getEmail());*/
         session.getTransaction().commit();
         session.close();
-        return employee;
+        /*return employee;*/
+        return new Employee();
     }
 }

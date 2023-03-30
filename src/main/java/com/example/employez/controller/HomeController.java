@@ -18,6 +18,7 @@ public class HomeController {
     @Autowired
     private JobPostDAO jobPostDAO;
 
+
     @GetMapping("/homepage")
     public String index() {
         return "index";
@@ -32,9 +33,11 @@ public class HomeController {
     public String index(@RequestParam(name = "jobTitle", required = false, defaultValue = "") String jobTitle
             , @RequestParam(name = "location", required = false, defaultValue = "") String location
             , Model model) throws Exception {
-        ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle, location);
-        model.addAttribute("jobList", jobPostings);
+ ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle, location);
+
+model.addAttribute("jobList", jobPostings);
         model.addAttribute("jobTitleSearch", jobTitle);
+
 
         return "search";
     }
@@ -42,11 +45,12 @@ public class HomeController {
 
     @GetMapping("/jobs/{id}")
     public String getDetailJob(@PathVariable(name = "id") int jobId, Model model) {
-        JobPosting jobPosting = jobPostDAO.jobPostingById(jobId);
+ JobPosting jobPosting = jobPostDAO.getById(jobId);
         model.addAttribute("jobPosting", jobPosting);
         ArrayList<Skill> skillSet = jobPosting.getSkills();
 
         model.addAttribute("skills", skillSet);
+
         return "single";
     }
 }

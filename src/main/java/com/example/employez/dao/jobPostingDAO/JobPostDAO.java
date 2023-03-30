@@ -21,6 +21,6 @@ public interface JobPostDAO {
 
     List<JobPosting> jobPostingListByTwoFields(String field1, String field2);
 
-    JobPosting jobPostingById(int id);
+    JobPosting getById(int id);
 
 }

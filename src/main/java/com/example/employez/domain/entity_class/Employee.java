@@ -6,7 +6,27 @@ import java.util.Set;
 
 @Entity
 @Table(name = "employee")
-public class Employee extends User {
+public class Employee {
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Employee(User user, String firstName, String lastName, int desiredSalary, String city, String state, int zipcode, int yearOfExperience, String jobTitle, Set<Resume> resumes, Set<JobPosting> jobPostings, Set<Skill> skills, Long id) {
+        this.user = user;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.desiredSalary = desiredSalary;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.yearOfExperience = yearOfExperience;
+        this.jobTitle = jobTitle;
+        this.resumes = resumes;
+        this.jobPostings = jobPostings;
+        this.skills = skills;
+        this.id = id;
+    }
 
     @Column(name = "firstName")
     private String firstName;
@@ -49,6 +69,11 @@ public class Employee extends User {
             joinColumns = {@JoinColumn(name = "fk_employee")},
             inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
     private Set<Skill> skills;
+    @Id
+    @Column(name = "id")
+    private Long id;
+
+
 
     public Employee() {
 
@@ -62,18 +87,7 @@ public class Employee extends User {
         this.jobTitle = jobTitle;
     }
 
-    public Employee(String passwordHash, String email, String firstName, String lastName, int desiredSalary, String city, String state, int zipcode, int yearOfExperience, String jobTitle, Set<Resume> resumes) {
-        super(passwordHash, email);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.desiredSalary = desiredSalary;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
-        this.yearOfExperience = yearOfExperience;
-        this.jobTitle = jobTitle;
-        this.resumes = resumes;
-    }
+
 
     public String getFirstName() {
         return firstName;
@@ -156,4 +170,38 @@ public class Employee extends User {
                 ", skills=" + skills +
                 '}';
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<JobPosting> getJobPostings() {
+        return jobPostings;
+    }
+
+    public void setJobPostings(Set<JobPosting> jobPostings) {
+        this.jobPostings = jobPostings;
+    }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
+
+
 }

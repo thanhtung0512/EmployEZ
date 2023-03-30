@@ -20,17 +20,14 @@ public class JdbcExample {
         // JDBC driver name and database URL
         final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         final String DB_URL = "jdbc:mysql://localhost:3307/employez";
-
         // Database credentials
         final String USER = "webuser";
         final String PASS = "webuser";
-
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
             // Register JDBC driver
             Class.forName(JDBC_DRIVER);
-
             // Open a connection
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -41,7 +38,7 @@ public class JdbcExample {
                     .getResultList().toArray(new Object[0][]);
             ArrayList<JobPosting> jobPostings = new ArrayList<>();
             List<Skill> skills = session.createQuery("SELECT s FROM Skill s", Skill.class).getResultList();
-            for (int i = 0; i < 635; i++) {
+            for (int i = 1; i <= 2117; i++) {
                 String des = (String) result[i][5];
                 int id = (Integer) result[i][0];
                 JobPosting jobPosting = new JobPosting();
@@ -64,18 +61,11 @@ public class JdbcExample {
                         stmt.setInt(2, skill.getId());
                         int rowsAffected = stmt.executeUpdate();
                         System.out.println(rowsAffected + " rows affected");
-
-
                     }
                 }
-
             }
-
-
             // Prepare the SQL statement
             // Execute the statement
-
-
         } catch (SQLException se) {
             // Handle errors for JDBC
             se.printStackTrace();

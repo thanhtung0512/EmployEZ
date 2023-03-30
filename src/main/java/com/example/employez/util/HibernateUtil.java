@@ -75,6 +75,7 @@ public class HibernateUtil {
                 , Skill.class
                 , CompanyAddress.class
                 , Course.class
+                , User.class
         );
     }
 

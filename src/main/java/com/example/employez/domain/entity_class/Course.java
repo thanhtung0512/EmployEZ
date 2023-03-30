@@ -19,12 +19,15 @@ public class Course {
     private double rating;
 
 
+    public double getRating() {
+        return rating;
+    }
+
     public Course(int id, String title, String url, double rating) {
         this.id = id;
         this.title = title;
         this.url = url;
         this.rating = rating;
-
     }
 
     public Course() {

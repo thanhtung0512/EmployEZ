@@ -7,8 +7,6 @@ import jakarta.persistence.Id;
 
 @Entity
 public class CompanyAddress {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -41,11 +39,8 @@ public class CompanyAddress {
         this.zipcode = zipcode;
     }
 
-
     public CompanyAddress() {
         super();
-
     }
-
 
 }

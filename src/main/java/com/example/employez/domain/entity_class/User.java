@@ -3,8 +3,9 @@ package com.example.employez.domain.entity_class;
 
 import jakarta.persistence.*;
 
-@MappedSuperclass
-public abstract class User {
+@Entity
+@Table(name = "user")
+public  class User {
 
 
     @Id
@@ -24,7 +25,6 @@ public abstract class User {
     }
 
     public User() {
-
     }
 
     public String getPasswordHash() {
