@@ -1,6 +1,6 @@
 package com.example.employez.domain.entity_class;
 
-import jakarta.persistence.*;
+ import jakarta.persistence.*;
 
 import java.io.Serializable;
 

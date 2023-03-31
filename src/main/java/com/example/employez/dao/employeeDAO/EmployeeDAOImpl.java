@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Autowired
@@ -21,21 +23,31 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public void save(Employee employee) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.persist(employee);
+        session.save(employee);
         session.getTransaction().commit();
         session.close();
     }
 
     @Override
     public Employee getByMail(String email) {
-        Session session = sessionFactory.openSession();
+        /*Session session = sessionFactory.openSession();
         session.beginTransaction();
-       /* Employee employee = session.createQuery("SELECT e FROM Employee e WHERE e.email = :email", Employee.class)
+        Employee employee = session.createQuery("SELECT e FROM Employee e WHERE e.email = :email", Employee.class)
                 .setParameter("email", email).uniqueResult();
-        System.out.println(employee.getEmail());*/
+        System.out.println(employee.getEmail());
         session.getTransaction().commit();
         session.close();
-        /*return employee;*/
+        *//*return employee;*/
         return new Employee();
+    }
+
+    @Override
+    public Employee getByUserId(int userId) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String hql = "SELECT e FROM Employee e WHERE e.user.id = :userId";
+        Employee employee = session.createQuery(hql, Employee.class)
+                .setParameter("userId",userId).getSingleResult();
+        return employee;
     }
 }

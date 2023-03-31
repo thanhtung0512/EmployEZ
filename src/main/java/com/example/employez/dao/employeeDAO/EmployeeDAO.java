@@ -6,4 +6,6 @@ public interface EmployeeDAO {
     void save(Employee employee);
 
     Employee getByMail(String email);
+
+    Employee getByUserId(int userId);
 }

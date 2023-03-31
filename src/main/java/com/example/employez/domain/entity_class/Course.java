@@ -1,11 +1,13 @@
 package com.example.employez.domain.entity_class;
 
-import jakarta.persistence.*;
+
+ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "course")
 public class Course {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

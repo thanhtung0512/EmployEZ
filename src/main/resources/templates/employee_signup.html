@@ -79,13 +79,13 @@
             <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
                 <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
                     The best offer <br />
-                    <span style="color: hsl(218, 81%, 75%)">for your business</span>
+                    <span style="color: hsl(218, 81%, 75%)">for job seeker</span>
                 </h1>
                 <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Temporibus, expedita iusto veniam atque, magni tempora mollitia
-                    dolorum consequatur nulla, neque debitis eos reprehenderit quasi
-                    ab ipsum nisi dolorem modi. Quos?
+                    Welcome to EmployEZ! Join our job finding website today and discover a world of exciting job
+                    opportunities. With our advanced search filters and personalized job recommendations, you can find
+                    the perfect job that matches your skills and passion. Sign up now and take the first step towards a
+                    fulfilling career!
                 </p>
             </div>
 
@@ -134,38 +134,17 @@
 
                             </div>
 
-                            <!-- Checkbox -->
-                            <div class="form-check d-flex justify-content-center mb-4">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
-                                <label class="form-check-label" for="form2Example33">
-                                    Subscribe to our newsletter
-                                </label>
-                            </div>
 
                             <!-- Submit button -->
                             <button type="submit" class="btn btn-primary btn-block mb-4">
                                 Sign up
                             </button>
 
-                            <!-- Register buttons -->
-                            <div class="text-center">
-                                <p>or sign up with:</p>
-                                <button type="button" class="btn btn-link btn-floating mx-1">
-                                    <i class="fab fa-facebook-f"></i>
-                                </button>
-
-                                <button type="button" class="btn btn-link btn-floating mx-1">
-                                    <i class="fab fa-google"></i>
-                                </button>
-
-                                <button type="button" class="btn btn-link btn-floating mx-1">
-                                    <i class="fab fa-twitter"></i>
-                                </button>
-
-                                <button type="button" class="btn btn-link btn-floating mx-1">
-                                    <i class="fab fa-github"></i>
-                                </button>
-                            </div>
+                        </form>
+                        <form th:action="@{'/employer/signup'}">
+                            <button type="submit" class="btn btn-primary btn-block mb-4">
+                                You are employer? Sign up here !
+                            </button>
                         </form>
                     </div>
                 </div>

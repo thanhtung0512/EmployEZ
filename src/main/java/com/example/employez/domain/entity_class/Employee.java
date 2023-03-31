@@ -1,6 +1,6 @@
 package com.example.employez.domain.entity_class;
 
-import jakarta.persistence.*;
+ import jakarta.persistence.*;
 
 import java.util.Set;
 
@@ -71,6 +71,7 @@ public class Employee {
     private Set<Skill> skills;
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
@@ -86,7 +87,6 @@ public class Employee {
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
-
 
 
     public String getFirstName() {

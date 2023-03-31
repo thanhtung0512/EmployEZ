@@ -1,5 +1,6 @@
 package com.example.employez.dto;
 
+import com.example.employez.domain.entity_class.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,22 +32,13 @@ public class UserForm {
     }
 
     public UserForm(String email, String password, String confirmPassword, String role) {
-
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.role = role;
     }
 
-
-    // getters and setters
-
-    public UserForm() {
-    }
-
-    ;
-
-
+    public UserForm() {}
 
     public String getEmail() {
         return email;

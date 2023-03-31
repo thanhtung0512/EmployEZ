@@ -1,7 +1,5 @@
 package com.example.employez.dao.jobPostingDAO;
 
-import co.elastic.clients.elasticsearch.ml.Job;
-import co.elastic.clients.util.DateTime;
 import com.example.employez.dao.companyDAO.CompanyDAO;
 import com.example.employez.domain.entity_class.Company;
 import com.example.employez.domain.entity_class.JobPosting;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,12 +165,11 @@ public class JobPostDAOImpl implements JobPostDAO {
             jobPosting.setProjectLocation((ProjectLocation) result[i][9]);
             jobPosting.setState((String) result[i][10]);
 
-            Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j WHERE j.id = :id ",Long.class)
-                    .setParameter("id",id)
+            Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j WHERE j.id = " + id, Long.class)
                     .getSingleResult();
             System.out.println(companyId);
 
-            jobPosting.setCompany(companyDAO.getById(id));
+            jobPosting.setCompany(companyDAO.getById(Math.toIntExact(companyId)));
 
             jobPostings.add(jobPosting);
         }
@@ -187,7 +183,7 @@ public class JobPostDAOImpl implements JobPostDAO {
     @Override
     public JobPosting getById(int id) {
         Session session = sessionFactory.openSession();
-        String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state,j.company FROM JobPosting j " +
+        String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
                 "WHERE j.id = :id");
         Object[][] result = session.createQuery(hql, Object[][].class)
                 .setParameter("id", id)
@@ -210,14 +206,17 @@ public class JobPostDAOImpl implements JobPostDAO {
                 }
                 if (result[0][8] != null) {
                     jobPosting.setMinSalary((Integer) result[0][8]);
-                } else  {
+                } else {
                     jobPosting.setMinSalary(0);
                 }
                 jobPosting.setProjectLocation((ProjectLocation) result[0][9]);
                 jobPosting.setState((String) result[0][10]);
-                jobPosting.setCompany((Company) result[0][11]);
-                int jobId = (int) result[0][0]; // Replace with the actual job ID
 
+                int jobId = (int) result[0][0]; // Replace with the actual job ID
+                Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j WHERE j.id = :id " , Long.class)
+                        .setParameter("id",jobId)
+                        .getSingleResult();
+                jobPosting.setCompany(companyDAO.getById(Math.toIntExact(companyId)));
                 String hqll = "SELECT s FROM Skill s INNER JOIN s.jobPostings j WHERE j.id = :jobId";
                 ArrayList<Skill> skillSet
                         = (ArrayList<Skill>) session.createQuery(hqll, Skill.class).setParameter("jobId", jobId).getResultList();

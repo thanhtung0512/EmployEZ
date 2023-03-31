@@ -1,9 +1,9 @@
 package com.example.employez.domain.entity_class;
 
 import com.example.employez.domain.enumPackage.CompanyType;
-import io.netty.util.collection.CharObjectMap;
-import jakarta.persistence.*;
-import org.checkerframework.checker.units.qual.C;
+
+ import jakarta.persistence.*;
+
 
 import java.util.Set;
 
@@ -30,6 +30,7 @@ public class Company  {
     private Set<JobPosting> jobPostings;
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
