@@ -19,21 +19,25 @@ public class HomeController {
     private JobPostDAO jobPostDAO;
 
 
-    @GetMapping("/homepage")
-    public String index() {
+    @GetMapping({"/homepage", "/"})
+    public String index(Model model) {
+        model.addAttribute("recentPosts", jobPostDAO.getJobPostingByNewestDate(false, 5));
+        ArrayList<String> subField = new ArrayList<>();
+        subField.add("Machine Learning");
+        subField.add("DevOps");
+        subField.add("Data Engineer");
+        subField.add("Developer");
+        subField.add("Software Engineer");
+        model.addAttribute("subField", subField);
         return "index";
     }
 
-    @GetMapping("/")
-    public String indexx() {
-        return "index";
-    }
 
     @GetMapping("/search")
     public String index(@RequestParam(name = "jobTitle", required = false, defaultValue = "") String jobTitle
             , @RequestParam(name = "location", required = false, defaultValue = "") String location
             , Model model) throws Exception {
- ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle, location);
+        ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle, location);
 
 model.addAttribute("jobList", jobPostings);
         model.addAttribute("jobTitleSearch", jobTitle);

@@ -45,8 +45,54 @@ public class JobPostDAOImpl implements JobPostDAO {
 
     @Override
     @Transactional
-    public List<JobPosting> getJobPostingByNewestDate() {
-        return null;
+    public List<JobPosting> getJobPostingByNewestDate(boolean getFull, int num) {
+        Session session = sessionFactory.openSession();
+        String hql = "";
+        hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
+                "ORDER BY j.datePosted DESC");
+
+        Object[][] result;
+        if (getFull) {
+           result = session.createQuery(hql, Object[][].class)
+                   .getResultList().toArray(new Object[0][]);
+        }
+        else {
+            result = session.createQuery(hql, Object[][].class).setMaxResults(num)
+                    .getResultList().toArray(new Object[0][]);
+        }
+
+        ArrayList<JobPosting> jobPostings = new ArrayList<>();
+        for (int i = 0; i < result.length; i++) {
+            JobPosting jobPosting = new JobPosting();
+            int id = (int) result[i][0];
+            jobPosting.setId(id);
+            jobPosting.setCity((String) result[i][1]);
+            jobPosting.setCountry((String) result[i][2]);
+            jobPosting.setDatePosted((Date) result[i][3]);
+            jobPosting.setEmploymentType((EmploymentType) result[i][4]);
+            jobPosting.setJobDescription((String) result[i][5]);
+            jobPosting.setJobTitle((String) result[i][6]);
+            if (result[i][7] != null) {
+                jobPosting.setMaxSalary((int) result[i][7]);
+            }
+            if (result[i][8] != null) {
+                jobPosting.setMinSalary((Integer) result[i][8]);
+            }
+            jobPosting.setProjectLocation((ProjectLocation) result[i][9]);
+            jobPosting.setState((String) result[i][10]);
+
+            Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j WHERE j.id = " + id, Long.class)
+                    .getSingleResult();
+            System.out.println(companyId);
+
+            jobPosting.setCompany(companyDAO.getById(Math.toIntExact(companyId)));
+
+            jobPostings.add(jobPosting);
+        }
+        for (JobPosting jobPosting : jobPostings) {
+            System.out.println(jobPosting.toString());
+        }
+        return jobPostings;
     }
 
     @Override

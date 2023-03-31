@@ -18,4 +18,12 @@ public class UserDAOImpl implements UserDAO{
         String hql = "SELECT u FROM User u WHERE u.email = :email";
         return session.createQuery(hql,User.class).setParameter("email",email).getSingleResult();
     }
+
+    @Override
+    public User getById(int userId) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String hql = "SELECT u FROM User u WHERE u.id = :id";
+        return session.createQuery(hql,User.class).setParameter("id",userId).getSingleResult();
+    }
 }

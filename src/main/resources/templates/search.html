@@ -90,28 +90,6 @@
                         </div>
 
 
-<!--                        <div class="col-lg-3 form-cols">-->
-<!--                            <div class="default-select" id="default-selects">-->
-<!--                                <select name="area">-->
-<!--                                    <option value="">Select area</option>-->
-<!--                                    <option value="California">California</option>-->
-<!--                                    <option value="Massachusetts">Massachusetts</option>-->
-<!--                                    <option value="Texas">Texas</option>-->
-<!--                                    <option value="Maryland">Maryland</option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 form-cols">-->
-<!--                            <div class="default-select" id="default-selects2">-->
-<!--                                <select name = "sub_field">-->
-<!--                                    <option value="Developer">Sub-field</option>-->
-<!--                                    <option value="AI Engineer">AI Engineer</option>-->
-<!--                                    <option value="Blockchain">Blockchain</option>-->
-<!--                                    <option value="Data Scientist">Data Science</option>-->
-<!--                                    <option value="Backend Developer">Backend Developer</option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
                         <div class="col-lg-2 form-cols">
                             <button type="submit" class="btn btn-info" th:action="@{'/search'}">
                                 <span class="lnr lnr-magnifier"></span> Search
@@ -119,7 +97,7 @@
                         </div>
                     </div>
                 </form>
-                <p class="text-white">49 Results found for <span>"Web developer"</span></p>
+                <p class="text-white" th:utext="|${jobList.size()} result for ${jobTitleSearch}|"><span ></span></p>
             </div>
         </div>
     </div>
@@ -195,102 +173,6 @@
                             </div>
                         </div>
 
-                        <!--<div class="container">
-
-                            <div class="card mx-auto">
-                                <div class="row">
-                                    <div class="logo ml-3 mb-3"><img
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxDRpxI5gXgaVmnO-VgcVUNOkca91jIpS75Flbzkz5W_5g5_V5&usqp=CAU">
-                                    </div>
-                                    <div class="header right"><i class="fas fa-ellipsis-h"></i></div>
-                                </div>
-                                <div class="card-title">
-                                    <p class="heading" th:text="${jobPost.getJobTitle()}">&nbsp;<i
-                                            class="far fa-compass"></i></p>
-                                </div>
-
-                                <p class="text-muted"
-                                   th:utext="${#strings.replace(jobPost.getJobDescription(), '<br>', '<br>')}"></p>
-                                <div class="row btnrow my-4">
-                                    <div class="col-4 col-md-3">
-                                        <button type="button" class="btn btn-outline-success btn-sm"
-                                                style="background: #00ff002b;"
-                                                th:text="${jobPost.getEmploymentType()}"></button>
-                                    </div>
-                                    <div class="col-4 col-md-3">
-                                        <button type="button" class="btn btn-outline-primary btn-sm"
-                                                style="background: #007bff33;">Min. 1 year
-                                        </button>
-                                    </div>
-                                    <div class="col-4 col-md-3">
-                                        <button type="button" class="btn btn-outline-danger btn-sm"
-                                                style="background: #dc35452e;">Director
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="mutual"><i
-                                        class="fas fa-users"></i>&nbsp;&nbsp;<span>5 Friends work here</span></div>
-                                <div class="row btnsubmit mt-4">
-                                    <div class="col-md-6 col-6">
-                                        <button type="button" class="btn btn-primary btn-lg" ><a th:href="@{/jobs/{id}(id=${jobPost.getId()})}">Detail</a>
-                                        </button>
-                                    </div>
-                                    <div class="col-md-6 col-6">
-                                        <button type="button" class="btn btn-dark btn-lg"><span>Message</span></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-
-                        <!--									<div class="single-post d-flex flex-row">-->
-                        <!--										<div class="thumb">-->
-                        <!--											<img src="/img/post.png" alt="">-->
-                        <!--											<ul class="tags">-->
-                        <!--												<li>-->
-                        <!--													<a href="#">Art</a>-->
-                        <!--												</li>-->
-                        <!--												<li>-->
-                        <!--													<a href="#">Media</a>-->
-                        <!--												</li>-->
-                        <!--												<li>-->
-                        <!--													<a href="#">Design</a>-->
-                        <!--												</li>-->
-                        <!--											</ul>-->
-                        <!--										</div>-->
-                        <!--										<div class="details">-->
-                        <!--											<div class="title d-flex flex-row justify-content-between">-->
-                        <!--												<div class="titles">-->
-                        <!--													<a href="single.html"><h4 th:text="${jobPost.getJobTitle()}"></h4></a>-->
-                        <!--													<h6>Premium Labels Limited</h6>-->
-                        <!--												</div>-->
-                        <!--												<ul class="btns">-->
-                        <!--													<li><a href="#"><span class="lnr lnr-heart"></span></a></li>-->
-                        <!--													<li><a href="#">Apply</a></li>-->
-                        <!--												</ul>-->
-                        <!--											</div>-->
-                        <!--											<p th:text="${jobPost.getJobDescription()}">-->
-
-                        <!--											</p>-->
-                        <!--											<h5 th:utext="| Employment type : ${jobPost.getEmploymentType()} |"></h5>-->
-                        <!--											<p class="address" th:text="${jobPost.getState()}"><span class="lnr lnr-map"></span> </p>-->
-                        <!--											<p class="address" th:utext="| ${jobPost.getMinSalary()} 'k$' '-' ${jobPost.getMaxSalary()} 'k$' |"><span class="lnr lnr-database"></span> </p>-->
-                        <!--										</div>-->
-                        <!--									</div>-->
-
-                        <!--									<div class="h-screen flex justify-center items-center bg-gray-200">-->
-                        <!--										<article class="rounded-lg shadow-lg bg-white p-4 max-w-xs mx-auto">-->
-                        <!--											<header class="flex mb-4">-->
-                        <!--												<img class="h-12 rounded-lg" src="https://assets.baillieogrady.com/images/facebook.svg" alt="Facebook">-->
-                        <!--												<div class="ml-4">-->
-                        <!--													<p class="text-gray-900 font-semibold" th:text="${jobPost.getJobTitle()}" ></p>-->
-                        <!--													<p class="text-gray-600 text-sm mt-1"  >Facebook, Inc, Menlo Park, CA</p>-->
-                        <!--												</div>-->
-                        <!--											</header>-->
-                        <!--											<p class="mb-4 text-gray-600 text-sm leading-relaxed" th:text="${jobPost.getJobDescription()}"></p>-->
-                        <!--											<p class="text-gray-900 font-semibold text-sm" th:utext="| ${jobPost.getMinSalary()} '$' '-' ${jobPost.getMaxSalary()} '$ per year'  |"></p>-->
-                        <!--										</article>-->
-                        <!--									</div>-->
 
                     </li>
 

@@ -25,24 +25,49 @@ public class LoginController {
     @Autowired
     private EmployeeDAO employeeDAO;
 
-    @GetMapping("/login-page")
-    public String loginn(Model model) {
+    @GetMapping("/employee/login")
+    public String employeeLogin(Model model) {
         model.addAttribute("loginDto", new LoginDto());
-        return "login";
+        return "employee_login";
+    }
+
+    @GetMapping("/employer/login")
+    public String companyLogin(Model model) {
+        model.addAttribute("loginDto", new LoginDto());
+        return "employer_login";
     }
 
     // login for employee
     @PostMapping(value = "/handleLogin")
-    public String handleLogin(@ModelAttribute("loginDto") LoginDto loginDto) {
+    public String handleEmployeeLogin(@ModelAttribute("loginDto") LoginDto loginDto) {
         System.out.println(loginDto.getEmail() + " , " + loginDto.getPassword());
         if (userService.existEmployee(loginDto.getEmail())) {
             if (new BCryptPasswordEncoder().matches(loginDto.getPassword()
-                    , userDAO.getByMail(loginDto.getEmail()).getPasswordHash()))
-            {
-                return "handleLogin";
+                    , userDAO.getByMail(loginDto.getEmail()).getPasswordHash())) {
+                return "employeeHandleLogin";
+            } else {
+                return "redirect:/employee/login";
             }
         }
-        return "redirect:/login-page";
+        return "redirect:/employee/login";
+
+    }
+
+    // login for company
+    @PostMapping(value = "/employerHandleLogin")
+    public String handleCompanyLogin(@ModelAttribute("loginDto") LoginDto loginDto) {
+        System.out.println(loginDto.getEmail() + " , " + loginDto.getPassword());
+        if (userService.existCompany(loginDto.getEmail())) {
+            if (new BCryptPasswordEncoder().matches(loginDto.getPassword()
+                    , userDAO.getByMail(loginDto.getEmail()).getPasswordHash()))
+            {
+                return "employerHandleLogin";
+            }
+            else {
+                return "redirect:/employer/login";
+            }
+        }
+        return "redirect:/employer/login";
 
     }
 

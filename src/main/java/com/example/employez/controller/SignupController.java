@@ -59,6 +59,7 @@ public class SignupController {
 
 import com.example.employez.dao.companyDAO.CompanyDAO;
 import com.example.employez.dao.employeeDAO.EmployeeDAO;
+import com.example.employez.domain.entity_class.Company;
 import com.example.employez.domain.entity_class.Employee;
 import com.example.employez.domain.entity_class.User;
 import com.example.employez.dto.UserForm;
@@ -98,7 +99,9 @@ public class SignupController {
         return "employer_signup";
     }
 
-    @PostMapping("/homepage")
+
+
+    @PostMapping("/")
     public String signupProcess(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult result,
                                 @RequestParam(name = "last_name") String lastName,
                                 @RequestParam(name = "first_name") String firstName) {
@@ -113,6 +116,23 @@ public class SignupController {
         employee.setFirstName(firstName);
         employee.setLastName(lastName);
         employeeDAO.save(employee);
+        return "redirect:/homepage";
+    }
+
+    @PostMapping("/homepage")
+    public String signupProcess(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult result,
+                                @RequestParam(name = "company_name") String companyName
+                                ) {
+        if (result.hasErrors()) {
+            return "employer_signup";
+        }
+        Company company = new Company();
+        User user = new User();
+        user.setEmail(userForm.getEmail());
+        user.setPasswordHash(new BCryptPasswordEncoder().encode(userForm.getPassword()));
+        company.setName(companyName);
+        company.setUser(user);
+        companyDAO.save(company);
         return "redirect:/homepage";
     }
 }

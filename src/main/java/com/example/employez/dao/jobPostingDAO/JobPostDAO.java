@@ -11,7 +11,7 @@ public interface JobPostDAO {
 
     List<JobPosting> getJobPostingByLocation(String... location);
 
-    List<JobPosting> getJobPostingByNewestDate();
+    List<JobPosting> getJobPostingByNewestDate(boolean getFull, int num);
 
     List<JobPosting> getJobPostingByJobTitle(String jobTitle);
 
