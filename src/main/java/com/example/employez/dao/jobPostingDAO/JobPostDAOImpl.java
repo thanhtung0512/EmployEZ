@@ -25,6 +25,9 @@ public class JobPostDAOImpl implements JobPostDAO {
     @Autowired
     private CompanyDAO companyDAO;
 
+
+
+
     @Override
     @Transactional
     public JobPosting createJobPosting() {
@@ -275,4 +278,8 @@ public class JobPostDAOImpl implements JobPostDAO {
         }
         return jobPosting;
     }
+
+
+
+
 }

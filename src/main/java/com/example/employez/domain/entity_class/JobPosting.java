@@ -19,13 +19,21 @@ public class JobPosting {
     private int id;
 
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER
+            , cascade = {CascadeType.MERGE
+            , CascadeType.DETACH
+            , CascadeType.PERSIST
+            , CascadeType.REFRESH})
     private Company company = new Company();
 
     @ManyToMany(mappedBy = "jobPostings")
     private Set<Employee> employees = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER
+            , cascade = {CascadeType.MERGE
+            , CascadeType.PERSIST
+            , CascadeType.REFRESH
+            , CascadeType.REFRESH})
     @JoinTable(name = "job_required_skill",
             joinColumns = {@JoinColumn(name = "fk_job")},
             inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
@@ -34,7 +42,7 @@ public class JobPosting {
     @Column(name = "jobTitle")
     private String jobTitle;
 
-    @Column(name = "jobDescription",columnDefinition = "TEXT")
+    @Column(name = "jobDescription", columnDefinition = "TEXT")
     private String jobDescription;
 
     @Enumerated(EnumType.STRING)
@@ -67,7 +75,13 @@ public class JobPosting {
     private int maxSalary; // k$ per year
 
 
-    public JobPosting(int id, Company company, Set<Employee> employees, ArrayList<Skill> skills, String jobTitle, String jobDescription, ProjectLocation projectLocation, EmploymentType employmentType, String city, String state, String country, Date datePosted, int minSalary, int maxSalary) {
+    public JobPosting(int id, Company company
+            , Set<Employee> employees, ArrayList<Skill> skills
+            , String jobTitle, String jobDescription
+            , ProjectLocation projectLocation, EmploymentType employmentType
+            , String city, String state, String country
+            , Date datePosted, int minSalary
+            , int maxSalary) {
         this.id = id;
         this.company = company;
         this.employees = employees;

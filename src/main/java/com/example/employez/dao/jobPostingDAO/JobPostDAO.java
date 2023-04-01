@@ -23,4 +23,6 @@ public interface JobPostDAO {
 
     JobPosting getById(int id);
 
+
+
 }
