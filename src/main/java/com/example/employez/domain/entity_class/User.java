@@ -3,6 +3,9 @@ package com.example.employez.domain.entity_class;
 
  import jakarta.persistence.*;
 
+ import java.util.HashSet;
+ import java.util.Set;
+
 @Entity
 @Table(name = "user")
 public  class User {
@@ -18,6 +21,19 @@ public  class User {
 
     @Column(name = "email")
     private String email;
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "fk_user")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_role")})
+    private Set<Role> roles = new HashSet<>();
+
+    public User(int id, String passwordHash, String email, Set<Role> roles) {
+        this.id = id;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.roles = roles;
+    }
 
     public User(String passwordHash, String email) {
         this.passwordHash = passwordHash;

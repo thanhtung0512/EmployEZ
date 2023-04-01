@@ -34,7 +34,7 @@ public class JobPosting {
     @Column(name = "jobTitle")
     private String jobTitle;
 
-    @Column(name = "jobDescription")
+    @Column(name = "jobDescription",columnDefinition = "TEXT")
     private String jobDescription;
 
     @Enumerated(EnumType.STRING)

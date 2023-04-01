@@ -58,8 +58,8 @@
                             <li><a href="single.html">single</a></li>
                         </ul>
                     </li>
-                    <li><a class="ticker-btn" href="#">Signup</a></li>
-                    <li><a class="ticker-btn" href="#">Login</a></li>
+                    <li><a class="ticker-btn" th:href="@{'/employee/signup'}">Signup</a></li>
+                    <li><a class="ticker-btn" th:href="@{'/employee/login'}">Login</a></li>
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>
@@ -211,7 +211,9 @@
                                 </div>
                                 <div class="d-flex justify-content-between mt-3"><span
                                         th:utext="| ${jobPost.getMinSalary()}k$ - ${jobPost.getMaxSalary()}k$ |"></span>
-                                    <button class="btn btn-sm btn-outline-dark">Apply Now</button>
+                                    <form th:action="@{/jobs/{id}(id=${jobPost.getId()})}">
+                                        <button type="submit" class="btn btn-sm btn-outline-dark">Apply Now</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

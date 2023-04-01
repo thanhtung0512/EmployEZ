@@ -28,6 +28,9 @@ public class HomeController {
         subField.add("Data Engineer");
         subField.add("Developer");
         subField.add("Software Engineer");
+        subField.add("NLP Engineer");
+        // subField.add("Researcher");
+
         model.addAttribute("subField", subField);
         return "index";
     }
@@ -41,8 +44,6 @@ public class HomeController {
 
 model.addAttribute("jobList", jobPostings);
         model.addAttribute("jobTitleSearch", jobTitle);
-
-
         return "search";
     }
 
@@ -52,9 +53,7 @@ model.addAttribute("jobList", jobPostings);
  JobPosting jobPosting = jobPostDAO.getById(jobId);
         model.addAttribute("jobPosting", jobPosting);
         ArrayList<Skill> skillSet = jobPosting.getSkills();
-
         model.addAttribute("skills", skillSet);
-
         return "single";
     }
 }

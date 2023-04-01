@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Autowired
@@ -30,16 +28,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public Employee getByMail(String email) {
-        /*Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Employee employee = session.createQuery("SELECT e FROM Employee e WHERE e.email = :email", Employee.class)
-                .setParameter("email", email).uniqueResult();
-        System.out.println(employee.getEmail());
-        session.getTransaction().commit();
-        session.close();
-        *//*return employee;*/
-        return new Employee();
+        return null;
     }
+
 
     @Override
     public Employee getById(int userId) {
