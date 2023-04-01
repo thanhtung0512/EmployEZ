@@ -63,7 +63,6 @@ public class SecurityConfiguration {
                 .requestMatchers("/homepage").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").hasRole("ADMIN")
-
                 .and()
                 .authorizeHttpRequests().requestMatchers("/search").hasAnyRole("ADMIN").anyRequest()
                 .authenticated()
