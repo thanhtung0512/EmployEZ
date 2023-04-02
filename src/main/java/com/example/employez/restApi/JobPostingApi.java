@@ -2,6 +2,7 @@ package com.example.employez.restApi;
 
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.JobPosting;
+import com.example.employez.repository.JobPostingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +21,13 @@ public class JobPostingApi {
     @Autowired
     private JobPostDAO jobPostDAO;
 
-
+    @Autowired
+    private JobPostingRepository jobPostingRepository;
 
     @GetMapping("/jobposts/byid/{id}")
-    public   JobPosting getById(@PathVariable int id ) {
+    public JobPosting getById(@PathVariable int id) {
         return jobPostDAO.getById(id);
+        // return jobPostingRepository.findJobPostingById(id);
     }
 
     @GetMapping("/jobposts/{numbers}")

@@ -1,9 +1,15 @@
 package com.example.employez.domain.entity_class;
 
- import jakarta.persistence.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "job_required_skill")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobSkill {
 
     @EmbeddedId
@@ -22,37 +28,5 @@ public class JobSkill {
     // getters and setters
 
 
-    public JobSkill(JobSkillId id, JobPosting jobPosting, Skill skill) {
-        this.id = id;
-        this.jobPosting = jobPosting;
-        this.skill = skill;
-    }
 
-    public JobSkill() {
-
-    }
-
-    public JobSkillId getId() {
-        return id;
-    }
-
-    public void setId(JobSkillId id) {
-        this.id = id;
-    }
-
-    public JobPosting getJobPosting() {
-        return jobPosting;
-    }
-
-    public void setJobPosting(JobPosting jobPosting) {
-        this.jobPosting = jobPosting;
-    }
-
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
 }

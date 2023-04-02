@@ -1,15 +1,21 @@
 package com.example.employez.domain.entity_class;
 
 
- import jakarta.persistence.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "course")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Course {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "title")
     private String title;
@@ -20,52 +26,4 @@ public class Course {
     @Column(name = "rating")
     private double rating;
 
-
-    public double getRating() {
-        return rating;
-    }
-
-    public Course(int id, String title, String url, double rating) {
-        this.id = id;
-        this.title = title;
-        this.url = url;
-        this.rating = rating;
-    }
-
-    public Course() {
-
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
 }

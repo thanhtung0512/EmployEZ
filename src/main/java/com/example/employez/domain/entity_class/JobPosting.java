@@ -3,27 +3,33 @@ package com.example.employez.domain.entity_class;
 import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobPosting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
 
-    @ManyToOne(fetch = FetchType.EAGER
-            , cascade = {CascadeType.MERGE
-            , CascadeType.DETACH
-            , CascadeType.PERSIST
-            , CascadeType.REFRESH})
+    @ManyToOne(
+            cascade = {CascadeType.MERGE
+                    , CascadeType.DETACH
+                    , CascadeType.PERSIST
+                    , CascadeType.REFRESH})
+
     private Company company = new Company();
 
     @ManyToMany(mappedBy = "jobPostings")
@@ -37,7 +43,7 @@ public class JobPosting {
     @JoinTable(name = "job_required_skill",
             joinColumns = {@JoinColumn(name = "fk_job")},
             inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
-    private ArrayList<Skill> skills;
+    private Set<Skill> skills;
 
     @Column(name = "jobTitle")
     private String jobTitle;
@@ -69,170 +75,12 @@ public class JobPosting {
     private Date datePosted;
 
     @Column(name = "minSalary")
-    private int minSalary; //
+    private Integer minSalary; //
 
     @Column(name = "maxSalary")// k$ per year
-    private int maxSalary; // k$ per year
+    private Integer maxSalary; // k$ per year
 
 
-    public JobPosting(int id, Company company
-            , Set<Employee> employees, ArrayList<Skill> skills
-            , String jobTitle, String jobDescription
-            , ProjectLocation projectLocation, EmploymentType employmentType
-            , String city, String state, String country
-            , Date datePosted, int minSalary
-            , int maxSalary) {
-        this.id = id;
-        this.company = company;
-        this.employees = employees;
-        this.skills = skills;
-        this.jobTitle = jobTitle;
-        this.jobDescription = jobDescription;
-        this.projectLocation = projectLocation;
-        this.employmentType = employmentType;
-        this.city = city;
-        this.state = state;
-        this.country = country;
-        this.datePosted = datePosted;
-        this.minSalary = minSalary;
-        this.maxSalary = maxSalary;
-    }
-
-    public JobPosting() {
-
-    }
-
-    public EmploymentType getEmploymentType() {
-        return employmentType;
-    }
-
-    public void setEmploymentType(EmploymentType employmentType) {
-        this.employmentType = employmentType;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getJobDescription() {
-        return jobDescription;
-    }
-
-    public void setJobDescription(String jobDescription) {
-        this.jobDescription = jobDescription;
-    }
-
-    public Set<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(Set<Employee> employees) {
-        this.employees = employees;
-    }
-
-    public ArrayList<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(ArrayList<Skill> skills) {
-        this.skills = skills;
-    }
-
-    public ProjectLocation getProjectLocation() {
-        return projectLocation;
-    }
-
-    public void setProjectLocation(ProjectLocation projectLocation) {
-        this.projectLocation = projectLocation;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public Date getDatePosted() {
-        return datePosted;
-    }
-
-    public void setDatePosted(Date datePosted) {
-        this.datePosted = datePosted;
-    }
-
-    public int getMinSalary() {
-        return minSalary;
-    }
-
-    public void setMinSalary(int minSalary) {
-        this.minSalary = minSalary;
-    }
-
-    public int getMaxSalary() {
-        return maxSalary;
-    }
-
-    public void setMaxSalary(int maxSalary) {
-        this.maxSalary = maxSalary;
-    }
-
-    @Override
-    public String toString() {
-        return "JobPosting{" +
-                "id=" + id +
-                ", company=" + company +
-                ", employees=" + employees +
-                ", skills=" + skills +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", jobDescription='" + jobDescription + '\'' +
-                ", projectLocation=" + projectLocation +
-                ", employmentType=" + employmentType +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", country='" + country + '\'' +
-                ", datePosted=" + datePosted +
-                ", minSalary=" + minSalary +
-                ", maxSalary=" + maxSalary +
-                '}';
-    }
 
 
 }

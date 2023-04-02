@@ -4,6 +4,7 @@ import com.example.employez.dao.UserDAO.UserDAO;
 import com.example.employez.dao.employeeDAO.EmployeeDAO;
 import com.example.employez.domain.entity_class.Employee;
 import com.example.employez.domain.entity_class.User;
+import com.example.employez.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class UserService implements IService {
     @Autowired
     private EmployeeDAO employeeDAO;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public boolean existEmployee(String email) {
         User user = userDAO.getByMail(email);
@@ -24,7 +28,7 @@ public class UserService implements IService {
             return false;
         }
         int userId = user.getId();
-        Employee employee = employeeDAO.getById(userId);
+        Employee employee = employeeDAO.getByUserId(userId);
         if (employee != null) {
             return true;
         }

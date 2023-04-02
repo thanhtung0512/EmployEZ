@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 @Controller
 public class HomeController {
@@ -70,7 +71,7 @@ public class HomeController {
     public String getDetailJob(@PathVariable(name = "id") int jobId, Model model) {
  JobPosting jobPosting = jobPostDAO.getById(jobId);
         model.addAttribute("jobPosting", jobPosting);
-        ArrayList<Skill> skillSet = jobPosting.getSkills();
+        Set<Skill> skillSet = jobPosting.getSkills();
         model.addAttribute("skills", skillSet);
         return "single";
     }

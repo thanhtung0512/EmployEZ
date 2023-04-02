@@ -1,10 +1,17 @@
 package com.example.employez.domain.entity_class;
 
- import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Embeddable
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobSkillId implements Serializable {
 
     @Column(name = "fk_job")
@@ -15,19 +22,5 @@ public class JobSkillId implements Serializable {
 
     // getters and setters
 
-    public Long getFk_job() {
-        return fk_job;
-    }
 
-    public void setFk_job(Long fk_job) {
-        this.fk_job = fk_job;
-    }
-
-    public Long getFk_skill() {
-        return fk_skill;
-    }
-
-    public void setFk_skill(Long fk_skill) {
-        this.fk_skill = fk_skill;
-    }
 }

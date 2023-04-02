@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 
 @Configuration
@@ -24,17 +26,21 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails company = User
-                .withUsername("company")
-                .password(passwordEncoder.encode("company"))
+                .withUsername("company@gmail.com")
+                .password(passwordEncoder.encode("company@gmail.com"))
                 .roles("ADMIN").build();
 
         UserDetails employee = User
-                .withUsername("user")
-                .password(passwordEncoder.encode("abc"))
+                .withUsername("user@gmail.com")
+                .password(passwordEncoder.encode("user@gmail.com"))
                 .roles("USER").build();
         return new InMemoryUserDetailsManager(company, employee);
     }
 
+
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new SimpleUrlLogoutSuccessHandler();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -62,14 +68,24 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/homepage").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").hasRole("ADMIN")
+                .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/search").hasAnyRole("ADMIN").anyRequest()
+                .authorizeHttpRequests().requestMatchers("/search").hasAnyRole("ADMIN")
+                .anyRequest()
                 .authenticated()
                 .and().formLogin()
-                .and().build();
-    }
+                /*.loginPage("/employee/login")*/
+                /*.loginProcessingUrl("/employeeHandleLogin")*/
+                .defaultSuccessUrl("/homepage", true)
+                .failureUrl("/login?error=true").permitAll()
+                /*.failureHandler(authenticationFailureHandler())*/
+                .and()
+                .logout()
+                .logoutUrl("/perform_logout")
+                .deleteCookies("JSESSIONID").permitAll()
+                /*.logoutSuccessHandler(logoutSuccessHandler())*/.and().build();
 
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

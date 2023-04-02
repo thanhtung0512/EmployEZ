@@ -33,12 +33,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 
     @Override
-    public Employee getById(int userId) {
+    public Employee getByUserId(int userId) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         String hql = "SELECT e FROM Employee e WHERE e.user.id = :userId";
         Employee employee = session.createQuery(hql, Employee.class)
-                .setParameter("userId",userId).getSingleResult();
+                .setParameter("userId", userId).getSingleResult();
         if (employee == null) return null;
         return employee;
     }

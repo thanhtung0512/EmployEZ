@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class JobPostDAOImpl implements JobPostDAO {
@@ -262,13 +264,13 @@ public class JobPostDAOImpl implements JobPostDAO {
                 jobPosting.setState((String) result[0][10]);
 
                 int jobId = (int) result[0][0]; // Replace with the actual job ID
-                Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j WHERE j.id = :id " , Long.class)
-                        .setParameter("id",jobId)
+                Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j WHERE j.id = :id ", Long.class)
+                        .setParameter("id", jobId)
                         .getSingleResult();
                 jobPosting.setCompany(companyDAO.getById(Math.toIntExact(companyId)));
                 String hqll = "SELECT s FROM Skill s INNER JOIN s.jobPostings j WHERE j.id = :jobId";
-                ArrayList<Skill> skillSet
-                        = (ArrayList<Skill>) session.createQuery(hqll, Skill.class).setParameter("jobId", jobId).getResultList();
+                Set<Skill> skillSet = new HashSet<>(session.createQuery(hqll, Skill.class).setParameter("jobId", jobId).list());
+
                 jobPosting.setSkills(skillSet);
             }
 

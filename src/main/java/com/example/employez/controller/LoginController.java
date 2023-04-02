@@ -3,6 +3,7 @@ package com.example.employez.controller;
 import com.example.employez.dao.UserDAO.UserDAO;
 import com.example.employez.dao.employeeDAO.EmployeeDAO;
 import com.example.employez.dto.LoginDto;
+import com.example.employez.repository.UserRepository;
 import com.example.employez.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LoginController {
@@ -24,9 +26,15 @@ public class LoginController {
     private UserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private EmployeeDAO employeeDAO;
 
-    @GetMapping("/employee/login")
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @RequestMapping("/employee/login")
     public String employeeLogin(Model model) {
         model.addAttribute("loginDto", new LoginDto());
         return "employee_login";
@@ -43,13 +51,16 @@ public class LoginController {
     public String handleEmployeeLogin(@ModelAttribute("loginDto") LoginDto loginDto) {
         System.out.println(loginDto.getEmail() + " , " + loginDto.getPassword());
         if (userService.existEmployee(loginDto.getEmail())) {
-            if (new BCryptPasswordEncoder().matches(loginDto.getPassword()
-                    , userDAO.getByMail(loginDto.getEmail()).getPasswordHash())) {
+            String userPassword = userRepository.getUserByEmail(loginDto.getEmail()).getPasswordHash();
+            if (passwordEncoder.matches(loginDto.getPassword()
+                    , userPassword)) {
                 return "employeeHandleLogin";
             } else {
                 return "redirect:/employee/login";
+                /*return "employee_login";*/
             }
         }
+        /*return "employee_login";*/
         return "redirect:/employee/login";
 
     }

@@ -7,5 +7,5 @@ public interface EmployeeDAO {
 
     Employee getByMail(String email);
 
-    Employee getById(int userId);
+    Employee getByUserId(int userId);
 }
