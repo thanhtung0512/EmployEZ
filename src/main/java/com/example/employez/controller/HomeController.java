@@ -36,7 +36,10 @@ public class HomeController {
         return "index";
     }
 
-
+    @GetMapping("/Signup")
+    public  String signup() {
+        return "Signup";
+    }
     @GetMapping("/search")
     @PreAuthorize("hasRole('ADMIN')")
     public String index(@RequestParam(name = "jobTitle", required = false, defaultValue = "") String jobTitle
@@ -68,7 +71,7 @@ public class HomeController {
 
     @GetMapping("/jobs/{id}")
     public String getDetailJob(@PathVariable(name = "id") int jobId, Model model) {
- JobPosting jobPosting = jobPostDAO.getById(jobId);
+        JobPosting jobPosting = jobPostDAO.getById(jobId);
         model.addAttribute("jobPosting", jobPosting);
         ArrayList<Skill> skillSet = jobPosting.getSkills();
         model.addAttribute("skills", skillSet);

@@ -32,6 +32,7 @@ public class LoginController {
         return "employee_login";
     }
 
+
     @GetMapping("/employer/login")
     public String companyLogin(Model model) {
         model.addAttribute("loginDto", new LoginDto());

@@ -21,8 +21,8 @@ public class JdbcExample {
         final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         final String DB_URL = "jdbc:mysql://localhost:3307/employez";
         // Database credentials
-        final String USER = "webuser";
-        final String PASS = "webuser";
+        final String USER = "root";
+        final String PASS = "Ab20122002";
         Connection conn = null;
         PreparedStatement stmt = null;
         try {

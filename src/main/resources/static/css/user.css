@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f1f7;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.container p {
+    margin-bottom: 10px;
+}
+
+.container span.label {
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+    color: #666;
+}
+
+.container span.value {
+    display: inline-block;
+    color: #333;
+}

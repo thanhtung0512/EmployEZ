@@ -11,8 +11,8 @@ public class HibernateUtil {
 
     private static String currentDB = "employez";
     private static String port = "3307";
-    private static String pass = "webuser";
-    private static String user = "webuser";
+    private static String pass = "Ab20122002";
+    private static String user = "root";
 
 
     private static SessionFactory sessionFactory;
