@@ -3,6 +3,9 @@ package com.example.employez.controller;
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.domain.entity_class.Skill;
+import com.example.employez.dto.JobPostDto;
+import com.example.employez.repository.JobPostingRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,11 @@ public class HomeController {
 
     @Autowired
     private JobPostDAO jobPostDAO;
+
+
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @GetMapping({"/homepage", "/"})
@@ -53,14 +61,16 @@ public class HomeController {
         subField.add("NLP Engineer");
         // subField.add("Researcher");
 
-        model.addAttribute("subField", subField);
-        ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle, location);
 
-        model.addAttribute("jobList", jobPostings);
+        ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle,location);
+
+
         ArrayList<JobPosting> topFiveJobPost = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < Math.min(5,jobPostings.size()); i++) {
             topFiveJobPost.add(jobPostings.get(i));
         }
+        model.addAttribute("jobList", jobPostings);
+        model.addAttribute("subField", subField);
         model.addAttribute("topFive", topFiveJobPost);
         model.addAttribute("jobTitleSearch", jobTitle);
         return "search";
@@ -69,10 +79,18 @@ public class HomeController {
 
     @GetMapping("/jobs/{id}")
     public String getDetailJob(@PathVariable(name = "id") int jobId, Model model) {
- JobPosting jobPosting = jobPostDAO.getById(jobId);
+        JobPosting jobPosting = jobPostDAO.getById(jobId).getKey();
+        Set<String> skillSet = jobPostDAO.getById(jobId).getValue();
         model.addAttribute("jobPosting", jobPosting);
-        Set<Skill> skillSet = jobPosting.getSkills();
         model.addAttribute("skills", skillSet);
         return "single";
+    }
+
+    @GetMapping("/search/byskill/{skillName}")
+    public String searchBySkill(@PathVariable(name = "skillName") String skillName,Model model) {
+        ArrayList<JobPosting> jobPostingsBySkill = (ArrayList<JobPosting>) jobPostDAO.getBySkill(skillName);
+        model.addAttribute("jobList", jobPostingsBySkill);
+        model.addAttribute("skillName",skillName);
+        return "search";
     }
 }

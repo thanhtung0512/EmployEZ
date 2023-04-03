@@ -27,7 +27,9 @@ public class Skill {
     private Set<Employee> employees;
 
 
-    @ManyToMany(mappedBy = "skills", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY
+            , mappedBy = "skills"
+            , cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
     private Set<JobPosting> jobPostings;
 
     @ManyToMany

@@ -49,7 +49,7 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private Set<Resume> resumes;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "apply",
             joinColumns = {@JoinColumn(name = "fk_employee")},
             inverseJoinColumns = {@JoinColumn(name = "fk_jobpost")})

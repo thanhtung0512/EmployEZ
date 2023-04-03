@@ -6,5 +6,5 @@ public interface CompanyDAO {
 
     void save(Company company);
 
-    Company getById(int id);
+    Company getById(Long id);
 }

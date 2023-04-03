@@ -6,6 +6,8 @@ import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.domain.entity_class.Skill;
 import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
+import com.example.employez.repository.SkillRepository;
+import com.example.employez.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class JobPostDAOImpl implements JobPostDAO {
 
     @Autowired
     private CompanyDAO companyDAO;
+
+    @Autowired
+    private SkillRepository skillRepository;
 
 
 
@@ -90,13 +95,15 @@ public class JobPostDAOImpl implements JobPostDAO {
                     .getSingleResult();
             System.out.println(companyId);
 
-            jobPosting.setCompany(companyDAO.getById(Math.toIntExact(companyId)));
+            jobPosting.setCompany(companyDAO.getById(companyId));
 
             jobPostings.add(jobPosting);
         }
         for (JobPosting jobPosting : jobPostings) {
             System.out.println(jobPosting.toString());
         }
+
+        session.close();
         return jobPostings;
     }
 
@@ -107,6 +114,7 @@ public class JobPostDAOImpl implements JobPostDAO {
     }
 
     @Override
+    @Transactional
     public List<JobPosting> jobPostingList(int numbers) {
         Session session = sessionFactory.openSession();
         String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state,j.company FROM JobPosting j  ");
@@ -133,12 +141,16 @@ public class JobPostDAOImpl implements JobPostDAO {
             jobPosting.setCompany((Company) result[i][11]);
             jobPostings.add(jobPosting);
         }
+        session.getTransaction().commit();
+        session.close();
         return jobPostings;
     }
 
     @Override
+    @Transactional
     public List<JobPosting> jobPostingListByNameAreaField(String name, String area, String field) {
         Session session = sessionFactory.openSession();
+        session.beginTransaction();
         String hql = "";
         if (area.equals("Usa")) {
             hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
@@ -181,13 +193,16 @@ public class JobPostDAOImpl implements JobPostDAO {
         for (JobPosting jobPosting : jobPostings) {
             System.out.println(jobPosting.toString());
         }
-
+        session.getTransaction().commit();
+        session.close();
         return jobPostings;
     }
 
     @Override
+    @Transactional
     public List<JobPosting> jobPostingListByTwoFields(String jobTitle, String location) {
         Session session = sessionFactory.openSession();
+        session.beginTransaction();
         String hql = "";
         hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
                 "WHERE j.city LIKE :location AND j.jobTitle LIKE :jobTitle ");
@@ -220,27 +235,36 @@ public class JobPostDAOImpl implements JobPostDAO {
                     .getSingleResult();
             System.out.println(companyId);
 
-            jobPosting.setCompany(companyDAO.getById(Math.toIntExact(companyId)));
+            // jobPosting.setCompany(companyDAO.getById(companyId));
 
             jobPostings.add(jobPosting);
         }
         for (JobPosting jobPosting : jobPostings) {
             System.out.println(jobPosting.toString());
         }
+        session.getTransaction().commit();
+        session.close();
         return jobPostings;
 
     }
 
     @Override
-    public JobPosting getById(int id) {
+    @Transactional
+    public Pair<JobPosting, Set<String>> getById(int id) {
         Session session = sessionFactory.openSession();
-        String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
+        String hql = ("SELECT j.id,j.city" +
+                ",j.country,j.datePosted" +
+                ",j.employmentType,j.jobDescription" +
+                ",j.jobTitle,j.maxSalary" +
+                ",j.minSalary,j.projectLocation" +
+                ",j.state FROM JobPosting j " +
                 "WHERE j.id = :id");
         Object[][] result = session.createQuery(hql, Object[][].class)
                 .setParameter("id", id)
                 .getResultList().toArray(new Object[0][]);
 
         JobPosting jobPosting = new JobPosting();
+        Set<String> skillName = new HashSet<>();
         try {
             if (result.length > 0) {
                 jobPosting.setId((Integer) result[0][0]);
@@ -251,37 +275,68 @@ public class JobPostDAOImpl implements JobPostDAO {
                 jobPosting.setJobDescription((String) result[0][5]);
                 jobPosting.setJobTitle((String) result[0][6]);
                 if (result[0][7] != null) {
-                    jobPosting.setMaxSalary((int) result[0][7]);
-                } else {
-                    jobPosting.setMaxSalary(0);
+                    jobPosting.setMaxSalary((Integer) result[0][7]);
                 }
                 if (result[0][8] != null) {
                     jobPosting.setMinSalary((Integer) result[0][8]);
-                } else {
-                    jobPosting.setMinSalary(0);
                 }
                 jobPosting.setProjectLocation((ProjectLocation) result[0][9]);
                 jobPosting.setState((String) result[0][10]);
 
                 int jobId = (int) result[0][0]; // Replace with the actual job ID
-                Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j WHERE j.id = :id ", Long.class)
+                Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j " +
+                                "WHERE j.id = :id ", Long.class)
                         .setParameter("id", jobId)
                         .getSingleResult();
-                jobPosting.setCompany(companyDAO.getById(Math.toIntExact(companyId)));
-                String hqll = "SELECT s FROM Skill s INNER JOIN s.jobPostings j WHERE j.id = :jobId";
-                Set<Skill> skillSet = new HashSet<>(session.createQuery(hqll, Skill.class).setParameter("jobId", jobId).list());
+                jobPosting.setCompany(companyDAO.getById(companyId));// fixing this line
 
-                jobPosting.setSkills(skillSet);
+                String hqll = "SELECT s.name FROM skill s WHERE s.id IN " +
+                        "(Select jrs.fk_skill " +
+                        "FROM job_required_skill jrs " +
+                        "WHERE jrs.fk_job = :jobId)";
+                skillName = new HashSet<>(session.createNativeQuery(hqll, String.class).setParameter("jobId", jobId).list());
+
+
             }
 
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        return jobPosting;
+        Pair<JobPosting, Set<String>> pair = new Pair<>(jobPosting, skillName);
+
+        session.close();
+        return pair;
     }
 
 
+    @Override
+    @Transactional
+    public List<JobPosting> getBySkill(int skillId) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        ArrayList<JobPosting> jobPostings = new ArrayList<>();
+        String query = "SELECT jrs.fk_job FROM job_required_skill jrs WHERE fk_skill = :skillId";
+        ArrayList<Integer> jobPostId = (ArrayList<Integer>) session.createNativeQuery(query, Integer.class)
+                .setParameter("skillId", skillId).list();
+        for (int jobId : jobPostId) {
+            jobPostings.add(getById(jobId).getKey());
+        }
+        session.getTransaction().commit();
+        session.close();
+        return jobPostings;
+    }
+
+    public List<JobPosting> getBySkill(String skillName) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String sql = "SELECT s.id FROM skill s WHERE s.name = :skillName";
+        Integer skillId = session.createNativeQuery(sql,Integer.class)
+                .setParameter("skillName",skillName).getSingleResult();
+        session.getTransaction().commit();
+        session.close();
+        return getBySkill(skillId);
+    }
 
 
 }

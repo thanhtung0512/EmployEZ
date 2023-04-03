@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -17,6 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobPosting {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +38,7 @@ public class JobPosting {
     @ManyToMany(mappedBy = "jobPostings")
     private Set<Employee> employees = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER
+    @ManyToMany(fetch = FetchType.LAZY
             , cascade = {CascadeType.MERGE
             , CascadeType.PERSIST
             , CascadeType.REFRESH

@@ -96,7 +96,7 @@
                         <img src="/img/post.png" alt="">
                         <ul class="tags">
                             <li th:each="skill : ${skills}">
-                                <a href="#" th:text="${skill.getName()}"></a>
+                                <a th:href="@{/search/byskill/{skillName}(skillName = ${skill}) }" th:text="${skill}"></a>
                             </li>
                         </ul>
                     </div>
@@ -113,8 +113,16 @@
                             </ul>
                         </div>
                         <h5 th:utext="|Job Type : ${jobPosting.getEmploymentType()}|"></h5>
-                        <p class="address" th:utext="|${jobPosting.getCountry()} |"><span class="lnr lnr-map"></span> </p>
-                        <p class="address" th:utext="| ${jobPosting.getMinSalary()}$ - ${jobPosting.getMaxSalary()}$|"><span class="lnr lnr-database"></span> </p>
+                        <p class="address" th:utext="|${jobPosting.getCountry()} |"><span class="lnr lnr-map"></span>
+                        </p>
+
+
+                        <p th:if="${jobPosting.getMinSalary() != null and jobPosting.getMaxSalary() != null}"><span th:utext="| ${jobPosting.getMinSalary()}$ - ${jobPosting.getMaxSalary()}$ |"></span></p>
+                        <p th:if="${jobPosting.getMinSalary() == null and jobPosting.getMaxSalary() == null}"><span th:utext="| Negotiate |"></span></p>
+                        <span class="lnr lnr-database"></span></span>
+
+
+
                     </div>
 
 

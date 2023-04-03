@@ -153,7 +153,7 @@
                 <div class="single-popular-post d-flex flex-row" th:each="jobPost : ${recentPosts}">
                     <div class="thumb">
                         <img class="img-fluid" src="/static/img/p1.png" alt="">
-                        <a class="btns text-uppercase" th:href="@{/jobs/{id}(id=${jobPost.getId()})}">view job post</a>
+                        <a class="btns text-uppercase" th:href="@{/jobs/{id} (id=${jobPost.getId()}) }">view job post</a>
                     </div>
                     <div class="details">
                         <a href="#"><h4 th:text="${jobPost.getJobTitle()}"></h4></a>
@@ -184,7 +184,7 @@
         <div class="row">
             <div class="col-lg-2 col-md-4 col-sm-6" th:each="field :${subField}">
                 <div class="single-fcat">
-                    <a th:href="@{/search(jobTitle=${field})}">
+                    <a th:href="@{/search( jobTitle=${field} )}">
                         <img src="img/o1.png" alt="">
                     </a>
                     <p th:text="${field}"></p>

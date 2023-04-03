@@ -97,7 +97,13 @@
                         </div>
                     </div>
                 </form>
-                <p class="text-white" th:utext="|${jobList.size()} result for ${jobTitleSearch}|"><span ></span></p>
+                <p th:if="${skillName == null and jobTitleSearch != null}"><span class="text-white"
+                                                                                 th:utext="|${jobList.size()} result for ${jobTitleSearch}|"></span>
+                </p>
+                <p th:if="${skillName != null and jobTitleSearch == null}"><span class="text-white"
+                                                                                 th:utext="|${jobList.size()} result for ${skillName}|"
+                        ></span></p>
+               </p>
             </div>
         </div>
     </div>
@@ -131,28 +137,6 @@
             <div class="col-lg-8 post-list">
                 <ul>
                     <li th:each=" jobPost : ${jobList}">
-
-                        <!--                        <div class="category mb-30">-->
-                        <!--                            <div class="job">-->
-                        <!--                                <span class="colors2 mb-4">Programming &amp; IT</span>-->
-                        <!--                                <h5 th:text="${jobPost.getJobTitle()}"><a href="#"></a></h5>-->
-                        <!--                                <ul class="place">-->
-                        <!--                                    <li>-->
-                        <!--                                        <p><i class="fas fa-map-marker-alt pe-2" th:utext="| ${jobPost.getCity()} ',' ${jobPost.getState()} ',' ${jobPost.getCountry()} |"></i> </p>-->
-                        <!--                                    </li>-->
-                        <!--                                    <li>-->
-                        <!--                                        <p class="ps-5" th:text="${jobPost.getEmploymentType()}"><i class="fas fa-map-marker-alt pe-2"></i></p>-->
-                        <!--                                    </li>-->
-                        <!--                                </ul>-->
-                        <!--                                <div class="pricing d-flex justify-content-between align-items-center">-->
-                        <!--                                    <div class="left">-->
-                        <!--                                        <p>Globe Solution Ltd.</p>-->
-                        <!--                                    </div>-->
-                        <!--                                    <span class="time">2h ago</span>-->
-                        <!--                                </div>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-
                         <div class="card-p-2">
                             <div class="text-right"><small th:text="${jobPost.getEmploymentType()}"></small></div>
                             <div class="text-center mt-2 p-3"><img
@@ -164,8 +148,12 @@
                                         class="fa fa-map-marker"></i> <small class="ml-1"
                                                                              th:utext="|${jobPost.getCountry()} |"></small>
                                 </div>
-                                <div class="d-flex justify-content-between mt-3"><span
-                                        th:utext="| ${jobPost.getMinSalary()}$ - ${jobPost.getMaxSalary()}$ |"></span>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <p th:if="${jobPost.getMinSalary() != null and jobPost.getMaxSalary() != null}">
+                                        <span th:utext="| ${jobPost.getMinSalary()}$ - ${jobPost.getMaxSalary()}$ |"></span>
+                                    </p>
+                                    <p th:if="${jobPost.getMinSalary() == null and jobPost.getMaxSalary() == null}">
+                                        <span th:utext="| Negotiate |"></span></p>
                                     <form th:action="@{/jobs/{id}(id=${jobPost.getId()})}">
                                         <button type="submit" class="btn btn-sm btn-outline-dark">See detail</button>
                                     </form>

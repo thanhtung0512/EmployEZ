@@ -15,7 +15,7 @@ public class CompanyApi {
     @Autowired
     private CompanyDAO companyDAO;
     @GetMapping("/company/{id}")
-    public Company byId(@PathVariable int id) {
+    public Company byId(@PathVariable Long id) {
         return companyDAO.getById(id);
     }
 

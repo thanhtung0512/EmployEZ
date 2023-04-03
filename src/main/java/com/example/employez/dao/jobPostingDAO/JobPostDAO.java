@@ -1,8 +1,11 @@
 package com.example.employez.dao.jobPostingDAO;
 
 import com.example.employez.domain.entity_class.JobPosting;
+import com.example.employez.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public interface JobPostDAO {
     JobPosting createJobPosting();
@@ -21,8 +24,9 @@ public interface JobPostDAO {
 
     List<JobPosting> jobPostingListByTwoFields(String field1, String field2);
 
-    JobPosting getById(int id);
+    Pair<JobPosting, Set<String>> getById(int id);
 
+    List<JobPosting> getBySkill(int id);
 
-
+     List<JobPosting> getBySkill(String skillName);
 }

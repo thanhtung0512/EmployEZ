@@ -21,12 +21,11 @@ public class JobPostingApi {
     @Autowired
     private JobPostDAO jobPostDAO;
 
-    @Autowired
-    private JobPostingRepository jobPostingRepository;
+
 
     @GetMapping("/jobposts/byid/{id}")
     public JobPosting getById(@PathVariable int id) {
-        return jobPostDAO.getById(id);
+        return jobPostDAO.getById(id).getKey();
         // return jobPostingRepository.findJobPostingById(id);
     }
 
@@ -34,7 +33,7 @@ public class JobPostingApi {
     public List<JobPosting> jobPostingList(@PathVariable int numbers) {
         List<JobPosting> jobPostings = new ArrayList<>();
         for (int i = 1; i <= numbers; i++) {
-            jobPostings.add(jobPostDAO.getById(i));
+            jobPostings.add(jobPostDAO.getById(i).getKey());
         }
         return jobPostings;
     }

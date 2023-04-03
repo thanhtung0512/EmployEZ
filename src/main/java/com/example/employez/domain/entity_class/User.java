@@ -28,7 +28,8 @@ public  class User {
     @Column(name = "email")
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY
+            ,cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "fk_user")},
             inverseJoinColumns = {@JoinColumn(name = "fk_role")})

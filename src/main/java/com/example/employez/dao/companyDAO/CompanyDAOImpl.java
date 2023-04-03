@@ -2,6 +2,7 @@ package com.example.employez.dao.companyDAO;
 
 import com.example.employez.domain.entity_class.Company;
 import com.example.employez.domain.enumPackage.CompanyType;
+import com.example.employez.repository.CompanyRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     private SessionFactory sessionFactory;
 
 
+
     @Override
     public void save(Company company) {
         Session session = sessionFactory.openSession();
@@ -26,7 +28,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     @Transactional
-    public Company getById(int id) {
+    public Company getById(Long id) {
         Company company = new Company();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -47,6 +49,8 @@ public class CompanyDAOImpl implements CompanyDAO {
         session.getTransaction().commit();
         session.close();
         return company;
+
+        // return companyRepository.findCompanyById(id);
 
     }
 }
