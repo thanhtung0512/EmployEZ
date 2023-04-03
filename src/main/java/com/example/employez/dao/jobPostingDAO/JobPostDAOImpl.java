@@ -6,10 +6,12 @@ import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.domain.entity_class.Skill;
 import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
+import com.example.employez.dto.JobPostDto;
 import com.example.employez.repository.SkillRepository;
 import com.example.employez.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,12 +30,6 @@ public class JobPostDAOImpl implements JobPostDAO {
 
     @Autowired
     private CompanyDAO companyDAO;
-
-    @Autowired
-    private SkillRepository skillRepository;
-
-
-
 
     @Override
     @Transactional
@@ -230,13 +226,6 @@ public class JobPostDAOImpl implements JobPostDAO {
             }
             jobPosting.setProjectLocation((ProjectLocation) result[i][9]);
             jobPosting.setState((String) result[i][10]);
-
-            Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j WHERE j.id = " + id, Long.class)
-                    .getSingleResult();
-            System.out.println(companyId);
-
-            // jobPosting.setCompany(companyDAO.getById(companyId));
-
             jobPostings.add(jobPosting);
         }
         for (JobPosting jobPosting : jobPostings) {
@@ -295,16 +284,11 @@ public class JobPostDAOImpl implements JobPostDAO {
                         "FROM job_required_skill jrs " +
                         "WHERE jrs.fk_job = :jobId)";
                 skillName = new HashSet<>(session.createNativeQuery(hqll, String.class).setParameter("jobId", jobId).list());
-
-
             }
-
-
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
         Pair<JobPosting, Set<String>> pair = new Pair<>(jobPosting, skillName);
-
         session.close();
         return pair;
     }

@@ -47,7 +47,7 @@ public class HomeController {
 
 
     @GetMapping("/search")
-    @PreAuthorize("hasRole('ADMIN')")
+    /*@PreAuthorize("hasRole('ADMIN')")*/
     public String index(@RequestParam(name = "jobTitle", required = false, defaultValue = "") String jobTitle
             , @RequestParam(name = "location", required = false, defaultValue = "") String location
             , Model model) throws Exception {

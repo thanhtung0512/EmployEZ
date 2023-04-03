@@ -17,4 +17,5 @@ public class JobPostDto {
     private String country;
     private Integer minSalary;
     private Integer maxSalary;
+    private Long dayPosted;
 }

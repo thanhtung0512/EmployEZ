@@ -1,19 +1,21 @@
 package com.example.employez.security;
 
+import com.example.employez.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 
 @Configuration
@@ -22,25 +24,37 @@ import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuc
 public class SecurityConfiguration {
 
 
-    // Authentication part
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    public SecurityConfiguration(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails company = User
-                .withUsername("company@gmail.com")
-                .password(passwordEncoder.encode("company@gmail.com"))
-                .roles("ADMIN").build();
-
-        UserDetails employee = User
-                .withUsername("user@gmail.com")
-                .password(passwordEncoder.encode("user@gmail.com"))
-                .roles("USER").build();
-        return new InMemoryUserDetailsManager(company, employee);
+    public SecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
     }
 
-
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return new SimpleUrlLogoutSuccessHandler();
+    @Bean
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) throws Exception {
+        return new ProviderManager(daoAuthenticationProvider());
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -70,26 +84,21 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/search").hasAnyRole("ADMIN")
+                .authorizeHttpRequests().requestMatchers("/employee/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().formLogin()
-                /*.loginPage("/employee/login")*/
-                /*.loginProcessingUrl("/employeeHandleLogin")*/
-                .defaultSuccessUrl("/homepage", true)
-                .failureUrl("/login?error=true").permitAll()
-                /*.failureHandler(authenticationFailureHandler())*/
+                /*.loginPage("/login-test")*/
+                .loginProcessingUrl("/handleLogin")
+                .defaultSuccessUrl("/homepage")
+                .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID").permitAll()
-                /*.logoutSuccessHandler(logoutSuccessHandler())*/.and().build();
+                .and().build();
 
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 }
