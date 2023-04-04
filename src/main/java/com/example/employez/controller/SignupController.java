@@ -42,8 +42,6 @@ public class SignupController {
         return "employer_signup";
     }
 
-
-
     @PostMapping("/")
     public String signupProcess(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult result,
                                 @RequestParam(name = "last_name") String lastName,
@@ -78,4 +76,6 @@ public class SignupController {
         companyDAO.save(company);
         return "redirect:/homepage";
     }
+
+
 }

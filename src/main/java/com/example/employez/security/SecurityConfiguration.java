@@ -87,8 +87,5 @@ public class SecurityConfiguration {
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID").permitAll()
                 .and().build();
-
     }
-
-
 }

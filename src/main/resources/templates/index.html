@@ -5,7 +5,6 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         layout:decorator="layout/default">
 <head>
     <!-- Mobile Specific Meta -->
@@ -35,7 +34,6 @@
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
     <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
-    <!--<link rel="stylesheet" th:href="@{/css/user_profile_style.css}">-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
@@ -49,14 +47,7 @@
                 <a th:href="@{'/homepage'}" style="font-size: 30px">Employ<span style="color: whitesmoke">EZ</span></a>
             </div>
             <div class="navbar-form navbar-right">
-
-                <div th:if = "${mail == 'anonymousUser'}">
-                    <a class="btn btn-success" th:href="@{/login}">Login</a>
-                    <a class="btn btn-primary" th:href="@{/register}">Register</a>
-                </div>
-
                 <div th:if = "${mail != 'anonymousUser'}">
-                    <a class="btn btn-success"th:href="@{/homepage}">Dashboard</a>
                     Welcome back, <span th:text="${mail}"></span>
                 </div>
 
@@ -74,8 +65,17 @@
                             <li><a href="single.html">single</a></li>
                         </ul>
                     </li>
-                    <li><a class="ticker-btn" th:href="@{'/employee/signup'}">Signup</a></li>
-                    <li><a class="ticker-btn" th:href="@{'/login'}">Login</a></li>
+
+
+                    <li th:if="${mail == 'anonymousUser'}"><a class="ticker-btn"
+                                                              th:href="@{'/employee/signup'}">Signup</a></li>
+                    <li th:if="${mail == 'anonymousUser'}"><a class="ticker-btn" th:href="@{'/login'}">Login</a></li>
+
+
+                    <li th:if="${mail != 'anonymousUser'}"><a class="ticker-btn"
+                                                              th:href="@{'/perform_logout'}">Logout</a></li>
+
+
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>

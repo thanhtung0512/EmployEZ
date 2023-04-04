@@ -32,6 +32,9 @@ public class Employee {
     private String city;
 
 
+    @Column(name = "university")
+    private String university;
+
     @Column(name = "country")
     private String country;
 
