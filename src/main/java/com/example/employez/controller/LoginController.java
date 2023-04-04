@@ -58,8 +58,8 @@ public class LoginController {
         return "employer_login";
     }
 
-    // login for employee
-    /*@PostMapping(value = "/handleLogin")
+    /*// login for employee
+    @PostMapping(value = "/handleLogin")
     public String handleEmployeeLogin(@ModelAttribute("loginDto") LoginDto loginDto) {
         System.out.println(loginDto.getEmail() + " , " + loginDto.getPassword());
         if (userService.existEmployee(loginDto.getEmail())) {
