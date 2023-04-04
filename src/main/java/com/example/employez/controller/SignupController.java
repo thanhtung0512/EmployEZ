@@ -62,7 +62,7 @@ public class SignupController {
         return "redirect:/homepage";
     }
 
-    @PostMapping("/homepage")
+    @PostMapping("/handleSignup")
     public String signupProcess(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult result,
                                 @RequestParam(name = "company_name") String companyName
                                 ) {

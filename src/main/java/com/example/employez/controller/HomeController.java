@@ -2,12 +2,11 @@ package com.example.employez.controller;
 
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.JobPosting;
-import com.example.employez.domain.entity_class.Skill;
 import com.example.employez.dto.JobPostDto;
-import com.example.employez.repository.JobPostingRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,10 +40,18 @@ public class HomeController {
         subField.add("NLP Engineer");
         // subField.add("Researcher");
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        System.out.println("authentication == null : " + auth == null);
+        model.addAttribute("auth",auth);
+        model.addAttribute("mail", mail);
         model.addAttribute("subField", subField);
         return "index";
     }
-
 
     @GetMapping("/search")
     /*@PreAuthorize("hasRole('ADMIN')")*/
@@ -62,14 +69,14 @@ public class HomeController {
         // subField.add("Researcher");
 
 
-        ArrayList<JobPosting> jobPostings = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle,location);
+        ArrayList<JobPosting> jobPostDtos = (ArrayList<JobPosting>) jobPostDAO.jobPostingListByTwoFields(jobTitle,location);
 
 
         ArrayList<JobPosting> topFiveJobPost = new ArrayList<>();
-        for (int i = 0; i < Math.min(5,jobPostings.size()); i++) {
-            topFiveJobPost.add(jobPostings.get(i));
+        for (int i = 0; i < Math.min(5,jobPostDtos.size()); i++) {
+            topFiveJobPost.add(jobPostDtos.get(i));
         }
-        model.addAttribute("jobList", jobPostings);
+        model.addAttribute("jobList", jobPostDtos);
         model.addAttribute("subField", subField);
         model.addAttribute("topFive", topFiveJobPost);
         model.addAttribute("jobTitleSearch", jobTitle);

@@ -2,6 +2,7 @@ package com.example.employez.restApi;
 
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.JobPosting;
+import com.example.employez.dto.JobPostDto;
 import com.example.employez.repository.JobPostingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +44,6 @@ public class JobPostingApi {
     public List<JobPosting> jobPostings(@PathVariable String title, @PathVariable String location) {
         return jobPostDAO.jobPostingListByTwoFields(title, location);
     }
+
 
 }

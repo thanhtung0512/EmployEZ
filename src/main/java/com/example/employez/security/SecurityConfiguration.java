@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 
@@ -24,10 +25,11 @@ import org.springframework.security.web.context.SecurityContextRepository;
 public class SecurityConfiguration {
 
 
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsService userDetailsService;
+
 
     @Autowired
-    public SecurityConfiguration(UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfiguration(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -64,32 +66,20 @@ public class SecurityConfiguration {
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/img/**")
+                .requestMatchers("/img/**","/js/**","/scss/**","/fonts/**")
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/js/**")
-                .permitAll()
+                .requestMatchers("/homepage","/employee/signup","/employer/signup","/api/user/byid/{id}").permitAll()
                 .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/scss/**")
-                .permitAll()
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/fonts/**")
-                .permitAll()
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/homepage").permitAll()
-                .and()
-                .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").permitAll()
+                .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").hasRole("Company")
                 .and()
                 .authorizeHttpRequests().requestMatchers("/employee/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().formLogin()
-                /*.loginPage("/login-test")*/
-                .loginProcessingUrl("/handleLogin")
+                .loginPage("/login")
+                /*.loginProcessingUrl("/login")*/
                 .defaultSuccessUrl("/homepage")
                 .permitAll()
                 .and()

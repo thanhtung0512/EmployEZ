@@ -1,6 +1,7 @@
 package com.example.employez.dao.jobPostingDAO;
 
 import com.example.employez.domain.entity_class.JobPosting;
+import com.example.employez.dto.JobPostDto;
 import com.example.employez.util.Pair;
 
 import java.util.ArrayList;

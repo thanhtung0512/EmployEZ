@@ -5,10 +5,11 @@ import com.example.employez.dto.LoginDto;
 import com.example.employez.repository.UserRepository;
 import com.example.employez.service.UserDetailsServiceImpl;
 import com.example.employez.service.UserService;
-
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.SecurityContextRepository;
@@ -33,7 +34,7 @@ public class LoginController {
     private UserDAO userDAO;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private UserService userService;
@@ -71,19 +72,27 @@ public class LoginController {
 
             }
         }
-
         return "redirect:/employee/login";
-
     }*/
 
 
-    /*@GetMapping("/login-test")
-    public String loginTest(Model model) {
-        model.addAttribute("loginDto",new LoginDto());
+    @GetMapping("/login")
+    public String loginTest() {
 
-        return "employee_login";
-    }*/
+        return "login";
+    }
 
+   /* @PostMapping(value = "/login")
+    public String hanleLoginTest(Model model) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            return "index";
+        }
+        System.out.println("FALSE");
+        return "redirect:/login";
+    }
+*/
     @PostMapping(value = "/handleLogin")
     public String handleEmployeeLogin(@ModelAttribute("loginDto") LoginDto loginDto) {
         System.out.println(loginDto.getEmail() + " , " + loginDto.getPassword());

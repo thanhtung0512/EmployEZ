@@ -9,12 +9,13 @@ import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "role")
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "role")
 public class Role {
 
     @Id
@@ -23,8 +24,8 @@ public class Role {
     private Long id;
 
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+    /*@ManyToMany(fetch = FetchType.LAZY,mappedBy = "roles")
+    private Set<User> users = new HashSet<>();*/
 
 
     @Enumerated(EnumType.STRING)

@@ -32,8 +32,8 @@ public class Employee {
     private String city;
 
 
-    @Column(name = "state")
-    private String state;
+    @Column(name = "country")
+    private String country;
 
     @Column(name = "zipcode")
     private int zipcode;
@@ -48,6 +48,10 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private Set<Resume> resumes;
+
+
+    @Column(name = "phone")
+    private String phone;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "apply",

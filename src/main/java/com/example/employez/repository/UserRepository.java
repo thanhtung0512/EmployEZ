@@ -4,6 +4,8 @@ import com.example.employez.domain.entity_class.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByEmail(String email);
@@ -13,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User getUserByEmail(String email);
 
     User findByEmail(String email);
+
+    Optional<User> findById(Integer id);
 }

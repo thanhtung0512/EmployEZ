@@ -200,7 +200,7 @@ public class JobPostDAOImpl implements JobPostDAO {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         String hql = "";
-        hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
+        hql = ("SELECT j.id FROM JobPosting j " +
                 "WHERE j.city LIKE :location AND j.jobTitle LIKE :jobTitle ");
 
         Object[][] result = session.createQuery(hql, Object[][].class)
@@ -208,29 +208,35 @@ public class JobPostDAOImpl implements JobPostDAO {
                 .setParameter("location", "%" + location + "%")
                 .getResultList().toArray(new Object[0][]);
         ArrayList<JobPosting> jobPostings = new ArrayList<>();
+
+        ArrayList<JobPostDto> jobPostDtos = new ArrayList<>();
         for (int i = 0; i < result.length ; i++) {
-            JobPosting jobPosting = new JobPosting();
             int id  = (int) result[i][0];
-            jobPosting.setId(id);
-            jobPosting.setCity((String) result[i][1]);
-            jobPosting.setCountry((String) result[i][2]);
-            jobPosting.setDatePosted((Date) result[i][3]);
-            jobPosting.setEmploymentType((EmploymentType) result[i][4]);
-            jobPosting.setJobDescription((String) result[i][5]);
-            jobPosting.setJobTitle((String) result[i][6]);
+            JobPosting jobPosting  = getById(id).getKey();
+            jobPostings.add(jobPosting);
+
+            /*jobPostDto.setId(id);
+            jobPostDto.setCity((String) result[i][1]);
+            jobPostDto.setCountry((String) result[i][2]);
+            jobPostDto.setDatePosted((Date) result[i][3]);
+            jobPostDto.setEmploymentType((EmploymentType) result[i][4]);
+            jobPostDto.setJobDescription((String) result[i][5]);
+            jobPostDto.setJobTitle((String) result[i][6]);
             if (result[i][7] != null) {
-                jobPosting.setMaxSalary((int) result[i][7]);
+                jobPostDto.setMaxSalary((int) result[i][7]);
             }
             if (result[i][8] != null) {
-                jobPosting.setMinSalary((Integer) result[i][8]);
+                jobPostDto.setMinSalary((Integer) result[i][8]);
             }
-            jobPosting.setProjectLocation((ProjectLocation) result[i][9]);
-            jobPosting.setState((String) result[i][10]);
-            jobPostings.add(jobPosting);
+            jobPostDto.setProjectLocation((ProjectLocation) result[i][9]);
+            // jobPostDto.setState((String) result[i][10]);
+            jobPostDto.setCompany(getById(id).getKey().getCompany());*/
+
+
         }
-        for (JobPosting jobPosting : jobPostings) {
+        /*for (JobPosting jobPosting : jobPostings) {
             System.out.println(jobPosting.toString());
-        }
+        }*/
         session.getTransaction().commit();
         session.close();
         return jobPostings;
@@ -254,6 +260,8 @@ public class JobPostDAOImpl implements JobPostDAO {
 
         JobPosting jobPosting = new JobPosting();
         Set<String> skillName = new HashSet<>();
+
+
         try {
             if (result.length > 0) {
                 jobPosting.setId((Integer) result[0][0]);

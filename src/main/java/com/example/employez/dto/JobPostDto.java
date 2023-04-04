@@ -2,9 +2,12 @@ package com.example.employez.dto;
 
 import com.example.employez.domain.entity_class.Company;
 import com.example.employez.domain.enumPackage.EmploymentType;
+import com.example.employez.domain.enumPackage.ProjectLocation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.sql.Date;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +18,12 @@ public class JobPostDto {
     private String jobTitle;
     private Company company;
     private String country;
+    private String city;
     private Integer minSalary;
     private Integer maxSalary;
-    private Long dayPosted;
+    private Long daySincePosted;
+    private Date datePosted;
+    private String jobDescription;
+    private ProjectLocation projectLocation;
+
 }
