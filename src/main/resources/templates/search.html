@@ -51,15 +51,16 @@
             </div>
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
-                    <li class="menu-active"><a th:href="@{'/homepage'}">Home</a></li>
+                    <li class="menu-active"><a th:href="@{'/user/user_profile'}">Profile</a></li>
 
 
-                    <li><a th:href="@{/course/list}">Course</a></li>
-                    <li class="menu-has-children"><a href="">Pages</a>
+                     <li><a th:href="@{/course/list/Spring}">Course</a></li>
+
+                     <li class="menu-has-children"><a href="">Resume</a>
                         <ul>
-                            <li><a href="elements.html">elements</a></li>
-                            <li><a th:href="@{'/search'}">search</a></li>
-                            <li><a href="single.html">single</a></li>
+                            <li><a href="elements.html">Create</a></li>
+
+                            <li><a href="single.html">View Resume</a></li>
                         </ul>
                     </li>
 

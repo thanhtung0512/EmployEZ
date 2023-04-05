@@ -178,6 +178,7 @@
 
                         <div th:each="role : ${roles}">
                             <div th:if=" ${role == 'ROLE_Employee' }">
+                                <h2 th:if="${jobList.size() != 0 }"> Favorite jobs: </h2>
                                 <ul>
                                     <li th:each=" jobPost : ${jobList}">
                                         <div class="card-p-2">

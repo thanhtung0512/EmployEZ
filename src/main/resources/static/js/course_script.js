@@ -1,11 +1,11 @@
 function active_course() {
     if ($(".active_course").length) {
         $(".active_course").owlCarousel({
-            loop: true,
+            loop: false,
             margin: 20,
             items: 3,
             nav: true,
-            autoplay: 2500,
+            /*autoplay: 2500,*/
             smartSpeed: 1500,
             dots: false,
             responsiveClass: true,
