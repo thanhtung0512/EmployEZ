@@ -6,12 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "course")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Course {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +28,11 @@ public class Course {
 
     @Column(name = "rating")
     private double rating;
+
+    @ManyToMany
+    @JoinTable(name = "covers",
+            joinColumns = {@JoinColumn(name = "fk_course")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
+    Set<Skill> skillSet;
 
 }

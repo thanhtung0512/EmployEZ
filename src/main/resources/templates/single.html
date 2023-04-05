@@ -45,14 +45,18 @@
             <div id="logo">
                 <a th:href="@{'/homepage'}" style="font-size: 30px">Employ<span style="color: whitesmoke">EZ</span></a>
             </div>
+            <div class="navbar-form navbar-right">
+                <div th:if = "${mail != 'anonymousUser'}">
+                    Welcome back, <span th:text="${mail}"></span>
+                </div>
+
+            </div>
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
                     <li class="menu-active"><a th:href="@{'/homepage'}">Home</a></li>
-                    <li><a href="about-us.html">About Us</a></li>
-                    <li><a href="category.html">Category</a></li>
-                    <li><a href="price.html">Price</a></li>
-                    <li><a href="blog-home.html">Blog</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+
+
+                    <li><a th:href="@{/course/list}">Course</a></li>
                     <li class="menu-has-children"><a href="">Pages</a>
                         <ul>
                             <li><a href="elements.html">elements</a></li>
@@ -60,8 +64,17 @@
                             <li><a href="single.html">single</a></li>
                         </ul>
                     </li>
-                    <li><a class="ticker-btn" th:href="@{'/employee/signup'}">Signup</a></li>
-                    <li><a class="ticker-btn" th:href="@{'/employee/login'}">Login</a></li>
+
+
+                    <li th:if="${mail == 'anonymousUser'}"><a class="ticker-btn"
+                                                              th:href="@{'/employee/signup'}">Signup</a></li>
+                    <li th:if="${mail == 'anonymousUser'}"><a class="ticker-btn" th:href="@{'/login'}">Login</a></li>
+
+
+                    <li th:if="${mail != 'anonymousUser'}"><a class="ticker-btn"
+                                                              th:href="@{'/perform_logout'}">Logout</a></li>
+
+
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>
@@ -108,7 +121,11 @@
                                 <h6 th:text="${jobPosting.company.name}"></h6>
                             </div>
                             <ul class="btns">
-                                <li><a href="#"><span class="lnr lnr-heart"></span></a></li>
+                                <li> <form th:action="@{/jobs/{id}(id = ${jobPosting.getId()})}" th:method="POST">
+                                    <button type="submit">
+                                        <span class="lnr lnr-heart"></span>
+                                    </button>
+                                </form></li>
                                 <li><a href="#">Apply</a></li>
                             </ul>
                         </div>

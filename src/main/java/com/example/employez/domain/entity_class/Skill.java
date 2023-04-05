@@ -22,21 +22,16 @@ public class Skill {
     @Column(name = "name")
     private String name;
 
+    /*@ManyToMany(mappedBy = "skills")
+    private Set<Employee> employees;*/
 
-    @ManyToMany(mappedBy = "skills")
-    private Set<Employee> employees;
 
-
-    @ManyToMany(fetch = FetchType.LAZY
+    /*@ManyToMany(fetch = FetchType.LAZY
             , mappedBy = "skills"
             , cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REFRESH})
-    private Set<JobPosting> jobPostings;
+    private Set<JobPosting> jobPostings;*/
 
-    @ManyToMany
-    @JoinTable(name = "covers",
-            joinColumns = {@JoinColumn(name = "fk_skill")},
-            inverseJoinColumns = {@JoinColumn(name = "fk_course")})
-    private Set<Course> courses;
-
+    /*@ManyToMany(mappedBy = "skillSet" )
+    private Set<Course> courses;*/
 
 }

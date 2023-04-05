@@ -1,0 +1,96 @@
+body{margin-top:20px;}
+.popular_courses {
+    padding-bottom: 100px;
+}
+@media (max-width: 991px) {
+    .popular_courses {
+        padding-bottom: 40px;
+    }
+}
+.popular_courses .owl-item {
+    opacity: 0;
+    padding: 0px 10px;
+    padding-bottom: 30px;
+}
+.popular_courses .owl-item.active {
+    opacity: 1;
+}
+.popular_courses .owl-nav {
+    display: flex !important;
+    justify-content: space-between;
+    position: absolute;
+    top: 50%;
+    width: 120%;
+    transform: translateY(-50%);
+    left: -11%;
+}
+@media (max-width: 991px) {
+    .popular_courses .owl-nav {
+        display: none !important;
+    }
+}
+.popular_courses .owl-nav .owl-prev img,
+.popular_courses .owl-nav .owl-next img {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+
+}
+.popular_courses .owl-nav .owl-prev img:hover,
+.popular_courses .owl-nav .owl-next img:hover {
+    -webkit-filter: grayscale(0%);
+    -moz-filter: grayscale(0%);
+    -ms-filter: grayscale(0%);
+    -o-filter: grayscale(0%);
+    filter: grayscale(0%);
+}
+
+
+.single_course .course_head {
+    position: relative;
+    overflow: hidden;
+}
+
+
+.single_course .course_content {
+    padding: 30px 26px;
+    background: #f9f9ff;
+    position: relative;
+
+}
+.single_course .course_content .tag {
+    padding: 2px 21px;
+    font-size: 13px;
+    color: #fff;
+    background: #002347;
+    text-transform: uppercase;
+}
+.single_course .course_content h4 {
+    font-size: 20px;
+    font-weight: 500;
+}
+.single_course .course_content h4 a {
+    color: #002347;
+}
+.single_course .course_content p {
+    margin: 0;
+}
+.single_course .course_content .course_meta {
+    margin-top: 25px;
+}
+.single_course .course_content .course_meta .meta_info a {
+    color: #002347;
+}
+.single_course .authr_meta img {
+    width: 45px !important;
+    height:auto;
+    display: inline-block !important;
+}
+.single_course .authr_meta span {
+    color: #002347;
+    font-weight: 500;
+}
+
+

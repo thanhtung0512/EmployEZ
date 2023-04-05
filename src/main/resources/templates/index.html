@@ -56,8 +56,8 @@
                 <ul class="nav-menu">
                     <li class="menu-active"><a th:href="@{'/homepage'}">Home</a></li>
 
-                    <li><a href="category.html">Category</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+
+                    <li><a th:href="@{/course/list}">Course</a></li>
                     <li class="menu-has-children"><a href="">Pages</a>
                         <ul>
                             <li><a href="elements.html">elements</a></li>
@@ -165,8 +165,9 @@
 <section class="popular-post-area pt-100">
     <div class="container">
         <div class="row align-items-center">
-            <div class="active-popular-post-carusel">
-                <div class="single-popular-post d-flex flex-row" th:each="jobPost : ${recentPosts}">
+            <h1> Top recent job post</h1>
+            <div class="active-popular-post-carusel" >
+                <!--<div class="single-popular-post d-flex flex-row" >
                     <div class="thumb">
                         <img class="img-fluid" src="/static/img/p1.png" alt="">
                         <a class="btns text-uppercase" th:href="@{/jobs/{id} (id=${jobPost.getId()}) }">view job post</a>
@@ -178,8 +179,34 @@
 
                         </p>
                     </div>
-                </div>
+                </div>-->
 
+                <div class="card p-2" th:each="jobPost : ${recentPosts}" >
+                    <div class="text-right"><small th:text="${jobPost.getEmploymentType()}"></small></div>
+                    <div class="text-center mt-2 p-3">  <span
+                            class="d-block font-weight-bold" th:text="${jobPost.getJobTitle()}"></span>
+
+                        <hr>
+                        <span th:text="${jobPost.getCompany().getName()}"></span>
+                        <div class="d-flex flex-row align-items-center justify-content-center"><i
+                                class="fa fa-map-marker"></i> <small class="ml-1"
+                                                                     th:utext="| ${jobPost.getCity()},${jobPost.getCountry()} |"></small>
+                           <hr>
+                            <small class="ml-1"
+                                   th:utext="|Posted ${jobPost.getDaySincePosted()} day ago|"></small>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <p th:if="${jobPost.getMinSalary() != null and jobPost.getMaxSalary() != null}">
+                                <span th:utext="| ${jobPost.getMinSalary()}$ - ${jobPost.getMaxSalary()}$ |"></span>
+                            </p>
+                            <p th:if="${jobPost.getMinSalary() == null and jobPost.getMaxSalary() == null}">
+                                <span th:utext="| Negotiate |"></span></p>
+                            <form th:action="@{/jobs/{id}(id=${jobPost.getId()})}">
+                                <button type="submit" class="btn btn-sm btn-outline-dark">See detail</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

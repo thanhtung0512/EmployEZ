@@ -1,13 +1,13 @@
 package com.example.employez.controller;
 
-import com.example.employez.domain.entity_class.Company;
-import com.example.employez.domain.entity_class.Employee;
-import com.example.employez.domain.entity_class.Role;
-import com.example.employez.domain.entity_class.User;
+import com.example.employez.dao.jobPostingDAO.JobPostDAO;
+import com.example.employez.domain.entity_class.*;
 import com.example.employez.domain.enumPackage.ROLE;
+import com.example.employez.dto.JobPostDto;
 import com.example.employez.dto.UserDto;
 import com.example.employez.repository.CompanyRepository;
 import com.example.employez.repository.EmployeeRepository;
+import com.example.employez.repository.JobPostingRepository;
 import com.example.employez.repository.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,6 +48,12 @@ public class UserController {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private JobPostDAO jobPostDAO;
+
+    @Autowired
+    private JobPostingRepository jobPostingRepository;
+
 
     private List<String> getUserRole(Authentication authentication) {
         List<String> roles = authentication.getAuthorities().stream()
@@ -66,6 +74,7 @@ public class UserController {
         Integer userId = user.getId();
         Set<Role> roleSet = user.getRoles();
         UserDto userDto = new UserDto();
+        Set<JobPosting> jobPostings = null;
         if (roleSet.size() == 1) {
             for (Role role : roleSet) {
                 if (role.getName().equals(ROLE.Employee)) {
@@ -83,6 +92,7 @@ public class UserController {
                     userDto.setUniversity(employee.getUniversity());
                     userDto.setCountry(employee.getCountry());
                     userDto.setState(employee.getCity());
+                    jobPostings = employeeRepository.getEmployeeById(employeeId).getFavoriteJob();
                 } else if (role.getName().equals(ROLE.Company)) {
                     String sql = "SELECT c.id FROM company c  WHERE c.user_id = :userId";
                     Long companyId = session.createNativeQuery(sql, Long.class)
@@ -95,12 +105,13 @@ public class UserController {
                     userDto.setAddress("TEST ADDRESS");
                     userDto.setPhone("TEST PHONE NUMBER");
 
+
                 }
             }
         }
         model.addAttribute("user", userDto);
         model.addAttribute("roles", getUserRole(authentication));
-
+        model.addAttribute("jobList", jobPostings);
         return "user_profile";
     }
 
@@ -127,6 +138,7 @@ public class UserController {
         String email = authentication.getName();
         User user = userRepository.findByEmail(email);
         int userId = user.getId();
+        Set<JobPosting> jobPostings = null;
         System.out.println(userDto.toString());
         for (String role : roles) {
             System.out.println("ROLE: " + role);
@@ -147,7 +159,7 @@ public class UserController {
                         .getId();
 
                 String hql = "UPDATE Employee SET firstName = :firstName, lastName = :lastName, jobTitle = :jobTitle, city = :city, university = :university, country = :country WHERE id = :id ";
-                int execUpdate = session.createQuery(hql)
+                int execUpdate = session.createQuery(hql,Integer.class)
                         .setParameter("firstName", userDto.getFirstName())
                         .setParameter("lastName", userDto.getLastName())
                         .setParameter("jobTitle", userDto.getJobTitle())
@@ -160,8 +172,11 @@ public class UserController {
             }
         }
 
+
+
         model.addAttribute("user", userDto);
         model.addAttribute("roles",roles);
+
         session.getTransaction().commit();
         session.close();
         return "user_profile";

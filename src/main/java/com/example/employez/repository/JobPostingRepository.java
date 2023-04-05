@@ -22,4 +22,5 @@ public interface JobPostingRepository extends JpaRepository<JobPosting, Integer>
             , @Param("city") String city);
 
     JobPosting findJobPostingById(Integer id);
+
 }

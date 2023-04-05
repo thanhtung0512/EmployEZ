@@ -73,4 +73,11 @@ public class Employee {
     private Long id;
 
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "favor_job",
+            joinColumns = {@JoinColumn(name = "fk_employee")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_jobpost")})
+    private Set<JobPosting> favoriteJob;
+
+
 }

@@ -32,11 +32,10 @@ public class JobPosting {
                     , CascadeType.DETACH
                     , CascadeType.PERSIST
                     , CascadeType.REFRESH})
-
     private Company company = new Company();
 
-    @ManyToMany(mappedBy = "jobPostings")
-    private Set<Employee> employees = new HashSet<>();
+    /*@ManyToMany(mappedBy = "jobPostings")
+    private Set<Employee> employees = new HashSet<>();*/
 
     @ManyToMany(fetch = FetchType.LAZY
             , cascade = {CascadeType.MERGE

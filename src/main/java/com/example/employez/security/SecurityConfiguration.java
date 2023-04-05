@@ -80,9 +80,10 @@ public class SecurityConfiguration {
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/homepage","/employee/signup","/employer/signup","/api/user/byid/{id}").permitAll()
+                .requestMatchers("/homepage","/employee/signup","/employer/signup","/api/user/byid/{id}","/course/**").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").hasRole("Company")
+
                 .and()
                 .authorizeHttpRequests().requestMatchers("/employee/login").permitAll()
                 .anyRequest()
@@ -90,7 +91,7 @@ public class SecurityConfiguration {
                 .and().formLogin()
                 .loginPage("/login")
                 /*.loginProcessingUrl("/login")*/
-                .defaultSuccessUrl("/homepage")
+                .defaultSuccessUrl("/homepage",true)
                 .permitAll()
                 .and()
                 .logout()
