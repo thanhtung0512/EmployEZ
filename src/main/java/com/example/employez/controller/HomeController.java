@@ -1,12 +1,15 @@
 package com.example.employez.controller;
 
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
+import com.example.employez.domain.entity_class.Course;
 import com.example.employez.domain.entity_class.Employee;
 import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.domain.entity_class.User;
 import com.example.employez.dto.JobPostDto;
+import com.example.employez.repository.CourseRepository;
 import com.example.employez.repository.EmployeeRepository;
 import com.example.employez.repository.UserRepository;
+import com.example.employez.util.AuthenticationUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
@@ -42,9 +45,14 @@ public class HomeController {
     private JobPostDAO jobPostDAO;
 
 
+    @Autowired
+    private AuthenticationUtil authenticationUtil;
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
 
     @GetMapping({"/homepage", "/"})
@@ -59,7 +67,10 @@ public class HomeController {
         subField.add("NLP Engineer");
         // subField.add("Researcher");
 
-        Authentication auth = getAuth();
+        List<Course> courses = courseRepository.findCourseByTitleContaining("Spring").subList(0,6);
+        model.addAttribute("courses",courses);
+
+        Authentication auth = authenticationUtil.authentication();
         String mail = null;
         if (auth != null) {
             mail = auth.getName();
@@ -67,6 +78,7 @@ public class HomeController {
         System.out.println("MAIL = " + mail);
         model.addAttribute("auth",auth);
         model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
 
 
         System.out.println("authentication == null : " + auth == null);

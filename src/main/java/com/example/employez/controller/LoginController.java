@@ -78,7 +78,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginTest() {
-
+        System.out.println("TEST LOGIN");
         return "login";
     }
 

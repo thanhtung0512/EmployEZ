@@ -1,9 +1,11 @@
 package com.example.employez.controller;
 
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
+import com.example.employez.domain.entity_class.Course;
 import com.example.employez.domain.entity_class.Employee;
 import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.domain.entity_class.User;
+import com.example.employez.repository.CourseRepository;
 import com.example.employez.repository.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,10 +19,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
 public class JobController {
+
+    @Autowired
+    private CourseRepository courseRepository;
+
 
     @Autowired
     private UserRepository userRepository;
@@ -49,6 +56,9 @@ public class JobController {
         model.addAttribute("mail", mail);
         model.addAttribute("jobPosting", jobPosting);
         model.addAttribute("skills", skillSet);
+
+        List<Course> courses = courseRepository.findCourseByTitleContaining("Spring").subList(0,6);
+        model.addAttribute("courses",courses);
         return "single";
     }
 
@@ -76,6 +86,8 @@ public class JobController {
                 .setParameter("fk_job",jobId)
                 .executeUpdate();
         System.out.println("EXCEC UPDATE = " + execUpdate);
+        List<Course> courses = courseRepository.findCourseByTitleContaining("Spring").subList(0,6);
+        model.addAttribute("courses",courses);
         session.getTransaction().commit();
         session.close();
         return "single";

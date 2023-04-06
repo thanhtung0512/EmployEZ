@@ -17,31 +17,10 @@ public class Resume {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "firstName")
-    private String firstName;
+    @Column(name = "resumePath")
+    private String resumePath;
 
-    @Column(name = "lastName")
-    private String lastName;
-
-    @Column(name = "education")
-    private String education;
-
-
-    @Column(name = "yearOfExperience")
-    private int yearOfExperience;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "phoneNumber")
-    private String phoneNumber;
-
-    @Column(name = "githubURL")
-    private String githubURL;
-
-
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH})
     private Employee employee;
-
 
 }

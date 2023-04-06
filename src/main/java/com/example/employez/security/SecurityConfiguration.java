@@ -83,7 +83,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/homepage","/employee/signup","/employer/signup","/api/user/byid/{id}","/course/**").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").hasRole("Company")
-
+                .and().authorizeHttpRequests().requestMatchers("/resume/**").hasRole("Employee")
                 .and()
                 .authorizeHttpRequests().requestMatchers("/employee/login").permitAll()
                 .anyRequest()

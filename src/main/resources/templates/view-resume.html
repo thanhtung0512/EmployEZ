@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        layout:decorator="layout/default"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge;chrome=1" http-equiv="X-UA-Compatible"/>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type"/>
+    <meta content="notranslate" name="google"/>
+    <!-- Metadata (autofilled by "Save to HTML") -->
+    <meta content="Joe Smith" name="author"/>
+    <meta content="A really good software engineer you should hire" name="subject"/>
+    <meta content="coding, developing, hacking" name="keywords"/>
+    <meta content="2009-04-01" name="date"/>
+    <meta content="html-resume-template" name="generator"/>
+    <!-- Google Fonts, Normalize, and Font Awesome -->
+    <link crossorigin="anonymous" href="https://fonts.googleapis.com/css?family=Cardo|Montserrat:300,400,500&amp;subset=latin-ext"
+          rel="stylesheet"
+          type="text/css"/>
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
+          integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54="
+          rel="stylesheet" type="text/css"/>
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+          rel="stylesheet" type="text/css"/>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" th:href="@{/css/paper.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/typography.css}" type="text/css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/screen.css}" type="text/css"/>
+    <link media="print" rel="stylesheet" th:href="@{/css/print.css}" type="text/css"/>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>Resume creator online</title>
+</head>
+<body class="letter">
+<div th:each="path : ${resumePaths}">
+    <iframe height="600" th:src="@{path}" type="application/pdf" width="100%"></iframe>
+</div>
+
+</body>
+<!-- Developed by Tom Barrasso. https://barrasso.me -->
+</html>

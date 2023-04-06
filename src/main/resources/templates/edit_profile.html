@@ -56,7 +56,8 @@
 
 
         <div class="col-md-5 border-right">
-            <form th:object="${user}" th:method="POST" method="post" th:action="@{/user/user_profile}">
+            <form enctype="multipart/form-data" method="post" th:action="@{/user/user_profile}" th:method="POST"
+                  th:object="${user}">
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Profile Settings</h4>
@@ -150,6 +151,24 @@
                                                                                                placeholder="state">
                         </div>
                     </div>
+
+                    <hr>
+                    <div th:each="role : ${roles}">
+                        <div th:if="${role == 'ROLE_Employee'}">
+
+                            <div class="row">
+                                <label class="form-label" for="customFile"
+                                       th:if="${currentEmployee.getResumes().size() == 0}">Upload your resume
+                                    file</label>
+                                <label class="form-label" for="customFile"
+                                       th:if="${currentEmployee.getResumes().size() != 0}">Add resume file</label>
+                                <input class="form-control" id="customFile" name="file" type="file"/>
+                            </div>
+
+                        </div>
+                    </div>
+
+
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary profile-button" type="submit">Save Profile</button>
                     </div>

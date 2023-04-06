@@ -182,7 +182,8 @@
                                 <ul>
                                     <li th:each=" jobPost : ${jobList}">
                                         <div class="card-p-2">
-                                            <div class="text-right"><small th:text="${jobPost.getEmploymentType()}"></small>
+                                            <div class="text-right"><small
+                                                    th:text="${jobPost.getEmploymentType()}"></small>
                                             </div>
                                             <div class="text-center mt-2 p-3"><img
                                                     src="https://img.icons8.com/color/96/000000/google-logo.png"
@@ -208,6 +209,12 @@
                                                             detail
                                                         </button>
                                                     </form>
+                                                    <form th:action="@{/user/deletejob/{id}(id=${jobPost.getId()})}"
+                                                          th:method="post">
+                                                        <button class="btn btn-sm btn-outline-dark" type="submit">Delete
+                                                        </button>
+                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>

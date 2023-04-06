@@ -3,6 +3,7 @@ package com.example.employez.controller;
 import com.example.employez.domain.entity_class.Course;
 import com.example.employez.domain.entity_class.Skill;
 import com.example.employez.repository.CourseRepository;
+import com.example.employez.util.AuthenticationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,9 @@ public class CourseController {
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private AuthenticationUtil authenticationUtil;
+
     private Authentication getAuth() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
@@ -38,6 +42,8 @@ public class CourseController {
         model.addAttribute("auth",auth);
         model.addAttribute("mail", mail);
         model.addAttribute("courseName",courseName);
+
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
         return "course";
     }
 }
