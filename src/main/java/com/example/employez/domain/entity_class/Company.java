@@ -32,6 +32,7 @@ public class Company {
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private Set<JobPosting> jobPostings;
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -42,7 +42,6 @@ public class CourseController {
         model.addAttribute("auth",auth);
         model.addAttribute("mail", mail);
         model.addAttribute("courseName",courseName);
-
         model.addAttribute("roles", authenticationUtil.getUserRole(auth));
         return "course";
     }

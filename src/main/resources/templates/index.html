@@ -66,7 +66,6 @@
                 <div th:if = "${mail != 'anonymousUser'}">
                     Welcome back, <span th:text="${mail}"></span>
                 </div>
-
             </div>
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
@@ -74,6 +73,10 @@
 
 
                     <li><a th:href="@{/course/list/Spring}">Course</a></li>
+
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}" ><a th:href="@{/company/jobs/curent}">Opening jobs</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}" ><a th:href="@{/employee/tracking_job}">Tracking application</a></li>
+
 
 
                     <li class="menu-has-children" th:each="role : ${roles}"

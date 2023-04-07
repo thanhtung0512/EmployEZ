@@ -1,6 +1,7 @@
 package com.example.employez.dto;
 
 import com.example.employez.domain.entity_class.Company;
+import com.example.employez.domain.enumPackage.ApplyingJobState;
 import com.example.employez.domain.enumPackage.EmploymentType;
 import com.example.employez.domain.enumPackage.ProjectLocation;
 import lombok.AllArgsConstructor;
@@ -25,5 +26,6 @@ public class JobPostDto {
     private Date datePosted;
     private String jobDescription;
     private ProjectLocation projectLocation;
+    private ApplyingJobState applyingJobState;
 
 }

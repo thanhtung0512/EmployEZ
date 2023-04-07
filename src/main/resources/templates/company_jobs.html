@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="/img/fav.png">
+    <!-- Author Meta -->
+    <meta name="author" content="codepixer">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>Job Listing</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <!--
+    CSS
+    ============================================= -->
+    <link rel="stylesheet" th:href="@{/css/linearicons.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
+    <!--//<link rel="stylesheet" th:href="@{/css/main.css}">-->
+    <link rel="stylesheet" th:href="@{/css/opening-jobs.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+</head>
+<body>
+
+<section id="sectionJobList" class="section section-job-list gradient-light--lean-left">
+    <div class="container">
+
+        <div class="row row-grid justify-content-center">
+
+            <div class="col-md-8 col-lg-7 col-xl-6 text-center">
+                <h2 class="section__title mb-4">Jobs Openings at <span th:text="${jobList.get(0).getCompany().getName()}"></span></h2>
+
+                <p>We’re always searching for amazing people to join our team. Take a look at our current openings.</p>
+
+            </div>
+
+            <div class="col-md-10">
+
+                <form class="filter-form mt-5 mb-4">
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group">
+                                <label for="jobPosition">Position :</label>
+                                <select id="jobPosition" class="custom-select">
+                                    <option value="position1">Business</option>
+                                    <option value="position2">Design</option>
+                                    <option value="position3">Development</option>
+                                    <option value="position4">Engineering</option>
+                                    <option value="position5">Finance</option>
+                                    <option value="position6">Marketing</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group">
+                                <label for="jobType">Type :</label>
+                                <select id="jobType" class="custom-select">
+                                    <option value="type1">Full-time</option>
+                                    <option value="type3">Part-time</option>
+                                    <option value="type4">Remote</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group">
+                                <label for="jobLocation">Location : </label>
+                                <select id="jobLocation" class="custom-select">
+                                    <option value="location1">Chicago, US</option>
+                                    <option value="location3">Michigan, US</option>
+                                    <option value="location2">New York, US</option>
+                                    <option value="location4">Los Angles, US</option>
+                                    <option value="location5">Moscow, Russia</option>
+                                    <option value="location6">Sydney, Australia</option>
+                                    <option value="location7">Birmingham, UK</option>
+                                    <option value="location8">Manchester, UK</option>
+                                    <option value="location9">Beijing, China</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+
+                <div class="job-list__wrapper mb-6">
+                    <h3 class="mb-4">Development</h3>
+
+                   <!-- Job Card -->
+
+                    <a th:each="jobPost : ${jobList}" th:href="@{/jobs/{id}(id=${jobPost.getId()})}" class="card p-0 mb-3 border-0 shadow-sm shadow--on-hover">
+                        <div class="card-body" >
+                  <span class="row justify-content-between align-items-center">
+                    <span class="col-md-5 color--heading">
+                        <p th:text="${jobPost.getJobTitle()}"> </p>
+                    </span>
+
+                    <span class="col-5 col-md-3 my-3 my-sm-0 color--text">
+                         <p th:text="${jobPost.getProjectLocation()}"> </p>
+                    </span>
+
+                    <span class="col-7 col-md-3 my-3 my-sm-0 color--text">
+                      <i class="fas fa-map-marker-alt mr-1"></i> <p th:utext="|${jobPost.getCity()}, ${jobPost.getCountry()}|"> </p>
+                    </span>
+
+                    <span class="d-none d-md-block col-1 text-center color--text">
+                      <small><i class="fas fa-chevron-right"></i></small>
+                    </span>
+                  </span>
+                        </div>
+                    </a> <!-- Job Card -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
+

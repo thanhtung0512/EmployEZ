@@ -374,5 +374,62 @@ public class JobPostDAOImpl implements JobPostDAO {
         return jobPostDtos;
     }
 
+    public List<JobPostDto> getByCompanyId(Long companyId) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String sql = " SELECT j.jobTitle,j.company,j.state,j.country,j.maxSalary " +
+                "AS maxSal,j.minSalary AS minSal,j.datePosted,j.id, j.projectLocation " +
+                "FROM JobPosting j " +
+                "WHERE j.company.id = "
+                + companyId;
+        Object[][] result = session.createQuery(sql, Object[][].class)
+                .getResultList().toArray(new Object[0][]);
+        List<JobPostDto> jobPostDtos = new ArrayList<>();
+        for (int i = 0; i < result.length; i++) {
+            JobPostDto jobPostDto = new JobPostDto();
+            jobPostDto.setId((Integer) result[i][7]);
+            jobPostDto.setJobTitle((String) result[i][0]);
+            jobPostDto.setCompany((Company) result[i][1]);
+            jobPostDto.setCity((String) result[i][2]);
+            jobPostDto.setCountry((String) result[i][3]);
+            jobPostDto.setMaxSalary((Integer) result[i][4]);
+            jobPostDto.setMinSalary((Integer) result[i][5]);
+            jobPostDto.setDaySincePosted(DayUtil.daysBetweenNowAndSpecificDate((Date) result[i][6]));
+            jobPostDto.setProjectLocation((ProjectLocation) result[i][8]);
+            jobPostDtos.add(jobPostDto);
+        }
+        session.getTransaction().commit();
+        session.close();
+        return jobPostDtos;
+    }
+
+    public JobPostDto getById(Long jobId) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String sql = " SELECT j.jobTitle,j.company,j.state,j.country,j.maxSalary " +
+                "AS maxSal,j.minSalary AS minSal,j.datePosted,j.id, j.projectLocation " +
+                "FROM JobPosting j " +
+                "WHERE j.id = "
+                + jobId;
+        Object[][] result = session.createQuery(sql, Object[][].class)
+                .getResultList().toArray(new Object[0][]);
+        JobPostDto jobPostDto = new JobPostDto();
+        for (int i = 0; i < result.length; i++) {
+            jobPostDto.setId((Integer) result[i][7]);
+            jobPostDto.setJobTitle((String) result[i][0]);
+            jobPostDto.setCompany((Company) result[i][1]);
+            jobPostDto.setCity((String) result[i][2]);
+            jobPostDto.setCountry((String) result[i][3]);
+            jobPostDto.setMaxSalary((Integer) result[i][4]);
+            jobPostDto.setMinSalary((Integer) result[i][5]);
+            jobPostDto.setDaySincePosted(DayUtil.daysBetweenNowAndSpecificDate((Date) result[i][6]));
+            jobPostDto.setProjectLocation((ProjectLocation) result[i][8]);
+
+        }
+        session.getTransaction().commit();
+        session.close();
+        return jobPostDto;
+    }
+
 
 }

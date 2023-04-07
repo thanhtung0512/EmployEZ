@@ -40,7 +40,7 @@ public class SearchController {
         subField.add("Software Engineer");
         subField.add("NLP Engineer");
 
-        List<JobPostDto> jobPostDtos =  jobPostDAO.getBySalaryRange();
+        List<JobPostDto> jobPostDtosBySalaryRange =  jobPostDAO.getBySalaryRange();
         List<JobPostDto> jobPostings = jobPostDAO.jobPostingListByTwoFields(jobTitle,location);
 
         Authentication auth = getAuth();
@@ -52,8 +52,8 @@ public class SearchController {
         model.addAttribute("auth",auth);
         model.addAttribute("mail", mail);
         List<JobPostDto> topFiveJobPost = new ArrayList<>();
-        for (int i = 0; i < Math.min(5,jobPostDtos.size()); i++) {
-            topFiveJobPost.add(jobPostDtos.get(i));
+        for (int i = 0; i < Math.min(5,jobPostDtosBySalaryRange.size()); i++) {
+            topFiveJobPost.add(jobPostDtosBySalaryRange.get(i));
         }
         model.addAttribute("jobList", jobPostings);
         model.addAttribute("subField", subField);

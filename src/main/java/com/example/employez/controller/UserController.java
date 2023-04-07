@@ -250,7 +250,7 @@ public class UserController {
         model.addAttribute("roles", authenticationUtil.getUserRole(authenticationUtil.authentication()));
         model.addAttribute("jobList", jobPostings);
         return "user_profile";
-
-
     }
+
+
 }

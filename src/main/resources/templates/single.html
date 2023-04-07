@@ -149,7 +149,7 @@
                                         <span class="lnr lnr-heart"></span>
                                     </button>
                                 </form></li>
-                                <li><a href="#">Apply</a></li>
+                                <li><a th:href="@{/employee/apply/{id}(id = ${jobPosting.getId()})}">Apply</a></li>
                             </ul>
                         </div>
                         <h5 th:utext="|Job Type : ${jobPosting.getEmploymentType()}|"></h5>

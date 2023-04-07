@@ -31,4 +31,7 @@ public interface JobPostDAO {
      List<JobPosting> getBySkill(String skillName);
 
     List<JobPostDto> getBySalaryRange();
+     JobPostDto getById(Long jobId);
+
+     List<JobPostDto> getByCompanyId(Long companyId);
 }

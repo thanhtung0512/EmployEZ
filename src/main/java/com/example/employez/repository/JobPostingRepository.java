@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
@@ -22,5 +23,9 @@ public interface JobPostingRepository extends JpaRepository<JobPosting, Integer>
             , @Param("city") String city);
 
     JobPosting findJobPostingById(Integer id);
+
+    void deleteById(Long id);
+
+
 
 }
