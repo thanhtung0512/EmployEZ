@@ -18,9 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,10 +99,88 @@ public class CompanyController {
         model.addAttribute("jobList", jobPostDtosByCompany);
         session.getTransaction().commit();
         session.close();
-        return "redirect:/jobs/current";
+        return "redirect:/company/jobs/current";
     }
 
-    @GetMapping("jobs/applications/{id}")
+
+    @GetMapping("/jobs/edit/{id}")
+    public String editJobPost(@PathVariable(name = "id") Long jobId, Model model) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        JobPostDto currentJob = jobPostDAO.getById(jobId);
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        JobPostDto jobPostDto = new JobPostDto();
+        jobPostDto.setId(Math.toIntExact(jobId));
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
+        model.addAttribute("currentJob", currentJob);
+        System.out.println(currentJob);
+        model.addAttribute("job", jobPostDto);
+        model.addAttribute("id", jobId);
+        session.getTransaction().commit();
+        session.close();
+        return "edit_job";
+    }
+
+
+    @PostMapping("/jobs/edit/done/{id}")
+    public String doneEditting(@ModelAttribute(name = "job") JobPostDto jobPostDto
+            , @RequestParam(name = "jobDescription") String jobDescription
+            , @PathVariable(name = "id") Long jobId
+            , Model model) {
+        String updateJobSql = "UPDATE JobPosting j " +
+                "SET j.jobTitle = :jobTitle" +
+                ", j.jobDescription = :jobDescription" +
+                ", j.projectLocation = :projectLocation" +
+                ", j.country = :country, j.city = :city" +
+                ", j.minSalary = :minSalary" +
+                ", j.maxSalary = :maxSalary" +
+                ", j.state = :state " +
+                "WHERE j.id = :id";
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.createQuery(updateJobSql)
+                .setParameter("jobTitle", jobPostDto.getJobTitle())
+                .setParameter("jobDescription", jobDescription)
+                .setParameter("projectLocation", jobPostDto.getProjectLocation())
+                .setParameter("country", jobPostDto.getCountry())
+                .setParameter("city", jobPostDto.getCity())
+                .setParameter("minSalary", jobPostDto.getMinSalary())
+                .setParameter("maxSalary", jobPostDto.getMaxSalary())
+                .setParameter("state", jobPostDto.getState())
+                .setParameter("id", jobId).executeUpdate();
+
+        System.out.println("JOB DESCRIPTION" + jobDescription);
+
+        int userId = currentUserUtil.getCurrentUser().getId();
+        Company company = currentUserUtil.company(userId);
+        List<JobPostDto> jobPostDtosByCompany = jobPostDAO.getByCompanyId(company.getId());
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
+        model.addAttribute("jobList", jobPostDtosByCompany);
+
+
+        session.getTransaction().commit();
+        session.close();
+        return "redirect:/company/jobs/current";
+
+    }
+
+
+    @GetMapping("/jobs/applications/{id}")
     @Transactional
     public String applications(@PathVariable(name = "id") Long jobId, Model model) {
         Session session = sessionFactory.openSession();

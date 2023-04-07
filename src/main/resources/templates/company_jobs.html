@@ -50,7 +50,7 @@
     <link rel="stylesheet" th:href="@{/css/nice-select.css}">
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
     <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
+
     <link rel="stylesheet" th:href="@{/css/course_style.css}">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
@@ -91,7 +91,7 @@
 
                    <!-- Job Card -->
 
-                    <a th:each="jobPost : ${jobList}" th:href="@{/company/jobs/applications/{id}(id=${jobPost.getId()})}" class="card p-0 mb-3 border-0 shadow-sm shadow--on-hover">
+                    <a th:each="jobPost : ${jobList}"  class="card p-0 mb-3 border-0 shadow-sm shadow--on-hover">
                         <div class="card-body" >
                   <span class="row justify-content-between align-items-center">
                     <span class="col-md-5 color--heading">
@@ -110,6 +110,18 @@
                       <small><i class="fas fa-chevron-right"></i></small>
                     </span>
                   </span>
+                            <form th:action="@{/company/jobs/applications/{id}(id=${jobPost.getId()})}">
+                                <button type="submit" class="btn btn-sm btn-outline-dark">See detail</button>
+                            </form>
+
+                            <form th:action="@{/company/jobs/edit/{id}(id=${jobPost.getId()})}">
+                                <button type="submit" class="btn btn-sm btn-outline-dark">Edit job post</button>
+                            </form>
+
+                            <form th:action="@{/company/jobs/del/{id}(id=${jobPost.getId()})}">
+                                <button type="submit" class="btn btn-sm btn-outline-dark">Delete this job</button>
+                            </form>
+
                         </div>
                     </a> <!-- Job Card -->
 

@@ -406,7 +406,7 @@ public class JobPostDAOImpl implements JobPostDAO {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         String sql = " SELECT j.jobTitle,j.company,j.state,j.country,j.maxSalary " +
-                "AS maxSal,j.minSalary AS minSal,j.datePosted,j.id, j.projectLocation " +
+                "AS maxSal,j.minSalary AS minSal,j.datePosted,j.id, j.projectLocation, j.jobDescription " +
                 "FROM JobPosting j " +
                 "WHERE j.id = "
                 + jobId;
@@ -423,6 +423,7 @@ public class JobPostDAOImpl implements JobPostDAO {
             jobPostDto.setMinSalary((Integer) result[i][5]);
             jobPostDto.setDaySincePosted(DayUtil.daysBetweenNowAndSpecificDate((Date) result[i][6]));
             jobPostDto.setProjectLocation((ProjectLocation) result[i][8]);
+            jobPostDto.setJobDescription((String) result[i][9]);
 
         }
         session.getTransaction().commit();

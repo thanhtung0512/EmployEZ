@@ -71,8 +71,9 @@ public class UserController {
         User user = currentUserUtil.getCurrentUser();
         Integer userId = user.getId();
         Set<Role> roleSet = user.getRoles();
-        UserDto userDto = new UserDto();
         Set<JobPosting> jobPostings = null;
+        UserDto userDto = new UserDto();
+
         if (roleSet.size() == 1) {
             for (Role role : roleSet) {
                 if (role.getName().equals(ROLE.Employee)) {
@@ -136,6 +137,54 @@ public class UserController {
         model.addAttribute("user", new UserDto());
         model.addAttribute("currentEmployee", currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()));
 
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        User user = currentUserUtil.getCurrentUser();
+        Integer userId = user.getId();
+        Set<Role> roleSet = user.getRoles();
+        Set<JobPosting> jobPostings = null;
+        UserDto userDto = new UserDto();
+
+        if (roleSet.size() == 1) {
+            for (Role role : roleSet) {
+                if (role.getName().equals(ROLE.Employee)) {
+                    /*String sql = "SELECT e.id FROM employee e  WHERE e.user_id = :userId";
+                    Long employeeId = session.createNativeQuery(sql, Long.class)
+                            .setParameter("userId", userId).getSingleResult();*/
+                    Employee employee = currentUserUtil.employee(userId);
+                    userDto.setFirstName(employee.getFirstName());
+                    userDto.setLastName(employee.getLastName());
+                    userDto.setFullName(employee.getFirstName() + " " + employee.getLastName());
+                    userDto.setEmail(user.getEmail());
+                    userDto.setJobTitle(employee.getJobTitle());
+                    userDto.setAddress(employee.getCity() + "," + employee.getCountry());
+                    userDto.setPhone(employee.getPhone());
+                    userDto.setUniversity(employee.getUniversity());
+                    userDto.setCountry(employee.getCountry());
+                    userDto.setState(employee.getCity());
+                    jobPostings = employee.getFavoriteJob();
+                } else if (role.getName().equals(ROLE.Company)) {
+                    String sql = "SELECT c.id FROM company c  WHERE c.user_id = :userId";
+                    Long companyId = session.createNativeQuery(sql, Long.class)
+                            .setParameter("userId", userId)
+                            .getSingleResult();
+                    Company company = companyRepository.findCompanyById(companyId);
+                    userDto.setFullName(company.getName());
+                    userDto.setEmail(user.getEmail());
+                    userDto.setJobTitle(null);
+                    userDto.setAddress("TEST ADDRESS");
+                    userDto.setPhone("TEST PHONE NUMBER");
+
+
+                }
+            }
+        }
+        session.getTransaction().commit();
+        session.close();
+        model.addAttribute("user", userDto);
+        model.addAttribute("roles", authenticationUtil.getUserRole(authenticationUtil.authentication()));
+        model.addAttribute("jobList", jobPostings);
+
 
         // authentication
         Authentication auth = authenticationUtil.authentication();
@@ -188,7 +237,7 @@ public class UserController {
                 Long id = employee
                         .getId();
                 jobPostings = employee.getFavoriteJob();
-                String hql = "UPDATE employee SET firstName = :firstName, lastName = :lastName, jobTitle = :jobTitle, city = :city, university = :university, country = :country WHERE id = :id ";
+                String hql = "UPDATE employee SET firstName = :firstName, lastName = :lastName, jobTitle = :jobTitle, city = :city, university = :university, country = :country,phone = :phone WHERE id = :id ";
                 int execUpdate = session.createNativeQuery(hql, Employee.class)
                         .setParameter("firstName", userDto.getFirstName())
                         .setParameter("lastName", userDto.getLastName())
@@ -196,12 +245,13 @@ public class UserController {
                         .setParameter("city", userDto.getState())
                         .setParameter("university", userDto.getUniversity())
                         .setParameter("country", userDto.getCountry())
-                        .setParameter("id", id).executeUpdate();
+                        .setParameter("id", id)
+                        .setParameter("phone",userDto.getPhone()).executeUpdate();
                 userDto.addResumePath(tempFile.toString());
                 Resume resume = new Resume();
                 resume.setResumePath(tempFile.toString());
                 resume.setEmployee(employee);
-                employee.getResumes().add(resume);
+                employee.addNewResume(resume);
                 session.save(resume);
                 System.out.println("EXECUTE UPDATE = " + execUpdate);
             }

@@ -27,5 +27,5 @@ public class JobPostDto {
     private String jobDescription;
     private ProjectLocation projectLocation;
     private ApplyingJobState applyingJobState;
-
+    private String state;
 }

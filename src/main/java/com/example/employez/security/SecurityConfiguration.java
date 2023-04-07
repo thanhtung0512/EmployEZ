@@ -86,16 +86,16 @@ public class SecurityConfiguration {
                         , "/api/user/byid/{id}"
                         , "/course/**"
                         , "/employee/profile/**"
-                        , "/search/**").permitAll()
+                        , "/search/**"
+                        , "/resume/view/**").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**"
                         , "/company/jobs/current"
                         , "/company/jobs/del/**"
                         , "/user/deletejob/**"
-                        , "/resume/view/**").hasRole("Company")
+                        ).hasRole("Company")
                 .and().authorizeHttpRequests()
-                .requestMatchers("/resume/view"
-                        , "/resume/create"
+                .requestMatchers( "/resume/create"
                         , "/employee/apply/**"
                         , "/employee/tracking_job/**"
                         , "/employee/tracking_job").hasRole("Employee")

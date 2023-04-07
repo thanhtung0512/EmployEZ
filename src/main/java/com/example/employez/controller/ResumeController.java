@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 // view: /resume/view
 // create: /resume/create
@@ -70,6 +72,41 @@ public class ResumeController {
                 .contentType(MediaType.parseMediaType("application/pdf"))
                 .body(resource);
     }
+
+
+    /*@GetMapping(value = "/view")
+    public List<ResponseEntity<InputStreamResource>> getTermsConditions() throws FileNotFoundException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Employee employee = currentUserUtil.employee(currentUserUtil.getCurrentUser().getId());
+        String getUserResumePath = "SELECT resumePath FROM resume WHERE employee_id = :e_id ";
+        List<String> paths = session.createNativeQuery(getUserResumePath, String.class).setParameter("e_id", employee.getId()).getResultList();
+        String fileName = "";
+        List<ResponseEntity<InputStreamResource>> responseEntityList = new ArrayList<>();
+        for (String path : paths) {
+            for (int i = path.length() - 1; i >= 0; i--) {
+                if (path.charAt(i) == '\'') {
+                    fileName = path.substring(i + 1);
+                    break;
+                }
+            }
+            System.out.println("FILE NAME = " + fileName);
+            File file = new File(path);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("content-disposition", "inline;filename=" + fileName);
+
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+            responseEntityList.add(ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(file.length())
+                    .contentType(MediaType.parseMediaType("application/pdf"))
+                    .body(resource));
+        }
+
+
+        return responseEntityList;
+    }*/
 
     @GetMapping("/create")
     public String createResume(Model model) {

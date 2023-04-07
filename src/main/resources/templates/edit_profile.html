@@ -155,13 +155,13 @@
                                         th:field="*{firstName}" type="text"
                                         class="form-control"
                                         placeholder="first name"
-                                        value=""
+                                        th:value="${user.getFirstName()}"
                                 >
                                 </div>
                                 <div class="col-md-6"><label class="labels">Last name</label><input
                                         th:field="*{lastName}" type="text"
                                         class="form-control"
-                                        value=""
+                                        th:value="${user.getLastName()}"
                                         placeholder="surname"
                                 >
                                 </div>
@@ -177,7 +177,7 @@
                                         th:field="*{fullName}" type="text"
                                         class="form-control"
                                         placeholder="Enter company name"
-                                        value=""
+                                        th:value="${user.fullName}"
                                 >
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                                         type="text"
                                         class="form-control"
                                         placeholder="enter job title"
-                                        value=""></div>
+                                        th:value="${user.jobTitle}"></div>
                             </div>
                         </div>
 
@@ -202,13 +202,13 @@
                                                                                                  type="text"
                                                                                                  class="form-control"
                                                                                                  placeholder="enter phone number"
-                                                                                                 value=""></div>
+                                                                                                 th:value="${user.getPhone()}"></div>
 
 
                         <div class="col-md-12"><label class="labels">Email</label><input th:field="*{email}" type="text"
                                                                                          class="form-control"
                                                                                          placeholder="enter email id"
-                                                                                         value=""></div>
+                                                                                         th:value="${user.email}"></div>
 
                         <div th:each="role : ${roles}">
                             <div th:if="${role == 'ROLE_Employee'}">
@@ -216,7 +216,7 @@
                                         th:field="*{university}" type="text"
                                         class="form-control"
                                         placeholder="education"
-                                        value=""></div>
+                                        th:value="${user.university}"></div>
                             </div>
                         </div>
 
@@ -226,12 +226,12 @@
                                                                                           type="text"
                                                                                           class="form-control"
                                                                                           placeholder="country"
-                                                                                          value="">
+                                                                                          th:value="${user.country}">
                         </div>
                         <div class="col-md-6"><label class="labels">State/Region</label><input th:field="*{state}"
                                                                                                type="text"
                                                                                                class="form-control"
-                                                                                               value=""
+                                                                                               th:value="${user.state}"
                                                                                                placeholder="state">
                         </div>
                     </div>

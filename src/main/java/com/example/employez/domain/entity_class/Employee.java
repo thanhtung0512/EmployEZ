@@ -225,4 +225,8 @@ public class Employee {
     public void setFavoriteJob(Set<JobPosting> favoriteJob) {
         this.favoriteJob = favoriteJob;
     }
+
+    public void addNewResume(Resume resume) {
+        resumes.add(resume);
+    }
 }
