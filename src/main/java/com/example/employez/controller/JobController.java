@@ -7,6 +7,7 @@ import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.domain.entity_class.User;
 import com.example.employez.repository.CourseRepository;
 import com.example.employez.repository.UserRepository;
+import com.example.employez.util.AuthenticationUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class JobController {
     private SessionFactory sessionFactory;
     @Autowired
     private JobPostDAO jobPostDAO;
+
+    @Autowired
+    private AuthenticationUtil authenticationUtil;
 
     private Authentication getAuth() {
         return SecurityContextHolder.getContext().getAuthentication();
@@ -76,18 +80,26 @@ public class JobController {
         User user = userRepository.getUserByEmail(mail);
         Employee employee = session.createQuery("SELECT e FROM Employee e WHERE e.user.id = " + user.getId(), Employee.class)
                 .getSingleResult();
-        System.out.println(employee.toString() + " Employee ");
+        // System.out.println(employee.toString() + " Employee ");
 
         System.out.println(" jobID = " + jobId);
 
         String sql = "INSERT INTO favor_job (fk_employee, fk_jobpost) value (:fk_emp, :fk_job)";
         Integer execUpdate = session.createNativeQuery(sql, Integer.class)
-                .setParameter("fk_emp",employee.getId())
-                .setParameter("fk_job",jobId)
+                .setParameter("fk_emp", employee.getId())
+                .setParameter("fk_job", jobId)
                 .executeUpdate();
         System.out.println("EXCEC UPDATE = " + execUpdate);
-        List<Course> courses = courseRepository.findCourseByTitleContaining("Spring").subList(0,6);
-        model.addAttribute("courses",courses);
+        List<Course> courses = courseRepository.findCourseByTitleContaining("Spring").subList(0, 6);
+        Authentication auth = authenticationUtil.authentication();
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
+        model.addAttribute("courses", courses);
         session.getTransaction().commit();
         session.close();
         return "single";

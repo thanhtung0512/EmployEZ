@@ -15,10 +15,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -123,7 +119,7 @@ public class JobPostDAOImpl implements JobPostDAO {
     @Transactional
     public List<JobPosting> jobPostingList(int numbers) {
         Session session = sessionFactory.openSession();
-        String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state,j.company FROM JobPosting j  ");
+        String hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state,j.company FROM JobPosting j  ORDER BY j.datePosted DESC ");
         Object[][] result = session.createQuery(hql, Object[][].class)
                 .getResultList().toArray(new Object[0][]);
         ArrayList<JobPosting> jobPostings = new ArrayList<>(numbers);
@@ -161,11 +157,11 @@ public class JobPostDAOImpl implements JobPostDAO {
         if (area.equals("Usa")) {
             hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
                     "WHERE j.country = :area OR j.jobTitle LIKE :name " +
-                    "OR j.jobTitle LIKE :field ");
+                    "OR j.jobTitle LIKE :field ORDER BY j.datePosted DESC");
         } else {
             hql = ("SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j " +
                     "WHERE j.state = :area OR j.jobTitle LIKE :name " +
-                    "OR j.jobTitle LIKE :field ");
+                    "OR j.jobTitle LIKE :field ORDER BY j.datePosted DESC");
         }
 
         Object[][] result = session.createQuery(hql, Object[][].class)
@@ -213,8 +209,8 @@ public class JobPostDAOImpl implements JobPostDAO {
         hql = ("SELECT j.id FROM JobPosting j " +
                 "WHERE j.city LIKE :location AND j.jobTitle LIKE :jobTitle ");
 
-        String hqll  = "SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j "
-                 + "WHERE j.jobTitle LIKE :jobTitle AND (j.city LIKE :location OR j.state LIKE :location) ";
+        String hqll = "SELECT j.id,j.city,j.country,j.datePosted,j.employmentType,j.jobDescription,j.jobTitle,j.maxSalary,j.minSalary,j.projectLocation,j.state FROM JobPosting j "
+                + "WHERE j.jobTitle LIKE :jobTitle AND (j.city LIKE :location OR j.state LIKE :location) ORDER BY j.datePosted DESC";
 
         Object[][] result = session.createQuery(hqll, Object[][].class)
                 .setParameter("jobTitle", "%" + jobTitle + "%")
@@ -275,7 +271,7 @@ public class JobPostDAOImpl implements JobPostDAO {
                 ",j.jobTitle,j.maxSalary" +
                 ",j.minSalary,j.projectLocation" +
                 ",j.state FROM JobPosting j " +
-                "WHERE j.id = :id");
+                "WHERE j.id = :id ORDER BY j.datePosted DESC");
         Object[][] result = session.createQuery(hql, Object[][].class)
                 .setParameter("id", id)
                 .getResultList().toArray(new Object[0][]);
@@ -330,7 +326,7 @@ public class JobPostDAOImpl implements JobPostDAO {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         ArrayList<JobPosting> jobPostings = new ArrayList<>();
-        String query = "SELECT jrs.fk_job FROM job_required_skill jrs WHERE fk_skill = :skillId";
+        String query = "SELECT jrs.fk_job FROM job_required_skill jrs WHERE fk_skill = :skillId ORDER BY ";
         ArrayList<Integer> jobPostId = (ArrayList<Integer>) session.createNativeQuery(query, Integer.class)
                 .setParameter("skillId", skillId).list();
         for (int jobId : jobPostId) {
@@ -357,7 +353,10 @@ public class JobPostDAOImpl implements JobPostDAO {
         int maxNumber = 5;
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        String sql = " SELECT j.jobTitle,j.company,j.state,j.country,j.maxSalary as maxSal,j.minSalary as minSal FROM JobPosting j WHERE j.minSalary is not null and j.maxSalary is not null ORDER BY j.maxSalary DESC ";
+        String sql = " SELECT j.jobTitle,j.company,j.state,j.country,j.maxSalary as maxSal,j.minSalary as minSal " +
+                "FROM JobPosting j " +
+                "WHERE j.minSalary is not null and j.maxSalary is not null " +
+                "ORDER BY j.maxSalary DESC,  j.datePosted DESC ";
         Object[][] result = session.createQuery(sql, Object[][].class)
                 .getResultList().toArray(new Object[0][]);
         List<JobPostDto> jobPostDtos = new ArrayList<>();

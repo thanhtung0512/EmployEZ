@@ -35,6 +35,57 @@
     <title>Resume creator online</title>
 </head>
 <body class="letter">
+
+<header id="header-home">
+    <div class="container">
+        <div class="row align-items-center justify-content-between d-flex">
+            <div id="logo">
+                <a th:href="@{'/homepage'}" style="font-size: 30px">Employ<span style="color: whitesmoke">EZ</span></a>
+            </div>
+            <div class="navbar-form navbar-right">
+                <div th:if = "${mail != 'anonymousUser'}">
+                    Welcome back, <span th:text="${mail}"></span>
+                </div>
+            </div>
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <li class="menu-active"><a th:href="@{'/user/user_profile'}">Profile</a></li>
+
+
+                    <li><a th:href="@{/course/list/Spring}">Course</a></li>
+
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}" ><a th:href="@{/company/jobs/current}">Opening jobs</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}" ><a th:href="@{/employee/tracking_job}">Tracking application</a></li>
+
+
+
+                    <li class="menu-has-children" th:each="role : ${roles}"
+                        th:if=" ${role == 'ROLE_Employee' } and ${mail != 'anonymousUser'}"><a href="">Resume</a>
+                        <ul>
+                            <li><a th:href="@{/resume/create}">Create</a></li>
+                            <li><a th:href="@{/resume/view}">View Resume</a></li>
+                        </ul>
+                    </li>
+
+
+
+
+
+                    <li th:if="${mail == 'anonymousUser'}"><a class="ticker-btn"
+                                                              th:href="@{'/employee/signup'}">Signup</a></li>
+                    <li th:if="${mail == 'anonymousUser'}"><a class="ticker-btn" th:href="@{'/login'}">Login</a></li>
+
+
+                    <li th:if="${mail != 'anonymousUser'}"><a class="ticker-btn"
+                                                              th:href="@{'/perform_logout'}">Logout</a></li>
+
+
+                </ul>
+            </nav><!-- #nav-menu-container -->
+        </div>
+    </div>
+</header><!-- #header -->
+
 <div th:each="path : ${resumePaths}">
     <iframe height="600" th:src="@{path}" type="application/pdf" width="100%"></iframe>
 </div>

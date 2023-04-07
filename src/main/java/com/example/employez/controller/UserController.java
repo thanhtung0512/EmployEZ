@@ -112,6 +112,18 @@ public class UserController {
         model.addAttribute("user", userDto);
         model.addAttribute("roles", authenticationUtil.getUserRole(authenticationUtil.authentication()));
         model.addAttribute("jobList", jobPostings);
+
+
+        // authentication
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
         return "user_profile";
     }
 
@@ -122,7 +134,19 @@ public class UserController {
         List<String> roles = authenticationUtil.getUserRole(authenticationUtil.authentication());
         model.addAttribute("roles", roles);
         model.addAttribute("user", new UserDto());
-        model.addAttribute("currentEmployee",currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()));
+        model.addAttribute("currentEmployee", currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()));
+
+
+        // authentication
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
 
         return "edit_profile";
     }
@@ -177,8 +201,8 @@ public class UserController {
                 Resume resume = new Resume();
                 resume.setResumePath(tempFile.toString());
                 resume.setEmployee(employee);
-
-                session.persist(resume);
+                employee.getResumes().add(resume);
+                session.save(resume);
                 System.out.println("EXECUTE UPDATE = " + execUpdate);
             }
         }
@@ -187,13 +211,26 @@ public class UserController {
         model.addAttribute("user", userDto);
         model.addAttribute("roles", roles);
         model.addAttribute("jobList", jobPostings);
+
+
+        // authentication
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
+
         session.getTransaction().commit();
         session.close();
         return "user_profile";
     }
 
     @PostMapping("/deletejob/{id}")
-    public String delJob(@PathVariable(name = "id") int jobId, Model model) {
+    public String delFavorJob(@PathVariable(name = "id") int jobId, Model model) {
         User user = currentUserUtil.getCurrentUser();
         Employee employee = currentUserUtil.employee(user.getId());
         employee.getFavoriteJob().removeIf(s -> s.getId() == jobId);
@@ -249,6 +286,19 @@ public class UserController {
         model.addAttribute("user", userDto);
         model.addAttribute("roles", authenticationUtil.getUserRole(authenticationUtil.authentication()));
         model.addAttribute("jobList", jobPostings);
+
+
+        // authentication
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
+
         return "user_profile";
     }
 

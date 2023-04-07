@@ -1,6 +1,5 @@
 package com.example.employez.security;
 
-import com.example.employez.service.UserDetailsServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,9 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 
@@ -76,16 +73,35 @@ public class SecurityConfiguration {
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/img/**","/js/**","/scss/**","/fonts/**")
+                .requestMatchers("/img/**"
+                        , "/js/**"
+                        , "/scss/**"
+                        , "/fonts/**")
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/homepage","/employee/signup","/employer/signup","/api/user/byid/{id}","/course/**").permitAll()
+                .requestMatchers("/", "/homepage"
+                        , "/employee/signup"
+                        , "/employer/signup"
+                        , "/api/user/byid/{id}"
+                        , "/course/**"
+                        , "/employee/profile/**"
+                        , "/search/**").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**").hasRole("Company")
-                .and().authorizeHttpRequests().requestMatchers("/resume/**").hasRole("Employee")
+                .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**"
+                        , "/company/jobs/current"
+                        , "/company/jobs/del/**"
+                        , "/user/deletejob/**"
+                        , "/resume/view/**").hasRole("Company")
+                .and().authorizeHttpRequests()
+                .requestMatchers("/resume/view"
+                        , "/resume/create"
+                        , "/employee/apply/**"
+                        , "/employee/tracking_job/**"
+                        , "/employee/tracking_job").hasRole("Employee")
                 .and()
-                .authorizeHttpRequests().requestMatchers("/employee/login").permitAll()
+                .authorizeHttpRequests()
+                .requestMatchers("/employee/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().formLogin()

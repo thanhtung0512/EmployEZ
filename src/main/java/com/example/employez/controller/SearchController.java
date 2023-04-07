@@ -3,6 +3,7 @@ package com.example.employez.controller;
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.dto.JobPostDto;
+import com.example.employez.util.AuthenticationUtil;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,13 +20,19 @@ import java.util.List;
 @Controller
 public class SearchController {
 
+    @Autowired
+    private AuthenticationUtil authenticationUtil;
+
+
     private Authentication getAuth() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
+
     @Autowired
     private SessionFactory sessionFactory;
     @Autowired
     private JobPostDAO jobPostDAO;
+
     @GetMapping("/search")
     /*@PreAuthorize("hasRole('ADMIN')")*/
     public String index(@RequestParam(name = "jobTitle", required = false, defaultValue = "") String jobTitle
@@ -69,6 +76,15 @@ public class SearchController {
         ArrayList<JobPosting> jobPostingsBySkill = (ArrayList<JobPosting>) jobPostDAO.getBySkill(skillName);
         model.addAttribute("jobList", jobPostingsBySkill);
         model.addAttribute("skillName", skillName);
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
         return "search";
     }
 
