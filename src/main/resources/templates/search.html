@@ -70,7 +70,9 @@
                     <li class="menu-active"><a th:href="@{'/user/user_profile'}">Profile</a></li>
 
 
-                     <li><a th:href="@{/course/list/Spring}">Course</a></li>
+                     <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a th:href="@{/course/list/byname/Spring}">Course</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a th:href="@{/company/jobs/create}">Post a Job</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}"><a th:href="@{/course/list/suggest}">Course</a></li>
 
                      <li class="menu-has-children"><a href="">Resume</a>
                         <ul>

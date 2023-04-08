@@ -6,7 +6,12 @@ import java.time.temporal.ChronoUnit;
 
 public class DayUtil {
     public static long daysBetweenNowAndSpecificDate(Date date) {
-        Date sqlDate = Date.valueOf(date.toString()); // Specify SQL date here
+        Date sqlDate = Date.valueOf(LocalDate.now());
+        try {
+            sqlDate = Date.valueOf(date.toString());// Specify SQL date here
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         LocalDate startDate = sqlDate.toLocalDate();
         LocalDate endDate = LocalDate.now();
 

@@ -317,7 +317,7 @@ public class UserController {
 
         session.getTransaction().commit();
         session.close();
-        return "user_profile";
+        return "redirect:/user/user_profile";
     }
 
     @PostMapping("/deletejob/{id}")

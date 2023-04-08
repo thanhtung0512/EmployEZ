@@ -62,6 +62,11 @@ public class EmployeeController {
         JobPostDto jobPostDto = jobPostDAO.getById(jobId);
         model.addAttribute("jobId", jobId);
         model.addAttribute("jobPost", jobPostDto);
+
+        User user = currentUserUtil.getCurrentUser();
+        Employee employee = currentUserUtil.employee(user.getId());
+        model.addAttribute("employee",employee);
+        model.addAttribute("user",user);
         return "apply-form";
     }
 
@@ -176,6 +181,7 @@ public class EmployeeController {
         userDto.setUniversity(employee.getUniversity());
         userDto.setCountry(employee.getCountry());
         userDto.setState(employee.getCity());
+        userDto.setSkillSet(employee.getSkills());
         jobPostings = employee.getFavoriteJob();
         model.addAttribute("user", userDto);
         model.addAttribute("roles", authenticationUtil.getUserRole(authenticationUtil.authentication()));

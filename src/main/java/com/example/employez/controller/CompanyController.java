@@ -3,11 +3,14 @@ package com.example.employez.controller;
 import com.example.employez.dao.employeeDAO.EmployeeDAO;
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.Company;
+import com.example.employez.domain.entity_class.JobPosting;
+import com.example.employez.domain.entity_class.Skill;
 import com.example.employez.dto.EmployeeDto;
 import com.example.employez.dto.JobPostDto;
 import com.example.employez.repository.EmployeeRepository;
 import com.example.employez.repository.JobPostingRepository;
 import com.example.employez.repository.ResumeRepository;
+import com.example.employez.repository.SkillRepository;
 import com.example.employez.util.AuthenticationUtil;
 import com.example.employez.util.CurrentUserUtil;
 import com.example.employez.util.Pair;
@@ -20,8 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // list job post : /company/jobs/current
 // edit job post : /company/jobs/edit
@@ -56,6 +63,9 @@ public class CompanyController {
 
     @Autowired
     private ResumeRepository resumeRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
 
 
     @GetMapping("/jobs/current")
@@ -236,7 +246,81 @@ public class CompanyController {
         model.addAttribute("mail", mail);
         model.addAttribute("roles", authenticationUtil.getUserRole(auth));
         return "employee_apply_job";
+    }
 
+    @GetMapping("/jobs/create")
+    @Transactional
+    public String create(Model model) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        JobPostDto jobPostDto = new JobPostDto();
+
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
+
+        model.addAttribute("job", jobPostDto);
+        session.getTransaction().commit();
+        session.close();
+        return "create_job";
+    }
+
+    @PostMapping("/jobs/create/done")
+    public String createDone(@ModelAttribute(name = "job") JobPostDto jobPostDto
+            , @RequestParam(name = "jobDescription") String jobDescription
+            , Model model) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+
+        JobPosting jobPosting = new JobPosting();
+        jobPosting.setJobTitle(jobPostDto.getJobTitle());
+        jobPosting.setJobDescription(jobDescription);
+        jobPosting.setProjectLocation(jobPostDto.getProjectLocation());
+        jobPosting.setCountry(jobPostDto.getCountry());
+        jobPosting.setCity(jobPostDto.getCity());
+        jobPosting.setMinSalary(jobPostDto.getMinSalary());
+        jobPosting.setMaxSalary(jobPostDto.getMaxSalary());
+        jobPosting.setState(jobPostDto.getState());
+
+        List<Skill> skills = skillRepository.findAll();
+
+        int userId = currentUserUtil.getCurrentUser().getId();
+        Company company = currentUserUtil.company(userId);
+        List<JobPostDto> jobPostDtosByCompany = jobPostDAO.getByCompanyId(company.getId());
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
+        model.addAttribute("jobList", jobPostDtosByCompany);
+
+
+        Set<Skill> skillSet = new HashSet<>();
+        for (Skill skill : skills) {
+            if (jobDescription.toLowerCase().contains(skill.getName().toLowerCase())) {
+                skillSet.add(skill);
+            }
+        }
+        jobPosting.setDatePosted(Date.valueOf(LocalDate.now()));
+        jobPosting.setSkills(skillSet);
+        jobPosting.setCompany(company);
+        session.save(jobPosting);
+        session.getTransaction().commit();
+        session.close();
+
+        return "redirect:/company/jobs/current";
     }
 
 

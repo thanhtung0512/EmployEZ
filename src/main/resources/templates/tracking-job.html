@@ -93,7 +93,9 @@
                     <li class="menu-active"><a th:href="@{'/user/user_profile'}">Profile</a></li>
 
 
-                    <li><a th:href="@{/course/list/Spring}">Course</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a th:href="@{/course/list/byname/Spring}">Course</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a th:href="@{/company/jobs/create}">Post a Job</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}"><a th:href="@{/course/list/suggest}">Course</a></li>
 
                     <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}" ><a th:href="@{/company/jobs/current}">Opening jobs</a></li>
                     <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}" ><a th:href="@{/employee/tracking_job}">Tracking application</a></li>
@@ -144,53 +146,7 @@
 
             <div class="col-md-10">
 
-                <form class="filter-form mt-5 mb-4">
-                    <div class="row">
 
-                        <div class="col-md-4 mb-3">
-                            <div class="form-group">
-                                <label for="jobPosition">Position :</label>
-                                <select id="jobPosition" class="custom-select">
-                                    <option value="position1">Business</option>
-                                    <option value="position2">Design</option>
-                                    <option value="position3">Development</option>
-                                    <option value="position4">Engineering</option>
-                                    <option value="position5">Finance</option>
-                                    <option value="position6">Marketing</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <div class="form-group">
-                                <label for="jobType">Type :</label>
-                                <select id="jobType" class="custom-select">
-                                    <option value="type1">Full-time</option>
-                                    <option value="type3">Part-time</option>
-                                    <option value="type4">Remote</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <div class="form-group">
-                                <label for="jobLocation">Location : </label>
-                                <select id="jobLocation" class="custom-select">
-                                    <option value="location1">Chicago, US</option>
-                                    <option value="location3">Michigan, US</option>
-                                    <option value="location2">New York, US</option>
-                                    <option value="location4">Los Angles, US</option>
-                                    <option value="location5">Moscow, Russia</option>
-                                    <option value="location6">Sydney, Australia</option>
-                                    <option value="location7">Birmingham, UK</option>
-                                    <option value="location8">Manchester, UK</option>
-                                    <option value="location9">Beijing, China</option>
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-                </form>
 
 
                 <div class="job-list__wrapper mb-6">

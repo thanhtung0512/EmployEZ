@@ -96,12 +96,11 @@
 
                 <div class="card bg-glass">
                     <div class="card-body px-4 py-5 px-md-5">
-                        <form th:object="${userForm}" th:action="@{'/handleSignup'}" th:method="post">
+                        <form th:object="${userForm}" th:action="@{/handleSignup}" th:method="post">
                             <!-- 2 column grid layout with text inputs for the first and last names -->
                             <div class="form-outline mb-4">
                                 <input type="text" id="form3Example33" class="form-control" name="company_name"/>
                                 <label class="form-label" for="form3Example33">Company name</label>
-
                             </div>
 
                             <!-- Email input -->

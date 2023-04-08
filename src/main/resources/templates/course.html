@@ -100,7 +100,9 @@
           <li class="menu-active"><a th:href="@{'/user/user_profile'}">Profile</a></li>
 
 
-          <li><a th:href="@{/course/list/Spring}">Course</a></li>
+          <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a th:href="@{/course/list/byname/Spring}">Course</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a th:href="@{/company/jobs/create}">Post a Job</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}"><a th:href="@{/course/list/suggest}">Course</a></li>
 
           <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}" ><a th:href="@{/company/jobs/current}">Opening jobs</a></li>
           <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}" ><a th:href="@{/employee/tracking_job}">Tracking application</a></li>
@@ -178,7 +180,8 @@
                 </div>
               </div>
             </div>
-            <h2 class="mb-3" th:utext="|Our Popular Courses for ${courseName}|"></h2>
+            <h2 class="mb-3" th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}" th:utext="|Our popular courses for ${courseName}|"></h2>
+            <h2 class="mb-3" th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}" th:utext="|Our suggested courses for you|"></h2>
           </div>
         </div>
       </div>

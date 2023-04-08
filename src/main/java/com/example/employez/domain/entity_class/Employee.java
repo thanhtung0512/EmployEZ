@@ -61,6 +61,7 @@ public class Employee {
             joinColumns = {@JoinColumn(name = "fk_employee")},
             inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
     private Set<Skill> skills;
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

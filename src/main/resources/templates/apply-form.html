@@ -59,6 +59,7 @@
                   type="text"
                   class="form-control"
                   placeholder="Joe Bloggs"
+                  th:value="|${employee.getLastName()} ${employee.getLastName()}|"
           />
         </label>
 
@@ -70,65 +71,16 @@
                   type="email"
                   class="form-control"
                   placeholder="joe.bloggs@example.com"
+                  th:value="|${user.email}|"
           />
         </label>
 
-        <label class="d-block mb-4">
-          <span class="form-label d-block">Years of experience</span>
-          <select required name="experience" class="form-select">
-            <option>Less than a year</option>
-            <option>1 - 2 years</option>
-            <option>2 - 4 years</option>
-            <option>4 - 7 years</option>
-            <option>7 - 10 years</option>
-            <option>10+ years</option>
-          </select>
-        </label>
 
         <label class="d-block mb-4">
-          <span class="form-label d-block">Tell us more about yourself</span>
-          <textarea
-                  name="message"
-                  class="form-control"
-                  rows="3"
-                  placeholder="What motivates you?"
-          ></textarea>
+          <span class="form-label d-block">Remember to <a> upload your resume</a> before apply for any job </span>
         </label>
 
-        <label class="d-block mb-4">
-          <span class="form-label d-block">Your CV</span>
-          <input required name="cv" type="file" class="form-control" />
-        </label>
 
-        <div class="mb-4">
-          <div>
-            <div class="form-check">
-              <label class="d-block">
-                <input
-                        type="radio"
-                        class="form-check-input"
-                        name="remote"
-                        value="yes"
-                        checked
-                />
-                <span class="form-check-label"
-                >You'd like to work remotely</span
-                >
-              </label>
-            </div>
-          </div>
-          <div>
-            <label class="form-check">
-              <input
-                      type="radio"
-                      class="form-check-input"
-                      name="remote"
-                      value="no"
-              />
-              <span class="form-check-label">You'd prefer to work onsite</span>
-            </label>
-          </div>
-        </div>
 
 
         <h4>You are applying for this job</h4>

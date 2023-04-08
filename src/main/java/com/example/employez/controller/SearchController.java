@@ -73,20 +73,24 @@ public class SearchController {
 
     @GetMapping("/search/byskill/{skillName}")
     public String searchBySkill(@PathVariable(name = "skillName") String skillName, Model model) {
-        ArrayList<JobPosting> jobPostingsBySkill = (ArrayList<JobPosting>) jobPostDAO.getBySkill(skillName);
+
+        ArrayList<JobPostDto> jobPostingsBySkill = (ArrayList<JobPostDto>) jobPostDAO.getBySkill(skillName);
+
         model.addAttribute("jobList", jobPostingsBySkill);
         model.addAttribute("skillName", skillName);
+
         Authentication auth = authenticationUtil.authentication();
+
         String mail = null;
+
         if (auth != null) {
             mail = auth.getName();
         }
+
         System.out.println("MAIL = " + mail);
         model.addAttribute("auth", auth);
         model.addAttribute("mail", mail);
         model.addAttribute("roles", authenticationUtil.getUserRole(auth));
         return "search";
     }
-
-
 }

@@ -26,9 +26,11 @@ public interface JobPostDAO {
 
     Pair<JobPosting, Set<String>> getById(int id);
 
-    List<JobPosting> getBySkill(int id);
+    Pair<JobPostDto, Set<String>> getJobPostDtoById(int id);
 
-     List<JobPosting> getBySkill(String skillName);
+    List<JobPostDto> getBySkill(int id);
+
+     List<JobPostDto> getBySkill(String skillName);
 
     List<JobPostDto> getBySalaryRange();
      JobPostDto getById(Long jobId);

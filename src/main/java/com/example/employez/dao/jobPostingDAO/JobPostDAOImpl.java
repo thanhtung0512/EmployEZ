@@ -322,22 +322,24 @@ public class JobPostDAOImpl implements JobPostDAO {
 
     @Override
     @Transactional
-    public List<JobPosting> getBySkill(int skillId) {
+    public List<JobPostDto> getBySkill(int skillId) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        ArrayList<JobPosting> jobPostings = new ArrayList<>();
-        String query = "SELECT jrs.fk_job FROM job_required_skill jrs WHERE fk_skill = :skillId ORDER BY ";
+        ArrayList<JobPostDto> jobPostings = new ArrayList<>();
+        String query = "SELECT jrs.fk_job FROM job_required_skill jrs WHERE fk_skill = :skillId  ";
         ArrayList<Integer> jobPostId = (ArrayList<Integer>) session.createNativeQuery(query, Integer.class)
                 .setParameter("skillId", skillId).list();
         for (int jobId : jobPostId) {
-            jobPostings.add(getById(jobId).getKey());
+            jobPostings.add(getJobPostDtoById(jobId).getKey());
         }
         session.getTransaction().commit();
         session.close();
         return jobPostings;
     }
 
-    public List<JobPosting> getBySkill(String skillName) {
+    @Override
+    @Transactional
+    public List<JobPostDto> getBySkill(String skillName) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         String sql = "SELECT s.id FROM skill s WHERE s.name = :skillName";
@@ -431,5 +433,60 @@ public class JobPostDAOImpl implements JobPostDAO {
         return jobPostDto;
     }
 
+    public Pair<JobPostDto, Set<String>> getJobPostDtoById(int id) {
+        Session session = sessionFactory.openSession();
+        String hql = ("SELECT j.id,j.city" +
+                ",j.country,j.datePosted" +
+                ",j.employmentType,j.jobDescription" +
+                ",j.jobTitle,j.maxSalary" +
+                ",j.minSalary,j.projectLocation" +
+                ",j.state,j.datePosted FROM JobPosting j " +
+                "WHERE j.id = :id ORDER BY j.datePosted DESC");
+        Object[][] result = session.createQuery(hql, Object[][].class)
+                .setParameter("id", id)
+                .getResultList().toArray(new Object[0][]);
 
+        JobPostDto jobPostDto = new JobPostDto();
+        Set<String> skillName = new HashSet<>();
+
+
+        try {
+            if (result.length > 0) {
+                jobPostDto.setId((Integer) result[0][0]);
+                jobPostDto.setCity((String) result[0][1]);
+                jobPostDto.setCountry((String) result[0][2]);
+                jobPostDto.setDatePosted((Date) result[0][3]);
+                jobPostDto.setEmploymentType((EmploymentType) result[0][4]);
+                jobPostDto.setJobDescription((String) result[0][5]);
+                jobPostDto.setJobTitle((String) result[0][6]);
+                if (result[0][7] != null) {
+                    jobPostDto.setMaxSalary((Integer) result[0][7]);
+                }
+                if (result[0][8] != null) {
+                    jobPostDto.setMinSalary((Integer) result[0][8]);
+                }
+                jobPostDto.setProjectLocation((ProjectLocation) result[0][9]);
+                jobPostDto.setState((String) result[0][10]);
+                jobPostDto.setDaySincePosted(DayUtil.daysBetweenNowAndSpecificDate((Date) result[0][11]));
+
+                int jobId = (int) result[0][0]; // Replace with the actual job ID
+                Long companyId = session.createNativeQuery("SELECT j.company_id FROM jobposting j " +
+                                "WHERE j.id = :id ", Long.class)
+                        .setParameter("id", jobId)
+                        .getSingleResult();
+                jobPostDto.setCompany(companyDAO.getById(companyId));// fixing this line
+
+                String hqll = "SELECT s.name FROM skill s WHERE s.id IN " +
+                        "(Select jrs.fk_skill " +
+                        "FROM job_required_skill jrs " +
+                        "WHERE jrs.fk_job = :jobId)";
+                skillName = new HashSet<>(session.createNativeQuery(hqll, String.class).setParameter("jobId", jobId).list());
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        Pair<JobPostDto, Set<String>> pair = new Pair<>(jobPostDto, skillName);
+        session.close();
+        return pair;
+    }
 }

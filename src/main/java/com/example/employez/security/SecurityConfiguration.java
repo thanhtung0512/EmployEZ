@@ -73,40 +73,49 @@ public class SecurityConfiguration {
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/img/**"
+                .requestMatchers(
+                        "/img/**"
                         , "/js/**"
                         , "/scss/**"
                         , "/fonts/**")
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/homepage"
+                .requestMatchers(
+                        "/"
+                        , "/homepage"
                         , "/employee/signup"
                         , "/employer/signup"
                         , "/api/user/byid/{id}"
-                        , "/course/**"
-                        , "/employee/profile/**"
+                        , "/course/byname/**"
                         , "/search/**"
-                        , "/resume/view/**").permitAll()
+                        , "/resume/view/**"
+                        , "/handleSignup").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/api/jobposts/byid/**"
+                .authorizeHttpRequests().requestMatchers(
+                        "/api/jobposts/byid/**"
                         , "/company/jobs/current"
                         , "/company/jobs/del/**"
                         , "/user/deletejob/**"
-                        ).hasRole("Company")
+                        ,"company/jobs/create"
+                        ,"/employee/profile/**"
+                ).hasRole("Company")
                 .and().authorizeHttpRequests()
-                .requestMatchers( "/resume/create"
+                .requestMatchers(
+                        "/resume/create"
                         , "/employee/apply/**"
                         , "/employee/tracking_job/**"
-                        , "/employee/tracking_job").hasRole("Employee")
+                        , "/employee/tracking_job"
+                        , "/course/list/suggest")
+                .hasRole("Employee")
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/employee/login").permitAll()
+                .requestMatchers("/employee/login")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().formLogin()
                 .loginPage("/login")
-                /*.loginProcessingUrl("/login")*/
                 .defaultSuccessUrl("/homepage",true)
                 .permitAll()
                 .and()

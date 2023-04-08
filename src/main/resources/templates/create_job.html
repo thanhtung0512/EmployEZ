@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="layout/default">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <form class="form-horizontal" th:object="${job}" th:action="@{/company/jobs/create/done}" th:method="post">
+      <div class="form-group">
+        <label class="control-label col-xs-4">Job title</label>
+        <div class="col-xs-8">
+          <input th:id="jobTitle" th:name="jobTitle"   type="text" required="required" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-xs-4">Project location</label>
+        <div class="col-xs-8">
+          <input th:id="projectLocation" th:name="projectLocation"    placeholder="ONSITE / REMOTE" type="text" required="required" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-xs-4">Employment type</label>
+        <div class="col-xs-8">
+          <input th:id="employmentType" th:name="employmentType"   placeholder="FULLTIME / PARTTIME / INTERN" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-xs-4">City</label>
+        <div class="col-xs-8">
+          <input th:id="city" th:name="city"   type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-xs-4">State</label>
+        <div class="col-xs-8">
+          <input th:id="state" th:name="state"  type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-xs-4">Country</label>
+        <div class="col-xs-8">
+          <input th:id="country" th:name="country" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-xs-4">Min Salary</label>
+        <div class="col-xs-8">
+          <input th:id="minSalary" th:name="minSalary"  type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-xs-4">Max salary</label>
+        <div class="col-xs-8">
+          <input th:id="maxSalary" th:name="maxSalary"    type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-xs-4">Job description</label>
+        <div class="col-xs-8">
+          <textarea   th:id = "jobDescription" th:name = "jobDescription"   cols="40" rows="5" required="required" class="form-control"></textarea>
+        </div>
+      </div> 
+      <div class="form-group row">
+        <div class="col-xs-offset-4 col-xs-8">
+          <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

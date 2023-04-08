@@ -58,11 +58,17 @@
                     <li class="menu-active"><a th:href="@{'/user/user_profile'}">Profile</a></li>
 
 
-                    <li><a th:href="@{/course/list/Spring}">Course</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a
+                            th:href="@{/course/list/byname/Spring}">Course</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a
+                            th:href="@{/company/jobs/create}">Post a Job</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}"><a
+                            th:href="@{/course/list/suggest}">Course</a></li>
 
-                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}" ><a th:href="@{/company/jobs/current}">Opening jobs</a></li>
-                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}" ><a th:href="@{/employee/tracking_job}">Tracking application</a></li>
-
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"><a
+                            th:href="@{/company/jobs/current}">Opening jobs</a></li>
+                    <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}"><a
+                            th:href="@{/employee/tracking_job}">Tracking application</a></li>
 
 
                     <li class="menu-has-children" th:each="role : ${roles}"
@@ -117,8 +123,8 @@
                                 <h4 th:each="role : ${roles}" th:if="${role == 'ROLE_Company'}"
                                     th:text="${user.getFullName()}"
                                 ></h4>
-                                <h4 th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}"
-                                    th:utext="|${user.getFirstName()} ${user.getLastName()}|"
+                                <h4
+                                        th:utext="|${user.getFirstName()} ${user.getLastName()}|"
                                 ></h4>
                                 <p class="text-secondary mb-1" th:text="${user.getJobTitle()}"></p>
                                 <p class="text-muted font-size-sm" th:text="${user.getAddress()}"></p>
@@ -130,20 +136,6 @@
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <div th:each="role : ${roles}">
-                            <div th:if="${role == 'ROLE_Company'}">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Full Name</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary" th:text="${user.getFullName()}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div th:each="role : ${roles}">
-                            <div th:if="${role == 'ROLE_Employee'}">
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Full Name</h6>
@@ -169,8 +161,7 @@
                                     <div class="col-sm-9 text-secondary" th:text="${user.getJobTitle()}">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+
 
 
                         <hr>
@@ -192,19 +183,28 @@
                             </div>
                         </div>
                         <hr>
-                        <div th:each="role : ${roles}">
-                            <div th:if="${role == 'ROLE_Employee'}">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Address</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary"
-                                         th:utext="|${user.getState()}, ${user.getCountry()}|">
 
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Address</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary"
+                                 th:utext="|${user.getState()}, ${user.getCountry()}|">
+
                             </div>
                         </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Skill</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary" th:each="skill : ${user.getSkillSet()}"
+                                 th:utext="|${skill.getName()}|">
+
+                            </div>
+                        </div>
+
                         <div th:each="role : ${roles}">
                             <div th:if="${role == 'ROLE_Company'}">
                                 <div class="row">
@@ -221,12 +221,12 @@
 
 
                         <hr>
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-12">
                                 <a class="btn btn-info "
-                                   th:href="@{/company/jobs/offer/{jobId}(jobId = ${job})">Accept and give offer</a>
+                                   th:href="@{/company/jobs/offer/{jobId}(jobId = ${job.})">Accept and give offer</a>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div th:each="role : ${roles}">
                             <div th:if=" ${role == 'ROLE_Employee' }">
