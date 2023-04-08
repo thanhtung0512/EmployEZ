@@ -2,17 +2,14 @@ package com.example.employez.controller;
 
 import com.example.employez.dao.employeeDAO.EmployeeDAO;
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
-import com.example.employez.domain.entity_class.Company;
-import com.example.employez.domain.entity_class.JobPosting;
-import com.example.employez.domain.entity_class.Skill;
+import com.example.employez.domain.entity_class.*;
+import com.example.employez.domain.enumPackage.ApplyingJobState;
 import com.example.employez.dto.EmployeeDto;
 import com.example.employez.dto.JobPostDto;
-import com.example.employez.repository.EmployeeRepository;
-import com.example.employez.repository.JobPostingRepository;
-import com.example.employez.repository.ResumeRepository;
-import com.example.employez.repository.SkillRepository;
+import com.example.employez.repository.*;
 import com.example.employez.util.AuthenticationUtil;
 import com.example.employez.util.CurrentUserUtil;
+import com.example.employez.util.DayUtil;
 import com.example.employez.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -66,6 +64,9 @@ public class CompanyController {
 
     @Autowired
     private SkillRepository skillRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @GetMapping("/jobs/current")
@@ -189,6 +190,45 @@ public class CompanyController {
 
     }
 
+    @GetMapping("/appointment/make/{employeeEmail}/{jobId}")
+    public String makeAppointment(@PathVariable(name = "employeeEmail") String empEmail
+            , @PathVariable(name = "jobId") int jobId
+            , Model model) {
+        System.out.println(empEmail);
+        User userEmployee = userRepository.getUserByEmail(empEmail);
+        model.addAttribute("empEmail", empEmail);
+        model.addAttribute("jobId", jobId);
+        Employee employee = currentUserUtil.employee(userEmployee.getId());
+        model.addAttribute("empId", employee.getId());
+
+        return "appointment";
+    }
+
+    @RequestMapping("/appointment/make/done/{jobId}/{empId}")
+    public String doneAppointment(@RequestParam(name = "location") String location
+            , @RequestParam(name = "date") String date
+            , @RequestParam(name = "feedback") String feedback
+            , @PathVariable(name = "jobId") int jobId
+            , @PathVariable(name = "empId") int empId
+            , Model model) throws ParseException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        System.out.println(location + " " + date + " " + feedback + "JOB ID = " + jobId);
+        Date interviewDate = DayUtil.dateFromString(date);
+        String updateJobApplicationStatus = "UPDATE apply SET status = :interviewStatus, interview_date = :int_date ,interview_location = :location, feedback = :feedback WHERE fk_employee = :empId AND fk_jobpost = :jobId";
+        session.createNativeQuery(updateJobApplicationStatus)
+                .setParameter("interviewStatus", ApplyingJobState.INVITED_FOR_INTERVIEW.toString())
+                .setParameter("int_date", interviewDate)
+                .setParameter("location", location)
+                .setParameter("empId", empId)
+                .setParameter("jobId", jobId)
+                .setParameter("feedback",feedback)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        return "redirect:/company/jobs/current";
+    }
+
 
     @GetMapping("/jobs/applications/{id}")
     @Transactional
@@ -212,6 +252,11 @@ public class CompanyController {
         for (Long eachEmpId : empIds) {
             System.out.println("EMP ID = " + eachEmpId);
 
+            // get email
+            String getMailSql = "SELECT email from user u join employee e ON u.id = e.user_id where e.id = " + eachEmpId;
+
+            String email = session.createNativeQuery(getMailSql, String.class).getSingleResult();
+
             EmployeeDto employeeDto = new EmployeeDto();
             // get employeeDto
             Object[][] result = session.createQuery(selectEmpFields, Object[][].class)
@@ -222,6 +267,7 @@ public class CompanyController {
                 employeeDto.setLastName((String) object[2]);
                 employeeDto.setCountry((String) object[3]);
                 employeeDto.setJobTitle((String) object[4]);
+                employeeDto.setEmail(email);
             }
 
             List<Integer> resumesIds = session.createNativeQuery(getResumeIdSql)
@@ -245,6 +291,7 @@ public class CompanyController {
         model.addAttribute("auth", auth);
         model.addAttribute("mail", mail);
         model.addAttribute("roles", authenticationUtil.getUserRole(auth));
+        model.addAttribute("jobId", jobId);
         return "employee_apply_job";
     }
 

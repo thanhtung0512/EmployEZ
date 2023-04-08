@@ -160,7 +160,7 @@
                                         <button type="submit" class="btn btn-sm btn-outline-dark">See detail for employee <span th:text="${pair.getKey().getId()}"></span> </button>
                                     </form>
 
-                      <form th:action="@{/employee/profile/{id}(id = ${pair.getKey().getId()})}">
+                      <form th:action="@{/company/appointment/make/{employeeEmail}/{jobId} (employeeEmail = ${pair.getKey().getEmail()} ,jobId = ${jobId}) } " th:method="get">
                                         <button type="submit"
                                                 class="btn btn-sm btn-outline-dark">Accept and give offer</button>
                                     </form>
