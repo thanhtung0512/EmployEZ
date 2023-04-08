@@ -179,6 +179,11 @@
                                         <button type="submit" class="btn btn-sm btn-outline-dark">Open appointment</button>
                                     </form>
 
+                      <form th:if="${jobPost.getApplyingJobState().toString().equals('GET_OFFERED') or jobPost.getApplyingJobState().toString().equals('ACCEPT_OFFER') }"
+                            th:action="@{/employee/offered/{jobId}(jobId = ${jobPost.getId()})}">
+                                        <button type="submit" class="btn btn-sm btn-outline-dark">Open this offer</button>
+                                    </form>
+
 
                   </span>
                         </div>

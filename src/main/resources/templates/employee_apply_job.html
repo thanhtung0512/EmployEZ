@@ -139,33 +139,38 @@
                 <div class="job-list__wrapper mb-6">
                     <h3 class="mb-4">Development</h3>
                     <!-- Job Card -->
-                    <a th:each="pair : ${pairList}" class="card p-0 mb-3 border-0 shadow-sm shadow--on-hover">
+                    <a th:each="tuple : ${tupleList}" class="card p-0 mb-3 border-0 shadow-sm shadow--on-hover">
                         <div class="card-body">
                   <span class="row justify-content-between align-items-center">
                     <span class="col-md-5 color--heading">
 
-                        <p th:utext="| Employee name: <br> ${pair.getKey().getFirstName()} ${pair.getKey().getLastName()}|"> </p>
+                        <p th:utext="| Employee name: <br> ${tuple.getK().getFirstName()} ${tuple.getK().getLastName()}|"> </p>
                     </span>
 
                     <span class="col-5 col-md-3 my-3 my-sm-0 color--text">
-                         <p th:utext="|Job title: <br> ${pair.getKey().getJobTitle()}|"> </p>
+                         <p th:utext="|Job title: <br> ${tuple.getK().getJobTitle()}|"> </p>
                     </span>
 
                     <span class="col-7 col-md-3 my-3 my-sm-0 color--text">
                       <i class="fas fa-map-marker-alt mr-1"></i> <p
-                            th:utext="|Location: <br> ${pair.getKey().getCountry()}|"> </p>
+                            th:utext="|Location: <br> ${tuple.getK().getCountry()}|"> </p>
                     </span>
 
-                      <form th:action="@{/employee/profile/{id}(id = ${pair.getKey().getId()})}">
-                                        <button type="submit" class="btn btn-sm btn-outline-dark">See detail for employee <span th:text="${pair.getKey().getId()}"></span> </button>
+                      <form th:action="@{/employee/profile/{id}(id = ${tuple.getK().getId()})}">
+                                        <button type="submit" class="btn btn-sm btn-outline-dark">See detail for employee <span th:text="${tuple.getK().getId()}"></span> </button>
                                     </form>
 
-                      <form th:action="@{/company/appointment/make/{employeeEmail}/{jobId} (employeeEmail = ${pair.getKey().getEmail()} ,jobId = ${jobId}) } " th:method="get">
+                      <form th:if="${tuple.getM().equals('APPLICATION_RECEIVED')}" th:action="@{/company/appointment/make/{employeeEmail}/{jobId} (employeeEmail = ${tuple.getK().getEmail()} ,jobId = ${jobId}) } " th:method="get">
                                         <button type="submit"
-                                                class="btn btn-sm btn-outline-dark">Accept and give offer</button>
+                                                class="btn btn-sm btn-outline-dark">Accept and make interview appointment</button>
                                     </form>
 
-                      <div th:each="id : ${pair.getValue()}">
+                      <form th:if="${tuple.getM().equals('WAITING_INTERVIEW_RESULT')}" th:action="@{/company/offer/accept/{employeeEmail}/{jobId} (employeeEmail = ${tuple.getK().getEmail()} ,jobId = ${jobId}) } " th:method="get">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-dark">Pass interview and make offer </button>
+                                    </form>
+
+                      <div th:each="id : ${tuple.getV()}">
                           <form th:action="@{/resume/view/{id}(id = ${id})}">
                                         <button type="submit"
                                                 class="btn btn-sm btn-outline-dark">View employee's resume</button>

@@ -256,6 +256,9 @@ public class UserController {
                 Resume resume = new Resume();
                 resume.setResumePath(tempFile.toString());
 
+                String deletePreviousResume = "DELETE FROM resume WHERE employee_id = " + id;
+                session.createNativeQuery(deletePreviousResume).executeUpdate();
+
                 employee.addNewResume(resume);
 
                 // handle skills string
@@ -289,12 +292,14 @@ public class UserController {
                                 .setParameter("skillId", skillId)
                                 .executeUpdate();
                         System.out.println("EXCEC INSERT = " + excecInsert);
-                        employee.addNewSkill(new Skill(skillId,token));
+                        employee.addNewSkill(new Skill(skillId, token));
                     }
                 }
                 resume.setEmployee(employee);
                 session.save(resume);
                 System.out.println("EXECUTE UPDATE = " + execUpdate);
+
+                session.getTransaction().commit();
             }
         }
 
@@ -315,7 +320,7 @@ public class UserController {
         model.addAttribute("mail", mail);
         model.addAttribute("roles", authenticationUtil.getUserRole(auth));
 
-        session.getTransaction().commit();
+
         session.close();
         return "redirect:/user/user_profile";
     }

@@ -7,10 +7,7 @@ import com.example.employez.domain.enumPackage.ApplyingJobState;
 import com.example.employez.dto.EmployeeDto;
 import com.example.employez.dto.JobPostDto;
 import com.example.employez.repository.*;
-import com.example.employez.util.AuthenticationUtil;
-import com.example.employez.util.CurrentUserUtil;
-import com.example.employez.util.DayUtil;
-import com.example.employez.util.Pair;
+import com.example.employez.util.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -216,14 +213,22 @@ public class CompanyController {
         System.out.println(location + " " + date + " " + feedback + "JOB ID = " + jobId);
         Date interviewDate = DayUtil.dateFromString(date);
         String updateJobApplicationStatus = "UPDATE apply SET status = :interviewStatus, interview_date = :int_date ,interview_location = :location, feedback = :feedback WHERE fk_employee = :empId AND fk_jobpost = :jobId";
-        session.createNativeQuery(updateJobApplicationStatus)
-                .setParameter("interviewStatus", ApplyingJobState.INVITED_FOR_INTERVIEW.toString())
-                .setParameter("int_date", interviewDate)
-                .setParameter("location", location)
-                .setParameter("empId", empId)
-                .setParameter("jobId", jobId)
-                .setParameter("feedback",feedback)
-                .executeUpdate();
+
+        String getCurrentState = "SELECT status FROM apply WHERE fk_jobpost = " + jobId;
+        ApplyingJobState applyingJobState = (ApplyingJobState) session.createNativeQuery(getCurrentState).getSingleResult();
+
+        if (applyingJobState == ApplyingJobState.INVITED_FOR_INTERVIEW) {
+            session.createNativeQuery(updateJobApplicationStatus)
+                    .setParameter("interviewStatus", ApplyingJobState.INVITED_FOR_INTERVIEW.toString())
+                    .setParameter("int_date", interviewDate)
+                    .setParameter("location", location)
+                    .setParameter("empId", empId)
+                    .setParameter("jobId", jobId)
+                    .setParameter("feedback", feedback)
+                    .executeUpdate();
+        }
+
+
         session.getTransaction().commit();
         session.close();
         return "redirect:/company/jobs/current";
@@ -249,6 +254,8 @@ public class CompanyController {
 
         List<Pair<EmployeeDto, List<Integer>>> resultSet = new ArrayList<>();
 
+        List<Tuple<EmployeeDto, List<Integer>, String>> tupleList = new ArrayList<>();
+        String getCurrentState = "SELECT status FROM apply WHERE fk_jobpost = " + jobId + " AND fk_employee = :empId";
         for (Long eachEmpId : empIds) {
             System.out.println("EMP ID = " + eachEmpId);
 
@@ -270,14 +277,25 @@ public class CompanyController {
                 employeeDto.setEmail(email);
             }
 
+            // get current apply state of this employee -> this job
+            String currentState = session.createNativeQuery(getCurrentState).setParameter("empId", eachEmpId).getSingleResult().toString();
+
             List<Integer> resumesIds = session.createNativeQuery(getResumeIdSql)
                     .setParameter("empId", eachEmpId).getResultList();
 
             Pair<EmployeeDto, List<Integer>> pair = new Pair<>();
+            Tuple<EmployeeDto, List<Integer>, String> tuple = new Tuple<>();
+            tuple.setK(employeeDto);
+            tuple.setV(resumesIds);
+            tuple.setM(currentState);
+
+            tupleList.add(tuple);
             pair.setKey(employeeDto);
             pair.setValue(resumesIds);
             resultSet.add(pair);
         }
+
+
         session.getTransaction().commit();
         session.close();
         model.addAttribute("pairList", resultSet);
@@ -292,6 +310,7 @@ public class CompanyController {
         model.addAttribute("mail", mail);
         model.addAttribute("roles", authenticationUtil.getUserRole(auth));
         model.addAttribute("jobId", jobId);
+        model.addAttribute("tupleList", tupleList);
         return "employee_apply_job";
     }
 
@@ -368,7 +387,62 @@ public class CompanyController {
         session.close();
 
         return "redirect:/company/jobs/current";
+
+
     }
 
+
+    @GetMapping("/offer/accept/{employeeEmail}/{jobId}")
+    public String accept(Model model
+            , @PathVariable(name = "employeeEmail") String employeeEmail
+            , @PathVariable(name = "jobId") Long jobId) {
+
+
+        System.out.println(employeeEmail);
+        User userEmployee = userRepository.getUserByEmail(employeeEmail);
+        model.addAttribute("empEmail", employeeEmail);
+        model.addAttribute("jobId", jobId);
+        Employee employee = currentUserUtil.employee(userEmployee.getId());
+        model.addAttribute("empId", employee.getId());
+        JobPostDto jobPostDto = jobPostDAO.getById(jobId);
+        model.addAttribute("jobPostDto", jobPostDto);
+        return "make_offer";
+    }
+
+
+    @PostMapping("/offer/accept/{employeeEmail}/{jobId}")
+    public String sendOffer(@RequestParam(name = "salary") String salary,
+                            @RequestParam(name = "date") String date
+            , Model model
+            , @PathVariable(name = "employeeEmail") String employeeEmail
+            , @PathVariable(name = "jobId") Long jobId) throws ParseException {
+
+
+        System.out.println(employeeEmail);
+        User userEmployee = userRepository.getUserByEmail(employeeEmail);
+        model.addAttribute("empEmail", employeeEmail);
+        model.addAttribute("jobId", jobId);
+        Employee employee = currentUserUtil.employee(userEmployee.getId());
+        model.addAttribute("empId", employee.getId());
+        JobPostDto jobPostDto = jobPostDAO.getById(jobId);
+        model.addAttribute("jobPostDto", jobPostDto);
+
+
+        // save offer information to database
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String saveOfferInforSql = "UPDATE apply SET salary_and_benefit = :salary_benefit, start_date = :start_date, status = :newStatus WHERE fk_jobpost = :jobId AND fk_employee = :empId";
+        session.createNativeQuery(saveOfferInforSql)
+                .setParameter("salary_benefit", salary)
+                .setParameter("start_date", DayUtil.dateFromString(date))
+                .setParameter("empId", employee.getId())
+                .setParameter("jobId", jobId)
+                .setParameter("newStatus", ApplyingJobState.GET_OFFERED.toString())
+                .executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+        return "redirect:/company/jobs/current";
+    }
 
 }

@@ -241,4 +241,71 @@ public class EmployeeController {
         return "redirect:/employee/tracking_job";
     }
 
+    @GetMapping("/offered/{jobId}")
+    public String getOffer(@PathVariable(name = "jobId") Integer jobId, Model model) {
+
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        User user = currentUserUtil.getCurrentUser();
+        Authentication auth = authenticationUtil.authentication();
+        String mail = null;
+        if (auth != null) {
+            mail = auth.getName();
+        }
+        System.out.println("MAIL = " + mail);
+        model.addAttribute("auth", auth);
+        model.addAttribute("mail", mail);
+        JobPostDto jobPostDto = jobPostDAO.getById(Long.valueOf(jobId));
+
+        // get Date and put to model
+
+        String getStartDateSql = "SELECT start_date FROM apply WHERE fk_employee = " + currentUserUtil.employee(user.getId()).getId() + " AND fk_jobpost = " + jobId;
+        Date startDate = session.createNativeQuery(getStartDateSql, Date.class).getSingleResult();
+        String startDateString = DayUtil.dateToString(startDate);
+        model.addAttribute("jobPostDto", jobPostDto);
+        model.addAttribute("startDate", startDateString);
+
+        // get salary and put into model
+        String getSalary = "SELECT salary_and_benefit FROM apply WHERE fk_employee = " + currentUserUtil.employee(user.getId()).getId() + " AND fk_jobpost = " + jobId;
+        String salary = session.createNativeQuery(getSalary, String.class).getSingleResult();
+
+        String getStatus = "SELECT status FROM apply WHERE fk_jobpost = " + jobId + " AND fk_employee = " + currentUserUtil.employee(user.getId()).getId();
+        String status = session.createNativeQuery(getStatus, String.class).getSingleResult();
+
+        model.addAttribute("salary", salary);
+        model.addAttribute("status", status);
+        session.getTransaction().commit();
+        session.close();
+        return "get_offer";
+    }
+
+
+    @GetMapping("/offer/accept_offer/{id}")
+    public String acceptThisOffer(@PathVariable(name = "id") Integer jobId) {
+        Long empId = currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()).getId();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String deleteThisApplication = "UPDATE apply SET status = :newStatus WHERE fk_employee = " + empId + " AND fk_jobpost = " + jobId;
+        session.createNativeQuery(deleteThisApplication)
+                .setParameter("newStatus", ApplyingJobState.ACCEPT_OFFER.toString())
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        return "redirect:/employee/tracking_job";
+    }
+
+    @GetMapping("/offer/decline/{id}")
+    public String declineThisOffer(@PathVariable(name = "id") Integer jobId) {
+        Long empId = currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()).getId();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String deleteThisApplication = "UPDATE apply SET status = :newStatus WHERE fk_employee = " + empId + " AND fk_jobpost = " + jobId;
+        session.createNativeQuery(deleteThisApplication)
+                .setParameter("newStatus", ApplyingJobState.DECLINE_OFFER.toString())
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        return "redirect:/employee/tracking_job";
+    }
+
 }
