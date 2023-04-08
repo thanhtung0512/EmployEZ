@@ -17,4 +17,5 @@ public class EmployeeDto {
     private String phone;
     private String city;
     private String email;
+    private String skill;
 }

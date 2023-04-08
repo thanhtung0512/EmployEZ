@@ -15,55 +15,55 @@
   <body>
     <form class="form-horizontal" th:object="${job}" th:action="@{/company/jobs/edit/done/{id}(id=${id})}" th:method="post">
       <div class="form-group">
-        <label for="text1" class="control-label col-xs-4">Job title</label>
+        <label class="control-label col-xs-4">Job title</label>
         <div class="col-xs-8">
           <input th:id="jobTitle" th:name="jobTitle"  th:value="${currentJob.getJobTitle()}" type="text" required="required" class="form-control">
         </div>
       </div>
       <div class="form-group">
-        <label for="text" class="control-label col-xs-4">Project location</label>
+        <label  class="control-label col-xs-4">Project location</label>
         <div class="col-xs-8">
           <input th:id="projectLocation" th:name="projectLocation"   th:value="${currentJob.getProjectLocation()}"  placeholder="ONSITE / REMOTE" type="text" required="required" class="form-control">
         </div>
       </div>
       <div class="form-group">
-        <label for="text6" class="control-label col-xs-4">Employment type</label>
+        <label  class="control-label col-xs-4">Employment type</label>
         <div class="col-xs-8">
           <input th:id="employmentType" th:name="employmentType" th:value="${currentJob.getEmploymentType()}"  placeholder="FULLTIME / PARTTIME / INTERN" type="text" class="form-control">
         </div>
       </div>
       <div class="form-group">
-        <label for="text2" class="control-label col-xs-4">City</label>
+        <label  class="control-label col-xs-4">City</label>
         <div class="col-xs-8">
           <input th:id="city" th:name="city" th:value="${currentJob.getCity()}"  type="text" class="form-control">
         </div>
       </div>
       <div class="form-group">
-        <label for="text3" class="control-label col-xs-4">State</label>
+        <label  class="control-label col-xs-4">State</label>
         <div class="col-xs-8">
           <input th:id="state" th:name="state" th:value="${currentJob.getCity()}"  type="text" class="form-control">
         </div>
       </div>
       <div class="form-group">
-        <label for="text7" class="control-label col-xs-4">Country</label> 
+        <label  class="control-label col-xs-4">Country</label>
         <div class="col-xs-8">
           <input th:id="country" th:name="country" th:value="${currentJob.getCountry()}" type="text" class="form-control">
         </div>
       </div>
       <div class="form-group">
-        <label for="text4" class="control-label col-xs-4">Min Salary</label> 
+        <label  class="control-label col-xs-4">Min Salary</label>
         <div class="col-xs-8">
           <input th:id="minSalary" th:name="minSalary" th:value="${currentJob.getMinSalary()}"  type="text" class="form-control">
         </div>
       </div>
       <div class="form-group">
-        <label for="text5" class="control-label col-xs-4">Max salary</label> 
+        <label  class="control-label col-xs-4">Max salary</label>
         <div class="col-xs-8">
           <input th:id="maxSalary" th:name="maxSalary"  th:value="${currentJob.getMaxSalary()}"  type="text" class="form-control">
         </div>
       </div>
       <div class="form-group">
-        <label for="textarea" class="control-label col-xs-4">Job description</label>
+        <label  class="control-label col-xs-4">Job description</label>
         <div class="col-xs-8">
           <textarea   th:id = "jobDescription" th:name = "jobDescription" th:text="${currentJob.getJobDescription()}"  cols="40" rows="5" required="required" class="form-control"></textarea>
         </div>

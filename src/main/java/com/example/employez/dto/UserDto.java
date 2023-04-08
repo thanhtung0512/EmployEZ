@@ -1,10 +1,12 @@
 package com.example.employez.dto;
+import com.example.employez.domain.entity_class.Skill;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +26,6 @@ public class UserDto {
     public void addResumePath(String path) {
         resumePath.add(path);
     }
+    private String skills;
+    private Set<Skill> skillSet;
 }

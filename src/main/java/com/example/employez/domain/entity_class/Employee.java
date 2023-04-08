@@ -229,4 +229,8 @@ public class Employee {
     public void addNewResume(Resume resume) {
         resumes.add(resume);
     }
+
+    public void addNewSkill(Skill skill) {
+        skills.add(skill);
+    }
 }

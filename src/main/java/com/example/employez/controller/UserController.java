@@ -24,8 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 @Controller
 @RequestMapping("/user")
@@ -91,6 +93,7 @@ public class UserController {
                     userDto.setUniversity(employee.getUniversity());
                     userDto.setCountry(employee.getCountry());
                     userDto.setState(employee.getCity());
+                    userDto.setSkillSet(employee.getSkills());
                     jobPostings = employee.getFavoriteJob();
                 } else if (role.getName().equals(ROLE.Company)) {
                     String sql = "SELECT c.id FROM company c  WHERE c.user_id = :userId";
@@ -101,10 +104,8 @@ public class UserController {
                     userDto.setFullName(company.getName());
                     userDto.setEmail(user.getEmail());
                     userDto.setJobTitle(null);
-                    userDto.setAddress("TEST ADDRESS");
-                    userDto.setPhone("TEST PHONE NUMBER");
-
-
+                    userDto.setAddress(company.getAddress());
+                    userDto.setPhone(company.getPhone());
                 }
             }
         }
@@ -135,7 +136,7 @@ public class UserController {
         List<String> roles = authenticationUtil.getUserRole(authenticationUtil.authentication());
         model.addAttribute("roles", roles);
         model.addAttribute("user", new UserDto());
-        model.addAttribute("currentEmployee", currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()));
+
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -163,6 +164,7 @@ public class UserController {
                     userDto.setCountry(employee.getCountry());
                     userDto.setState(employee.getCity());
                     jobPostings = employee.getFavoriteJob();
+                    model.addAttribute("currentEmployee", currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()));
                 } else if (role.getName().equals(ROLE.Company)) {
                     String sql = "SELECT c.id FROM company c  WHERE c.user_id = :userId";
                     Long companyId = session.createNativeQuery(sql, Long.class)
@@ -172,10 +174,9 @@ public class UserController {
                     userDto.setFullName(company.getName());
                     userDto.setEmail(user.getEmail());
                     userDto.setJobTitle(null);
-                    userDto.setAddress("TEST ADDRESS");
-                    userDto.setPhone("TEST PHONE NUMBER");
-
-
+                    userDto.setAddress(company.getAddress());
+                    userDto.setPhone(company.getPhone());
+                    model.addAttribute("currentEmployee", currentUserUtil.company(currentUserUtil.getCurrentUser().getId()));
                 }
             }
         }
@@ -204,13 +205,12 @@ public class UserController {
     // save profile
     @PostMapping("/user_profile")
     @Transactional
-    public String editProfile(@ModelAttribute(name = "user") UserDto userDto, @RequestParam(name = "file") MultipartFile file, Model model) throws IOException {
+    public String editProfile(@ModelAttribute(name = "user") UserDto userDto, @RequestParam(name = "file",required = false) MultipartFile file, Model model) throws IOException {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
         // handle file upload
-        Path tempFile = Files.createTempFile("resume", ".pdf");
-        Files.write(tempFile, file.getBytes());
+
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<String> roles = authenticationUtil.getUserRole(authenticationUtil.authentication());
@@ -225,11 +225,14 @@ public class UserController {
                 // get the company id, update on this company
                 Company company = session.createQuery("SELECT c FROM Company c where c.user.id = " + userId, Company.class)
                         .getSingleResult();
-                String hql = "UPDATE Company SET name = :name WHERE id = :id";
+                String hql = "UPDATE Company SET name = :name,phone = :phone, address = :address WHERE id = :id";
                 Integer execUpdate = session.createQuery(hql)
                         .setParameter("name", userDto.getFullName())
                         .setParameter("id", company.getId())
+                        .setParameter("phone",userDto.getPhone())
+                        .setParameter("address",userDto.getState() + ", " + userDto.getCountry())
                         .executeUpdate();
+                userDto.setAddress(userDto.getState() + ", " + userDto.getCountry());
                 System.out.println("EXECUTE UPDATE = " + execUpdate);
 
             } else if (role.equals(ROLE_Employee)) {
@@ -237,6 +240,8 @@ public class UserController {
                 Long id = employee
                         .getId();
                 jobPostings = employee.getFavoriteJob();
+                Path tempFile = Files.createTempFile("resume", ".pdf");
+                Files.write(tempFile, file.getBytes());
                 String hql = "UPDATE employee SET firstName = :firstName, lastName = :lastName, jobTitle = :jobTitle, city = :city, university = :university, country = :country,phone = :phone WHERE id = :id ";
                 int execUpdate = session.createNativeQuery(hql, Employee.class)
                         .setParameter("firstName", userDto.getFirstName())
@@ -246,12 +251,48 @@ public class UserController {
                         .setParameter("university", userDto.getUniversity())
                         .setParameter("country", userDto.getCountry())
                         .setParameter("id", id)
-                        .setParameter("phone",userDto.getPhone()).executeUpdate();
+                        .setParameter("phone", userDto.getPhone()).executeUpdate();
                 userDto.addResumePath(tempFile.toString());
                 Resume resume = new Resume();
                 resume.setResumePath(tempFile.toString());
-                resume.setEmployee(employee);
+
                 employee.addNewResume(resume);
+
+                // handle skills string
+                String skills = userDto.getSkills();
+                // cutting them by comma
+
+                Set<Skill> skillSet = new HashSet<>();
+                StringTokenizer tokenizer = new StringTokenizer(skills, ",");
+                while (tokenizer.hasMoreTokens()) {
+                    String token = tokenizer.nextToken().trim();
+                    System.out.println(token);
+                    String selectSkillId = "SELECT id FROM skill s WHERE s.name = :token";
+
+                    // checking user has this skill ?
+                    int isHavingThisSkill = 0;
+                    for (Skill skill : employee.getSkills()) {
+                        System.out.println("SKILL SET :" + skill.getName());
+                        if (skill.getName().toLowerCase().equals(token.toLowerCase())) {
+                            isHavingThisSkill = 1;
+                        }
+                    }
+                    //
+
+                    if (isHavingThisSkill == 0) {
+                        int skillId = session.createNativeQuery(selectSkillId, Integer.class)
+                                .setParameter("token", token)
+                                .getSingleResult();
+                        String insertToEmployeeHasSkillSql = "INSERT INTO has (fk_employee,fk_skill) value (:empId,:skillId)";
+                        Integer excecInsert = session.createNativeQuery(insertToEmployeeHasSkillSql, Integer.class)
+                                .setParameter("empId", id)
+                                .setParameter("skillId", skillId)
+                                .executeUpdate();
+                        System.out.println("EXCEC INSERT = " + excecInsert);
+                        employee.addNewSkill(new Skill(skillId,token));
+                    }
+                }
+                resume.setEmployee(employee);
                 session.save(resume);
                 System.out.println("EXECUTE UPDATE = " + execUpdate);
             }
@@ -323,8 +364,8 @@ public class UserController {
                     userDto.setFullName(company.getName());
                     userDto.setEmail(user.getEmail());
                     userDto.setJobTitle(null);
-                    userDto.setAddress("TEST ADDRESS");
-                    userDto.setPhone("TEST PHONE NUMBER");
+                    userDto.setAddress(company.getAddress());
+                    userDto.setPhone(company.getPhone());
 
 
                 }

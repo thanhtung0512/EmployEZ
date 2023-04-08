@@ -147,6 +147,8 @@
                                 ></h4>
                                 <p class="text-secondary mb-1" th:text="${user.getJobTitle()}"></p>
                                 <p class="text-muted font-size-sm" th:text="${user.getAddress()}"></p>
+
+
                             </div>
                         </div>
                     </div>
@@ -228,8 +230,28 @@
 
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
+
+                        <hr>
+
+                        <div th:each="role : ${roles}">
+                            <div th:if="${role == 'ROLE_Employee'}">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Skill</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:each="skill : ${user.getSkillSet()}"
+                                         th:utext="|${skill.getName()}|">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div th:each="role : ${roles}">
                             <div th:if="${role == 'ROLE_Company'}">
                                 <div class="row">
