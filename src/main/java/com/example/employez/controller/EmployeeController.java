@@ -1,6 +1,6 @@
 package com.example.employez.controller;
 
-import com.example.employez.dao.jobPostingDAO.JobPostDAO;
+import com.example.employez.dao.CourseDao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.Employee;
 import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.domain.entity_class.Role;
@@ -11,6 +11,7 @@ import com.example.employez.dto.UserDto;
 import com.example.employez.repository.EmployeeRepository;
 import com.example.employez.util.AuthenticationUtil;
 import com.example.employez.util.CurrentUserUtil;
+import com.example.employez.util.DayUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -188,4 +190,55 @@ public class EmployeeController {
         model.addAttribute("jobList", jobPostings);
         return "employee_profile";
     }
+
+    @GetMapping("/interview/{jobId}")
+    public String watchInterviewAppointment(@PathVariable(name = "jobId") int jobId
+            , Model model) {
+        String getDate = "SELECT  interview_date FROM apply WHERE fk_employee = :empId AND fk_jobpost = :jobId";
+        String getLocation = "SELECT  interview_location FROM apply WHERE fk_employee = :empId AND fk_jobpost = :jobId";
+        String getFeedback = "SELECT  feedback FROM apply WHERE fk_employee = :empId AND fk_jobpost = :jobId";
+
+        Long empId = currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()).getId();
+
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Date interviewDate = (session.createNativeQuery(getDate, Date.class)
+                .setParameter("empId", empId)
+                .setParameter("jobId", jobId)
+                .getSingleResult());
+
+        String location = (session.createNativeQuery(getLocation, String.class)
+                .setParameter("empId", empId)
+                .setParameter("jobId", jobId)
+                .getSingleResult());
+
+        String feeback = (session.createNativeQuery(getFeedback, String.class)
+                .setParameter("empId", empId)
+                .setParameter("jobId", jobId)
+                .getSingleResult());
+
+        String interviewDateString = DayUtil.dateToString(interviewDate);
+
+        model.addAttribute("location", location);
+        model.addAttribute("date", interviewDateString);
+        model.addAttribute("feedback", feeback);
+        model.addAttribute("empEmail", currentUserUtil.getCurrentUser().getEmail());
+        return "appointment_watch";
+    }
+
+    @PostMapping("/interview/{jobId}")
+    public String acceptAppointment(@PathVariable(name = "jobId") Long jobId) {
+        Long empId = currentUserUtil.employee(currentUserUtil.getCurrentUser().getId()).getId();
+        String updateJobApplicationStatus = "UPDATE apply SET status = :interviewStatus WHERE  fk_employee = :empId AND fk_jobpost = :jobId";
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.createNativeQuery(updateJobApplicationStatus).setParameter("interviewStatus", ApplyingJobState.WAITING_INTERVIEW_RESULT.toString())
+                .setParameter("empId", empId)
+                .setParameter("jobId", jobId)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        return "redirect:/employee/tracking_job";
+    }
+
 }

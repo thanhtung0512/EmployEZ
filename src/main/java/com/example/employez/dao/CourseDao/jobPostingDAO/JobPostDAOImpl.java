@@ -1,4 +1,4 @@
-package com.example.employez.dao.jobPostingDAO;
+package com.example.employez.dao.CourseDao.jobPostingDAO;
 
 import com.example.employez.dao.companyDAO.CompanyDAO;
 import com.example.employez.domain.entity_class.Company;

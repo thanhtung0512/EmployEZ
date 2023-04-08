@@ -154,24 +154,30 @@
 
                     <!-- Job Card -->
 
-                    <a th:each="jobPost : ${jobList}" th:href="@{/jobs/{id}(id=${jobPost.getId()})}" class="card p-0 mb-3 border-0 shadow-sm shadow--on-hover">
-                        <div class="card-body" >
+                    <a th:each="jobPost : ${jobList}" class="card p-0 mb-3 border-0 shadow-sm shadow--on-hover">
+                        <div class="card-body">
                   <span class="row justify-content-between align-items-center">
                     <span class="col-md-5 color--heading">
-                        <p th:text="${jobPost.getJobTitle()}"> </p>
+                        <p th:utext="|Job title: ${jobPost.getJobTitle()}|"> </p>
                     </span>
 
                     <span class="col-5 col-md-3 my-3 my-sm-0 color--text">
-                         <p th:text="${jobPost.getProjectLocation()}"> </p>
+                         <p th:utext="|Project type: ${jobPost.getProjectLocation()}|"> </p>
                     </span>
 
                     <span class="col-7 col-md-3 my-3 my-sm-0 color--text">
-                      <i class="fas fa-map-marker-alt mr-1"></i> <p th:utext="|${jobPost.getCity()}, ${jobPost.getCountry()}|"> </p>
+                      <i class="fas fa-map-marker-alt mr-1"></i> <p
+                            th:utext="|Working location: ${jobPost.getCity()}, ${jobPost.getCountry()}|"> </p>
                     </span>
 
                       <span class="col-7 col-md-3 my-3 my-sm-0 color--text">
-                      <i class="fas fa-map-marker-alt mr-1"></i> <p th:utext="|${jobPost.getApplyingJobState()}|"> </p>
+                      <i class="fas fa-map-marker-alt mr-1"></i>  <p style="font-weight: bold" th:utext="| Application state: ${jobPost.getApplyingJobState()}|"> </p>
                     </span>
+
+                      <form th:if="${jobPost.getApplyingJobState().toString().equals('INVITED_FOR_INTERVIEW')}"
+                            th:action="@{/employee/interview/{jobId}(jobId = ${jobPost.getId()})}">
+                                        <button type="submit" class="btn btn-sm btn-outline-dark">Open appointment</button>
+                                    </form>
 
 
                   </span>

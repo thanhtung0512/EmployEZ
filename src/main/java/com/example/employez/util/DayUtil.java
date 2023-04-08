@@ -28,4 +28,11 @@ public class DayUtil {
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); // convert the java.util.Date object to a java.sql.Date object
         return sqlDate;
     }
+
+    public static String dateToString(Date date) {
+        // your input SQL date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // the desired date format
+        String dateString = dateFormat.format(date);
+        return dateString;
+    }
 }
