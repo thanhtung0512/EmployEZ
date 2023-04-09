@@ -160,14 +160,32 @@
                                         <button type="submit" class="btn btn-sm btn-outline-dark">See detail for employee <span th:text="${tuple.getK().getId()}"></span> </button>
                                     </form>
 
-                      <form th:if="${tuple.getM().equals('APPLICATION_RECEIVED')}" th:action="@{/company/appointment/make/{employeeEmail}/{jobId} (employeeEmail = ${tuple.getK().getEmail()} ,jobId = ${jobId}) } " th:method="get">
+                      <form th:if="${tuple.getM().equals('APPLICATION_RECEIVED')}"
+                            th:action="@{/company/appointment/make/{employeeEmail}/{jobId} (employeeEmail = ${tuple.getK().getEmail()} ,jobId = ${jobId}) } "
+                            th:method="get">
                                         <button type="submit"
                                                 class="btn btn-sm btn-outline-dark">Accept and make interview appointment</button>
                                     </form>
 
-                      <form th:if="${tuple.getM().equals('WAITING_INTERVIEW_RESULT')}" th:action="@{/company/offer/accept/{employeeEmail}/{jobId} (employeeEmail = ${tuple.getK().getEmail()} ,jobId = ${jobId}) } " th:method="get">
+                      <form th:if="${tuple.getM().equals('WAITING_INTERVIEW_RESULT')}"
+                            th:action="@{/company/offer/accept/{employeeEmail}/{jobId} (employeeEmail = ${tuple.getK().getEmail()} ,jobId = ${jobId}) } "
+                            th:method="get">
                                         <button type="submit"
                                                 class="btn btn-sm btn-outline-dark">Pass interview and make offer </button>
+                                    </form>
+
+                      <form th:if="${tuple.getM().equals('WAITING_INTERVIEW_RESULT')}"
+                            th:action="@{/company/offer/decline/{employeeEmail}/{jobId} (employeeEmail = ${tuple.getK().getEmail()} ,jobId = ${jobId}) } "
+                            th:method="get">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-dark">Decline this employee</button>
+                                    </form>
+
+                      <form th:if="${tuple.getM().equals('APPLICATION_RECEIVED')}"
+                            th:action="@{/company/offer/decline/{employeeEmail}/{jobId} (employeeEmail = ${tuple.getK().getEmail()} ,jobId = ${jobId}) } "
+                            th:method="get">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-dark">Decline this employee</button>
                                     </form>
 
                       <div th:each="id : ${tuple.getV()}">
@@ -176,6 +194,9 @@
                                                 class="btn btn-sm btn-outline-dark">View employee's resume</button>
                                     </form>
                       </div>
+
+
+
 
 
 

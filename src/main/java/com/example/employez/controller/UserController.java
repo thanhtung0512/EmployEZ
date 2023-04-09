@@ -203,7 +203,7 @@ public class UserController {
 
 
     // save profile
-    @PostMapping("/user_profile")
+    @RequestMapping("/user_profile/done")
     @Transactional
     public String editProfile(@ModelAttribute(name = "user") UserDto userDto, @RequestParam(name = "file",required = false) MultipartFile file, Model model) throws IOException {
         Session session = sessionFactory.openSession();

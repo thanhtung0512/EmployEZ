@@ -45,7 +45,7 @@
             <div class="d-flex flex-row"><label class="radio mr-1"> <input type="radio" name="add" value="anz" checked>
                 <span th:text="${empEmail}"> <i class="fa fa-user"></i>  </span> </label></div>
             <h6 class="information mt-4">Please provide following information about the interview appointment</h6>
-            <form th:action="@{/company/appointment/make/done/{jobId}/{empId} (jobId = ${jobId},empId = ${empId}) }" th:method="post">
+            <form th:action="@{/company/appointment/make/done/{jobId}/{empId} (jobId = ${jobId},empId = ${empId}) }" >
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
