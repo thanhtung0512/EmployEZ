@@ -1,6 +1,6 @@
 package com.example.employez.controller;
 
-import com.example.employez.dao.CourseDao.jobPostingDAO.JobPostDAO;
+import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.*;
 import com.example.employez.domain.enumPackage.ROLE;
 import com.example.employez.dto.UserDto;

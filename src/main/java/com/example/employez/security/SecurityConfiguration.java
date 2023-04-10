@@ -90,7 +90,10 @@ public class SecurityConfiguration {
                         , "/course/byname/**"
                         , "/search/**"
                         , "/resume/view/**"
-                        , "/handleSignup").permitAll()
+                        , "/handleSignup"
+                        , "/jobs/{id}"
+                        , "/hello/{name}"
+                        , "/api/**").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers(
                         "/api/jobposts/byid/**"

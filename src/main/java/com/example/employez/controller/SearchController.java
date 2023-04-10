@@ -1,6 +1,6 @@
 package com.example.employez.controller;
 
-import com.example.employez.dao.CourseDao.jobPostingDAO.JobPostDAO;
+import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.dto.JobPostDto;
 import com.example.employez.util.AuthenticationUtil;
 import org.hibernate.SessionFactory;
