@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply job</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+  <!--
+  CSS
+  ============================================= -->
+  <link rel="stylesheet" th:href="@{/css/linearicons.css}">
+  <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+  <link rel="stylesheet" th:href="@{/css/nice-select.css}">
+  <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+  <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
+
+
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+
+
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css" rel="stylesheet">
+  <script crossorigin="anonymous"
+          integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+          src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/ti-icons@0.1.2/css/themify-icons.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div class="row mx-0 justify-content-center">
+    <div class="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">
+      <form
+              method="POST"
+              class="w-100 rounded-1 p-4 border bg-white"
+              th:action="@{/employee/tracking_job/{id}(id=${jobId})}"
+              th:method = "post"
+              enctype="multipart/form-data"
+      >
+        <label class="d-block mb-4">
+          <span class="form-label d-block">Your name</span>
+          <input
+                  required
+                  name="name"
+                  type="text"
+                  class="form-control"
+                  placeholder="Joe Bloggs"
+                  th:value="|${employee.getLastName()} ${employee.getLastName()}|"
+          />
+        </label>
+
+        <label class="d-block mb-4">
+          <span class="form-label d-block">Email address</span>
+          <input
+                  required
+                  name="email"
+                  type="email"
+                  class="form-control"
+                  placeholder="joe.bloggs@example.com"
+                  th:value="|${user.email}|"
+          />
+        </label>
+
+
+        <label class="d-block mb-4">
+          <span class="form-label d-block">Remember to <a> upload your resume</a> before apply for any job </span>
+        </label>
+
+
+
+
+        <h4>You are applying for this job</h4>
+
+        <div style="border: black;border: solid" class="card p-2"  >
+          <div class="text-right"><small th:text="${jobPost.getEmploymentType()}"></small></div>
+          <div class="text-center mt-2 p-3">  <span
+                  class="d-block font-weight-bold" th:text="${jobPost.getJobTitle()}"></span>
+
+            <hr>
+            <span th:text="${jobPost.getCompany().getName()}"></span>
+            <div class="d-flex flex-row align-items-center justify-content-center"><i
+                    class="fa fa-map-marker"></i> <small class="ml-1"
+                                                         th:utext="| ${jobPost.getCity()},${jobPost.getCountry()} |"></small>
+              <hr>
+              <small class="ml-1"
+                     th:utext="|Posted ${jobPost.getDaySincePosted()} day ago|"></small>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+              <p th:if="${jobPost.getMinSalary() != null and jobPost.getMaxSalary() != null}">
+                <span th:utext="| ${jobPost.getMinSalary()}$ - ${jobPost.getMaxSalary()}$ |"></span>
+              </p>
+              <p th:if="${jobPost.getMinSalary() == null and jobPost.getMaxSalary() == null}">
+                <span th:utext="| Negotiate |"></span></p>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="mb-3">
+          <button type="submit" class="btn btn-primary px-3 rounded-3">
+            Apply
+          </button>
+        </div>
+
+        <div class="d-block text-end">
+          <div class="small">
+            by
+            <a
+                    href="https://herotofu.com"
+                    class="text-dark text-decoration-none"
+                    target="_blank"
+            >HeroTofu</a
+            >
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

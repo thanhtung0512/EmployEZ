@@ -12,9 +12,15 @@ public class DataSourceConfig {
     public DataSource getDataSource() {
         return DataSourceBuilder.create()
                 .driverClassName("com.mysql.cj.jdbc.Driver")
+<<<<<<< HEAD
                 .url("jdbc:mysql://localhost:3306/employez")
                 .username("root")
                 .password("anh05032")
+=======
+                .url("jdbc:mysql://localhost:3307/employez")
+                .username("webuser")
+                .password("webuser")
+>>>>>>> pushData
                 .build();
     }
 }

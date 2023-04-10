@@ -10,9 +10,9 @@ public class HibernateUtil {
 
 
     private static String currentDB = "employez";
-    private static String port = "3306";
-    private static String pass = "anh05032";
-    private static String user = "root";
+    private static String port = "3307";
+    private static String pass = "webuser";
+    private static String user = "webuser";
 
 
     private static SessionFactory sessionFactory;
@@ -20,7 +20,7 @@ public class HibernateUtil {
     public static Session getSession(String concreteDatabase, Class<?>... annotatedClass) {
         if (sessionFactory == null) {
             Configuration configuration = new Configuration()
-                    .setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/" + concreteDatabase)
+                    .setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3307/" + concreteDatabase)
                     .setProperty("hibernate.connection.username", "hbstudent")
                     .setProperty("hibernate.connection.password", "hbstudent")
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect"); // add your entity classes here
@@ -56,7 +56,7 @@ public class HibernateUtil {
                     .setProperty("hibernate.connection.password", password)
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect")
                     .setProperty("hibernate.show_sql", "true")
-//                    .setProperty("hibernate.hbm2ddl.auto", "create"); // add your entity classes here
+                    /*.setProperty("hibernate.hbm2ddl.auto", "create")*/; // add your entity classes here
             for (int i = 0; i < annotatedClass.length; i++) {
                 configuration.addAnnotatedClass(annotatedClass[i]);
             }
