@@ -1,8 +1,13 @@
 package com.example.employez.controller;
 
 import com.example.employez.dao.jobPostingDAO.JobPostDAO;
+import com.example.employez.domain.entity_class.CacheData;
 import com.example.employez.dto.JobPostDto;
+import com.example.employez.repository.CacheDataRepository;
 import com.example.employez.util.AuthenticationUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,12 +20,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class SearchController {
 
     @Autowired
     private AuthenticationUtil authenticationUtil;
+
+    @Autowired
+    private CacheDataRepository cacheDataRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     private Authentication getAuth() {
@@ -69,15 +81,26 @@ public class SearchController {
     }
 
 
-
     @GetMapping("/search/byskill/{skillName}")
-    public String searchBySkill(@PathVariable(name = "skillName") String skillName, Model model) {
+    public String searchBySkill(@PathVariable(name = "skillName") String skillName, Model model) throws JsonProcessingException {
 
-        ArrayList<JobPostDto> jobPostingsBySkill = (ArrayList<JobPostDto>) jobPostDAO.getBySkill(skillName);
+        Optional<CacheData> optionalCacheData = cacheDataRepository.findById(skillName);
+        if (optionalCacheData.isPresent()) {
+            System.out.println("GET FROM REDIS CACHE");
+            String jobAsString = optionalCacheData.get().getValue();
+            TypeReference<List<JobPostDto>> mapType = new TypeReference<>() {
+            };
+            List<JobPostDto> jobPostDtos = objectMapper.readValue(jobAsString, mapType);
+            model.addAttribute("jobList", jobPostDtos);
+        } else {
+            ArrayList<JobPostDto> jobPostingsBySkill = (ArrayList<JobPostDto>) jobPostDAO.getBySkill(skillName);
+            String jobAsString = objectMapper.writeValueAsString(jobPostingsBySkill);
+            CacheData cacheData = new CacheData(skillName, jobAsString);
+            cacheDataRepository.save(cacheData);
+            model.addAttribute("jobList", jobPostingsBySkill);
+        }
 
-        model.addAttribute("jobList", jobPostingsBySkill);
         model.addAttribute("skillName", skillName);
-
         Authentication auth = authenticationUtil.authentication();
 
         String mail = null;

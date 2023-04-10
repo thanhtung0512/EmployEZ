@@ -56,32 +56,40 @@ public class CourseController {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
+
+    private List<Course> getCacheCourseByName(String courseName) throws JsonProcessingException {
+        List<Course> courses = new ArrayList<>();
+        Optional<CacheData> optionalCacheData = cacheDataRepository.findById(courseName);
+        if (optionalCacheData.isPresent()) {
+            System.out.println("GET FROM REDIS CACHE " + courseName);
+            String courseAsString = optionalCacheData.get().getValue();
+            TypeReference<List<Course>> mapType = new TypeReference<>() {
+            };
+            courses = objectMapper.readValue(courseAsString, mapType);
+            return courses;
+        }
+        courses = courseRepository.findCourseByTitleContaining(courseName);
+        String productsAsJsonString = objectMapper.writeValueAsString(courses);
+        CacheData cacheData = new CacheData(courseName, productsAsJsonString);
+        cacheDataRepository.save(cacheData);
+
+        return courses;
+    }
+
+
     @GetMapping("/list/byname/{courseName}")
     public String courses(@PathVariable(name = "courseName") String courseName, Model model) throws JsonProcessingException {
-
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
 
-        Optional<CacheData> optionalCacheData = cacheDataRepository.findById(courseName);
-        if (optionalCacheData.isPresent()) {
-            System.out.println("GO HERE");
-            String courseAsString = optionalCacheData.get().getValue();
-            TypeReference<List<Course>> mapType = new TypeReference<>() {
-            };
-            List<Course> courses = objectMapper.readValue(courseAsString, mapType);
-            model.addAttribute("courses", courses);
-        }
-        else {
-            List<Course> courses = courseRepository.findCourseByTitleContaining(courseName);
-            String productsAsJsonString = objectMapper.writeValueAsString(courses);
-            CacheData cacheData = new CacheData(courseName, productsAsJsonString);
-            cacheDataRepository.save(cacheData);
-            model.addAttribute("courses", courses);
-        }
+        // get Course from Cache
+        List<Course> courses = getCacheCourseByName(courseName);
 
+        model.addAttribute("courses", courses);
         Authentication auth = getAuth();
+
         String mail = null;
         if (auth != null) {
             mail = auth.getName();
@@ -99,7 +107,7 @@ public class CourseController {
 
 
     @GetMapping("/list/suggest")
-    public String suggest(Model model) {
+    public String suggest(Model model) throws JsonProcessingException {
 
         List<Course> finalList = new ArrayList<>();
 
@@ -109,13 +117,23 @@ public class CourseController {
         Integer userId = user.getId();
         Set<Role> roleSet = user.getRoles();
 
+        List<Course> resultCourse = new ArrayList<>();
+
+
         if (roleSet.size() == 1) {
             for (Role role : roleSet) {
                 if (role.getName().equals(ROLE.Employee)) {
                     Set<Skill> skills = currentUserUtil.employee(userId).getSkills();
                     for (Skill skill : skills) {
-                        System.out.println("skillname" + skill.getName());
-                        finalList.addAll(courseRepository.findCourseByTitleContaining(skill.getName()));
+
+                        String skillName = skill.getName();
+                        List<Course> courses = new ArrayList<>();
+                        courses = getCacheCourseByName(skillName);
+
+
+                        /*System.out.println("skillname" + skill.getName());
+                        finalList.addAll(courseRepository.findCourseByTitleContaining(skill.getName()));*/
+                        resultCourse.addAll(courses);
                     }
                 }
             }
@@ -126,7 +144,7 @@ public class CourseController {
             mail = auth.getName();
         }
         System.out.println("MAIL = " + mail);
-        model.addAttribute("courses", finalList);
+        model.addAttribute("courses", resultCourse);
         model.addAttribute("auth", auth);
         model.addAttribute("mail", mail);
         model.addAttribute("courseName", "you");

@@ -299,7 +299,7 @@ public class UserController {
                 session.save(resume);
                 System.out.println("EXECUTE UPDATE = " + execUpdate);
 
-                session.getTransaction().commit();
+
             }
         }
 
@@ -320,7 +320,7 @@ public class UserController {
         model.addAttribute("mail", mail);
         model.addAttribute("roles", authenticationUtil.getUserRole(auth));
 
-
+        session.getTransaction().commit();
         session.close();
         return "redirect:/user/user_profile";
     }
