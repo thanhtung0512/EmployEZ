@@ -1,9 +1,12 @@
 package com.example.employez.restApi;
 
-import com.example.employez.dao.CourseDao.jobPostingDAO.JobPostDAO;
+import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.JobPosting;
 import com.example.employez.dto.JobPostDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,9 @@ public class JobPostingApi {
 
     @Autowired
     private JobPostDAO jobPostDAO;
+
+
+
 
 
 

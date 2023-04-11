@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -13,7 +16,8 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Course {
+
+public class Course implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -29,10 +33,10 @@ public class Course {
     @Column(name = "rating")
     private double rating;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "covers",
             joinColumns = {@JoinColumn(name = "fk_course")},
             inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
-    Set<Skill> skillSet;
+    private Set<Skill> skillSet;
 
 }

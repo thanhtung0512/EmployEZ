@@ -1,4 +1,4 @@
-package com.example.employez.dao.CourseDao.jobPostingDAO;
+package com.example.employez.dao.jobPostingDAO;
 
 import com.example.employez.dao.companyDAO.CompanyDAO;
 import com.example.employez.domain.entity_class.Company;
@@ -11,6 +11,7 @@ import com.example.employez.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -263,6 +264,7 @@ public class JobPostDAOImpl implements JobPostDAO {
 
     @Override
     @Transactional
+    @Cacheable(value = "jobPost")
     public Pair<JobPosting, Set<String>> getById(int id) {
         Session session = sessionFactory.openSession();
         String hql = ("SELECT j.id,j.city" +
@@ -372,6 +374,8 @@ public class JobPostDAOImpl implements JobPostDAO {
             jobPostDto.setMinSalary((Integer) result[i][5]);
             jobPostDtos.add(jobPostDto);
         }
+        session.getTransaction().commit();
+        session.close();
         return jobPostDtos;
     }
 
@@ -408,7 +412,7 @@ public class JobPostDAOImpl implements JobPostDAO {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         String sql = " SELECT j.jobTitle,j.company,j.state,j.country,j.maxSalary " +
-                "AS maxSal,j.minSalary AS minSal,j.datePosted,j.id, j.projectLocation, j.jobDescription " +
+                "AS maxSal,j.minSalary AS minSal,j.datePosted,j.id, j.projectLocation, j.jobDescription,j.employmentType " +
                 "FROM JobPosting j " +
                 "WHERE j.id = "
                 + jobId;
@@ -426,6 +430,7 @@ public class JobPostDAOImpl implements JobPostDAO {
             jobPostDto.setDaySincePosted(DayUtil.daysBetweenNowAndSpecificDate((Date) result[i][6]));
             jobPostDto.setProjectLocation((ProjectLocation) result[i][8]);
             jobPostDto.setJobDescription((String) result[i][9]);
+            jobPostDto.setEmploymentType((EmploymentType) result[i][10]);
 
         }
         session.getTransaction().commit();

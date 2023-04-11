@@ -1,6 +1,6 @@
 package com.example.employez.controller;
 
-import com.example.employez.dao.CourseDao.jobPostingDAO.JobPostDAO;
+import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.dao.employeeDAO.EmployeeDAO;
 import com.example.employez.domain.entity_class.*;
 import com.example.employez.domain.enumPackage.ApplyingJobState;
@@ -215,9 +215,9 @@ public class CompanyController {
         String updateJobApplicationStatus = "UPDATE apply SET status = :interviewStatus, interview_date = :int_date ,interview_location = :location, feedback = :feedback WHERE fk_employee = :empId AND fk_jobpost = :jobId";
 
         String getCurrentState = "SELECT status FROM apply WHERE fk_jobpost = " + jobId;
-        ApplyingJobState applyingJobState = (ApplyingJobState) session.createNativeQuery(getCurrentState).getSingleResult();
+        String applyingJobState = session.createNativeQuery(getCurrentState, String.class).getSingleResult();
 
-        if (applyingJobState == ApplyingJobState.INVITED_FOR_INTERVIEW) {
+        if (applyingJobState.equals(ApplyingJobState.APPLICATION_RECEIVED.toString())) {
             session.createNativeQuery(updateJobApplicationStatus)
                     .setParameter("interviewStatus", ApplyingJobState.INVITED_FOR_INTERVIEW.toString())
                     .setParameter("int_date", interviewDate)
@@ -410,12 +410,45 @@ public class CompanyController {
     }
 
 
+    @GetMapping("/offer/decline/{employeeEmail}/{jobId}")
+    public String decline(Model model
+            , @PathVariable(name = "employeeEmail") String employeeEmail
+            , @PathVariable(name = "jobId") Long jobId) {
+
+
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        System.out.println(employeeEmail);
+        User userEmployee = userRepository.getUserByEmail(employeeEmail);
+        model.addAttribute("empEmail", employeeEmail);
+        model.addAttribute("jobId", jobId);
+        Employee employee = currentUserUtil.employee(userEmployee.getId());
+        model.addAttribute("empId", employee.getId());
+        JobPostDto jobPostDto = jobPostDAO.getById(jobId);
+        model.addAttribute("jobPostDto", jobPostDto);
+
+        String updateApplyStatusInDatabase = "UPDATE apply SET status = :status WHERE fk_employee = "
+                + employee.getId()
+                + " AND fk_jobpost = "
+                + jobId;
+        session.createNativeQuery(updateApplyStatusInDatabase)
+                .setParameter("status",ApplyingJobState.DECLINE_APPLICATION.toString()).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+        return "redirect:/company/jobs/current";
+    }
+
+
     @PostMapping("/offer/accept/{employeeEmail}/{jobId}")
     public String sendOffer(@RequestParam(name = "salary") String salary,
                             @RequestParam(name = "date") String date
             , Model model
             , @PathVariable(name = "employeeEmail") String employeeEmail
             , @PathVariable(name = "jobId") Long jobId) throws ParseException {
+
+
 
 
         System.out.println(employeeEmail);
@@ -426,6 +459,9 @@ public class CompanyController {
         model.addAttribute("empId", employee.getId());
         JobPostDto jobPostDto = jobPostDAO.getById(jobId);
         model.addAttribute("jobPostDto", jobPostDto);
+
+
+
 
 
         // save offer information to database

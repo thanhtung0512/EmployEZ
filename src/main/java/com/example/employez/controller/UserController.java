@@ -1,6 +1,6 @@
 package com.example.employez.controller;
 
-import com.example.employez.dao.CourseDao.jobPostingDAO.JobPostDAO;
+import com.example.employez.dao.jobPostingDAO.JobPostDAO;
 import com.example.employez.domain.entity_class.*;
 import com.example.employez.domain.enumPackage.ROLE;
 import com.example.employez.dto.UserDto;
@@ -203,7 +203,7 @@ public class UserController {
 
 
     // save profile
-    @PostMapping("/user_profile")
+    @RequestMapping("/user_profile/done")
     @Transactional
     public String editProfile(@ModelAttribute(name = "user") UserDto userDto, @RequestParam(name = "file",required = false) MultipartFile file, Model model) throws IOException {
         Session session = sessionFactory.openSession();
@@ -299,7 +299,7 @@ public class UserController {
                 session.save(resume);
                 System.out.println("EXECUTE UPDATE = " + execUpdate);
 
-                session.getTransaction().commit();
+
             }
         }
 
@@ -320,7 +320,7 @@ public class UserController {
         model.addAttribute("mail", mail);
         model.addAttribute("roles", authenticationUtil.getUserRole(auth));
 
-
+        session.getTransaction().commit();
         session.close();
         return "redirect:/user/user_profile";
     }
