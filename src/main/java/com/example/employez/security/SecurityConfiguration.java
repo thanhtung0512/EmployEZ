@@ -93,13 +93,13 @@ public class SecurityConfiguration {
                         , "/handleSignup"
                         , "/jobs/{id}"
                         , "/hello/{name}"
-                        , "/api/**").permitAll()
+                        , "/api/**"
+                ).permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers(
                         "/api/jobposts/byid/**"
                         , "/company/jobs/current"
                         , "/company/jobs/del/**"
-                        , "/user/deletejob/**"
                         ,"company/jobs/create"
                         ,"/employee/profile/**"
                 ).hasRole("Company")
@@ -109,7 +109,8 @@ public class SecurityConfiguration {
                         , "/employee/apply/**"
                         , "/employee/tracking_job/**"
                         , "/employee/tracking_job"
-                        , "/course/list/suggest")
+                        , "/course/list/suggest"
+                        , "/user/deletejob/**")
                 .hasRole("Employee")
                 .and()
                 .authorizeHttpRequests()

@@ -60,6 +60,7 @@ public class JobController {
         model.addAttribute("mail", mail);
         model.addAttribute("jobPosting", jobPosting);
         model.addAttribute("skills", skillSet);
+        model.addAttribute("roles", authenticationUtil.getUserRole(auth));
 
         List<Course> courses = courseRepository.findCourseByTitleContaining("Spring").subList(0,6);
         model.addAttribute("courses",courses);
@@ -83,6 +84,10 @@ public class JobController {
         // System.out.println(employee.toString() + " Employee ");
 
         System.out.println(" jobID = " + jobId);
+
+
+
+
 
         String sql = "INSERT INTO favor_job (fk_employee, fk_jobpost) value (:fk_emp, :fk_job)";
         Integer execUpdate = session.createNativeQuery(sql, Integer.class)

@@ -276,7 +276,7 @@ public class UserController {
                     int isHavingThisSkill = 0;
                     for (Skill skill : employee.getSkills()) {
                         System.out.println("SKILL SET :" + skill.getName());
-                        if (skill.getName().toLowerCase().equals(token.toLowerCase())) {
+                        if (skill.getName().toLowerCase().equals(token.toLowerCase()) || skill.getName().equals(token)) {
                             isHavingThisSkill = 1;
                         }
                     }
