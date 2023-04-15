@@ -87,10 +87,15 @@ public class CompanyController {
     }
 
     @RequestMapping("/jobs/del/{id}")
-    public String delPost(@PathVariable(name = "id") Long id,Model model) {
+    public String delPost(@PathVariable(name = "id") Long jobId,Model model) {
         Session session =  sessionFactory.openSession();
         session.beginTransaction();
-        String delJobByIdSql = "DELETE JobPosting j WHERE j.id = " + id;
+
+        // delete current application
+        String deleteCurrentApplication = "DELETE FROM apply WHERE fk_jobpost = " + jobId;
+        session.createNativeQuery(deleteCurrentApplication).executeUpdate();
+
+        String delJobByIdSql = "DELETE JobPosting j WHERE j.id = " + jobId;
         session.createQuery(delJobByIdSql   ).executeUpdate();
         int userId = currentUserUtil.getCurrentUser().getId();
         Company company = currentUserUtil.company(userId);

@@ -153,11 +153,13 @@
                                 <h6 th:text="${jobPosting.company.name}"></h6>
                             </div>
                             <ul class="btns">
-                                <li> <form th:action="@{/jobs/{id}(id = ${jobPosting.getId()})}" th:method="POST">
-                                    <button type="submit">
-                                        <span class="lnr lnr-heart"></span>
-                                    </button>
-                                </form></li>
+                                <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}">
+                                    <form  th:action="@{/jobs/{id}(id = ${jobPosting.getId()})}" th:method="POST">
+                                        <button type="submit">
+                                            <span class="lnr lnr-heart"></span>
+                                        </button>
+                                    </form>
+                                </li>
                                 <li><a th:href="@{/employee/apply/{id}(id = ${jobPosting.getId()})}">Apply</a></li>
                             </ul>
                         </div>

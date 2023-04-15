@@ -7,13 +7,17 @@ import com.example.employez.domain.enumPackage.ProjectLocation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.sql.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class JobPostDto {
+
     private Integer id;
     private EmploymentType employmentType;
     private String jobTitle;

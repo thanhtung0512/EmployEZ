@@ -58,7 +58,7 @@ public class CourseController {
 
 
     private List<Course> getCacheCourseByName(String courseName) throws JsonProcessingException {
-        List<Course> courses = new ArrayList<>();
+        List<Course> courses;
         Optional<CacheData> optionalCacheData = cacheDataRepository.findById(courseName);
         if (optionalCacheData.isPresent()) {
             System.out.println("GET FROM REDIS CACHE " + courseName);

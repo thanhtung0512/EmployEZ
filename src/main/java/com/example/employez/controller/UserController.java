@@ -270,13 +270,20 @@ public class UserController {
                 while (tokenizer.hasMoreTokens()) {
                     String token = tokenizer.nextToken().trim();
                     System.out.println(token);
+                    token = token.toLowerCase();
+                    StringBuffer normalize = new StringBuffer("");
+                    normalize.append(Character.toUpperCase(token.charAt(0)));
+                    for (int i = 1; i < token.length(); i++) {
+                        normalize.append(token.charAt(i));
+                    }
+                    token = normalize.toString();
                     String selectSkillId = "SELECT id FROM skill s WHERE s.name = :token";
 
                     // checking user has this skill ?
                     int isHavingThisSkill = 0;
                     for (Skill skill : employee.getSkills()) {
                         System.out.println("SKILL SET :" + skill.getName());
-                        if (skill.getName().toLowerCase().equals(token.toLowerCase())) {
+                        if (skill.getName().toLowerCase().equals(token.toLowerCase()) || skill.getName().equals(token)) {
                             isHavingThisSkill = 1;
                         }
                     }
