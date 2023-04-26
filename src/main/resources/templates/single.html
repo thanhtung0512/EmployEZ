@@ -160,7 +160,7 @@
                                         </button>
                                     </form>
                                 </li>
-                                <li><a th:href="@{/employee/apply/{id}(id = ${jobPosting.getId()})}">Apply</a></li>
+                                <li th:each="role : ${roles}" th:if="${role == 'ROLE_Employee'}"><a th:href="@{/employee/apply/{id}(id = ${jobPosting.getId()})}">Apply</a></li>
                             </ul>
                         </div>
                         <h5 th:utext="|Job Type : ${jobPosting.getEmploymentType()}|"></h5>

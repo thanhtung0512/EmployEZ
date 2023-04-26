@@ -49,7 +49,6 @@ public class JdbcExample {
                     e.printStackTrace();
                 }
                 for (Skill skill : skills) {
-
                     String skillName = skill.getName();
                     if (des.contains(skillName) || des.contains(skillName.toLowerCase())) {
                         skillSet.add(skill);

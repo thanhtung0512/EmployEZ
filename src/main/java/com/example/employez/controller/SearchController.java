@@ -5,6 +5,7 @@ import com.example.employez.domain.entity_class.CacheData;
 import com.example.employez.dto.JobPostDto;
 import com.example.employez.repository.CacheDataRepository;
 import com.example.employez.util.AuthenticationUtil;
+import com.example.employez.util.CacheUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,6 +44,9 @@ public class SearchController {
     private SessionFactory sessionFactory;
     @Autowired
     private JobPostDAO jobPostDAO;
+
+    @Autowired
+    private CacheUtil cacheUtil;
 
     @GetMapping("/search")
     /*@PreAuthorize("hasRole('ADMIN')")*/
@@ -83,7 +87,6 @@ public class SearchController {
 
     @GetMapping("/search/byskill/{skillName}")
     public String searchBySkill(@PathVariable(name = "skillName") String skillName, Model model) throws JsonProcessingException {
-
         Optional<CacheData> optionalCacheData = cacheDataRepository.findById(skillName);
         if (optionalCacheData.isPresent()) {
             System.out.println("GET FROM REDIS CACHE");
@@ -91,14 +94,17 @@ public class SearchController {
             TypeReference<List<JobPostDto>> mapType = new TypeReference<>() {
             };
             List<JobPostDto> jobPostDtos = objectMapper.readValue(jobAsString, mapType);
-            model.addAttribute("jobList", jobPostDtos);
-        } else {
-            ArrayList<JobPostDto> jobPostingsBySkill = (ArrayList<JobPostDto>) jobPostDAO.getBySkill(skillName);
+            model.addAttribute("jobList",jobPostDtos);
+
+        }
+        else {
+            List<JobPostDto> jobPostingsBySkill =  jobPostDAO.getBySkill(skillName);
             String jobAsString = objectMapper.writeValueAsString(jobPostingsBySkill);
             CacheData cacheData = new CacheData(skillName, jobAsString);
             cacheDataRepository.save(cacheData);
-            model.addAttribute("jobList", jobPostingsBySkill);
+            model.addAttribute("jobList",jobPostingsBySkill);
         }
+
 
         model.addAttribute("skillName", skillName);
         Authentication auth = authenticationUtil.authentication();

@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-
-
 @Entity
 @Table(name = "company")
 public class Company {
@@ -18,7 +16,6 @@ public class Company {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-
 
     @Column(name = "name")
     private String name;

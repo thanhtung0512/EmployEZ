@@ -30,6 +30,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     @Transactional
     public Company getById(Long id) {
         Company company = new Company();
+
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         String hql = ("SELECT c.name FROM Company c WHERE c.id = :id");

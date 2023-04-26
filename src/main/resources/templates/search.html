@@ -156,7 +156,7 @@
                                     class="d-block font-weight-bold" th:text="${jobPost.getJobTitle()}"></span>
 
                                 <hr>
-                                <span th:text="${jobPost.getCompany().getName()}"></span>
+                                <span  th:text="${jobPost.getCompany().getName()}"></span>
                                 <div class="d-flex flex-row align-items-center justify-content-center"><i
                                         class="fa fa-map-marker"></i> <small class="ml-1"
                                                                              th:utext="| ${jobPost.getCity()},${jobPost.getCountry()} |"></small>

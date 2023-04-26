@@ -329,8 +329,8 @@ public class JobPostDAOImpl implements JobPostDAO {
         session.beginTransaction();
         ArrayList<JobPostDto> jobPostings = new ArrayList<>();
         String query = "SELECT jrs.fk_job FROM job_required_skill jrs WHERE fk_skill = :skillId  ";
-        ArrayList<Integer> jobPostId = (ArrayList<Integer>) session.createNativeQuery(query, Integer.class)
-                .setParameter("skillId", skillId).list();
+        List<Integer> jobPostId =  session.createNativeQuery(query)
+                .setParameter("skillId", skillId).getResultList();
         for (int jobId : jobPostId) {
             jobPostings.add(getJobPostDtoById(jobId).getKey());
         }

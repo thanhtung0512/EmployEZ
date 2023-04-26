@@ -1,14 +1,17 @@
 package com.example.employez.controller;
 
 
-import com.example.employez.domain.entity_class.*;
+import com.example.employez.domain.entity_class.Course;
+import com.example.employez.domain.entity_class.Role;
+import com.example.employez.domain.entity_class.Skill;
+import com.example.employez.domain.entity_class.User;
 import com.example.employez.domain.enumPackage.ROLE;
 import com.example.employez.repository.CacheDataRepository;
 import com.example.employez.repository.CourseRepository;
 import com.example.employez.util.AuthenticationUtil;
+import com.example.employez.util.CacheUtil;
 import com.example.employez.util.CurrentUserUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 
@@ -49,31 +51,14 @@ public class CourseController {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private CacheUtil cacheUtil;
+
     public CourseController() {
     }
 
     private Authentication getAuth() {
         return SecurityContextHolder.getContext().getAuthentication();
-    }
-
-
-    private List<Course> getCacheCourseByName(String courseName) throws JsonProcessingException {
-        List<Course> courses;
-        Optional<CacheData> optionalCacheData = cacheDataRepository.findById(courseName);
-        if (optionalCacheData.isPresent()) {
-            System.out.println("GET FROM REDIS CACHE " + courseName);
-            String courseAsString = optionalCacheData.get().getValue();
-            TypeReference<List<Course>> mapType = new TypeReference<>() {
-            };
-            courses = objectMapper.readValue(courseAsString, mapType);
-            return courses;
-        }
-        courses = courseRepository.findCourseByTitleContaining(courseName);
-        String productsAsJsonString = objectMapper.writeValueAsString(courses);
-        CacheData cacheData = new CacheData(courseName, productsAsJsonString);
-        cacheDataRepository.save(cacheData);
-
-        return courses;
     }
 
 
@@ -85,7 +70,7 @@ public class CourseController {
 
 
         // get Course from Cache
-        List<Course> courses = getCacheCourseByName(courseName);
+        List<Course> courses = cacheUtil.getCacheCourseByName(courseName);
 
         model.addAttribute("courses", courses);
         Authentication auth = getAuth();
@@ -128,7 +113,7 @@ public class CourseController {
 
                         String skillName = skill.getName();
                         List<Course> courses = new ArrayList<>();
-                        courses = getCacheCourseByName(skillName);
+                        courses = cacheUtil.getCacheCourseByName(skillName);
 
 
                         /*System.out.println("skillname" + skill.getName());

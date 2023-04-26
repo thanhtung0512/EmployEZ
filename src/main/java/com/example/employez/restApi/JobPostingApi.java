@@ -24,11 +24,6 @@ public class JobPostingApi {
     @Autowired
     private JobPostDAO jobPostDAO;
 
-
-
-
-
-
     @GetMapping("/jobposts/byid/{id}")
     public JobPosting getById(@PathVariable int id) {
         return jobPostDAO.getById(id).getKey();
